@@ -49,9 +49,8 @@ services:
     volumes:
       - /home/player/practicing/outofbox:/var/www:rw
     ports:
-      - "9000:9000"
-    command:
-      - /bin/sh
+      - "5000:5000"
+    command: sh -c "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0"
 
   web:
     build:
@@ -68,3 +67,4 @@ services:
       - nodejs
       - mysql
       - redis
+
