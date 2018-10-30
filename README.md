@@ -15,3 +15,7 @@ It's far more than CMS
 ### Restart docker
 1. docker-compose down
 2. docker-compose up
+
+### Load example data
+1. python manage.py loaddata example-data/users.json
+1. python manage.py loaddata example-data/nodes.json

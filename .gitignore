@@ -117,6 +117,7 @@ dmypy.json
 # current project
 client-side/node_modules/
 client-side/.next
+db-config/my.cnf
 docker-compose.yml
 outofbox-docker/db-data
 .idea

@@ -1,0 +1,36 @@
+[
+  {
+    "model": "moon.node",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "type": "channel",
+      "title": "news",
+      "created_at": "2018-10-05",
+      "updated_at": "2018-10-05"
+    }
+  },
+  {
+    "model": "moon.node",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "type": "text",
+      "parent": 1,
+      "revision": 1,
+      "title": "An example of news title",
+      "created_at": "2018-10-05",
+      "updated_at": "2018-10-05"
+    }
+  },
+  {
+    "model": "moon.noderevision",
+    "pk": 1,
+    "fields": {
+      "node": 2,
+      "body": "Hi, I'm born on the world now.",
+      "created_at": "2018-10-05",
+      "updated_at": "2018-10-05"
+    }
+  }
+]

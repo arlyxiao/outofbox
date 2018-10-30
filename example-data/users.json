@@ -1,0 +1,22 @@
+[
+  {
+    "model": "moon.user",
+    "pk": 1,
+    "fields": {
+      "email": "hello@example.com",
+      "username": "hello",
+      "password": "11111",
+      "role": 2
+    }
+  },
+  {
+    "model": "moon.user",
+    "pk": 2,
+    "fields": {
+      "email": "hello1@example.com",
+      "username": "hello1",
+      "password": "11111",
+      "role": 2
+    }
+  }
+]
