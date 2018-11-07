@@ -1,14 +1,13 @@
-from django.urls import path
-from django.conf.urls import url, include
-from rest_framework import routers
+from django.urls import path, include
+from rest_framework.urlpatterns import format_suffix_patterns
 
 from . import views
 
 
-router = routers.DefaultRouter()
-router.register(r'moon', views.NodeViewSet)
-
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('nodes/', views.NodeList.as_view()),
+    path('nodes/<int:pk>/', views.NodeDetail.as_view()),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

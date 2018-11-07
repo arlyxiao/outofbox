@@ -17,9 +17,9 @@ class User(models.Model):
     username = models.CharField(max_length=100, validators=[MinLengthValidator(4)])
     password = models.CharField(max_length=100, validators=[MinLengthValidator(6)])
     role = models.CharField(max_length=2, choices=ROLES, default=GENERAL)
-    logined_at = models.DateTimeField(blank=True, null=True, default=timezone.now())
-    created_at = models.DateTimeField(default=timezone.now())
-    updated_at = models.DateTimeField(default=timezone.now())
+    logined_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
     deleted_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
