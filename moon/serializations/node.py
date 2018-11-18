@@ -16,9 +16,12 @@ class NodeSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
     revisions = NodeRevisionSerializer(many=True)
 
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
+    revision = NodeRevisionSerializer(many=False, read_only=True)
+
     class Meta:
         model = Node
-        fields = ('id', 'user', 'user_id', 'title', 'revisions', 'type')
+        fields = ('id', 'user', 'user_id', 'title', 'revision', 'state', 'created_at', 'revisions', 'type')
 
     def create(self, validated_data):
         revisions_data = validated_data.pop('revisions')
@@ -46,7 +49,8 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
         instance.save()
 
         revisions_data = validated_data.pop('revisions')
-        instance.revision.body = revisions_data[0].get('body', instance.revision.body)
-        instance.revision.save()
+        if instance.revision is not None:
+            instance.revision.body = revisions_data[0].get('body', instance.revision.body)
+            instance.revision.save()
 
         return instance

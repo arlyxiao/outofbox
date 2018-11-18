@@ -2,6 +2,9 @@ import React from 'react'
 import Head from 'next/head'
 import axios from 'axios';
 
+import Header from './shared/header';
+import Footer from './shared/footer';
+
 
 export default class extends React.Component {
     static async getInitialProps() {
@@ -62,10 +65,8 @@ export default class extends React.Component {
     render() {
         return (
             <div>
-                <Head>
-                    <title>League Table</title>
-                    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
-                </Head>
+                <Header />
+
                 <div className="pure-g">
                     <div className="pure-u-1-3"></div>
                     <div className="pure-u-1-3">
@@ -102,6 +103,8 @@ export default class extends React.Component {
                     </div>
                     <div className="pure-u-1-3"></div>
                 </div>
+
+                <Footer />
             </div>
         );
     }

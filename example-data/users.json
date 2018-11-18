@@ -6,7 +6,7 @@
       "email": "hello@example.com",
       "username": "hello",
       "password": "11111",
-      "role": 2
+      "role": "general"
     }
   },
   {
@@ -16,7 +16,7 @@
       "email": "hello1@example.com",
       "username": "hello1",
       "password": "11111",
-      "role": 2
+      "role":  "general"
     }
   }
 ]
