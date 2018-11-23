@@ -2,7 +2,7 @@ import axios from "axios/index";
 import React from "react";
 import Link from 'next/link'
 
-import Layout from './shared/Layout';
+import Layout from './layout/Main';
 
 export default class extends React.Component {
 

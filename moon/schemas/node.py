@@ -16,8 +16,15 @@ class Node(models.Model):
         (CLOSED, 'closed'),
     )
 
+    CHANNEL = 'channel'
+    TEXT = 'text'
+    TYPES = (
+        (CHANNEL, 'channel'),
+        (TEXT, 'text'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nodes')
-    type = models.CharField(max_length=50)
+    type = models.CharField(max_length=50, default=TEXT)
     revision = models.OneToOneField(
         'NodeRevision',
         on_delete=models.SET_NULL,

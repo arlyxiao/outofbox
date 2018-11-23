@@ -2,7 +2,7 @@ import axios from "axios/index";
 import React from "react";
 import Link from 'next/link'
 
-import Layout from '../shared/Layout';
+import Layout from '../layout/Main';
 import Router from "next/router";
 
 
@@ -47,9 +47,10 @@ export default class extends React.Component {
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Title</th>
                         <th scope="col">State</th>
-                        <th scope="col">Created</th>
+                        <th scope="col">Updated</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -60,9 +61,10 @@ export default class extends React.Component {
                         return (
                             <tr key={i}>
                                 <td>{item.id}</td>
+                                <td>{item.type}</td>
                                 <td>{item.title}</td>
                                 <td>{item.state}</td>
-                                <td>{item.created_at}</td>
+                                <td>{item.updated_at}</td>
                                 <td>
                                     <EditLink id={item.id}/>
                                 </td>

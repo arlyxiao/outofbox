@@ -1,4 +1,5 @@
 from rest_framework import serializers
+import datetime
 
 from moon.schemas.node import Node
 from moon.schemas.node_revision import NodeRevision
@@ -17,11 +18,15 @@ class NodeSerializer(serializers.ModelSerializer):
     revisions = NodeRevisionSerializer(many=True)
 
     created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
+    updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
     revision = NodeRevisionSerializer(many=False, read_only=True)
+
 
     class Meta:
         model = Node
-        fields = ('id', 'user', 'user_id', 'title', 'revision', 'state', 'created_at', 'revisions', 'type')
+        fields = ('id', 'user', 'user_id', 'revisions', 'type',
+                  'title', 'revision', 'state', 'created_at', 'updated_at')
+
 
     def create(self, validated_data):
         revisions_data = validated_data.pop('revisions')
@@ -42,10 +47,12 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Node
-        fields = ('id', 'title', 'revisions', 'type')
+        fields = ('id', 'title', 'revisions', 'type', 'state')
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
+        instance.state = validated_data.get('state', instance.state)
+        instance.updated_at = datetime.datetime.now()
         instance.save()
 
         revisions_data = validated_data.pop('revisions')
