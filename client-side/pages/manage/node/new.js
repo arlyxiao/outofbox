@@ -15,16 +15,12 @@ export default class extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            constants: props.constants
-        }
     }
 
     render() {
         return (
             <Layout>
-                <Form action="create" constants={this.state.constants} />
+                <Form action="create" constants={this.props.constants} />
             </Layout>
         );
     }

@@ -17,18 +17,13 @@ export default class extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            node: props.node,
-            constants: props.constants
-        };
     }
 
 
     render() {
         return (
             <Layout>
-                <Form node={this.state.node} constants={this.state.constants} action="update" />
+                <Form node={this.props.node} constants={this.props.constants} action="update" />
             </Layout>
         );
     }
