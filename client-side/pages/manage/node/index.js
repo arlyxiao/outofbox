@@ -4,17 +4,12 @@ import Link from 'next/link'
 import Router from "next/router";
 
 import Layout from '../layout/Main';
+import Pagination from "../../../components/pagination";
 
 
 const EditLink = (props) => (
     <Link as={`/manage/node/edit/${props.id}`} href={`/manage/node/edit?id=${props.id}`}>
         <a className="btn btn-success btn-sm">Edit</a>
-    </Link>
-)
-
-const PaginationLink = (props) => (
-    <Link as={`/manage/node?${props.page}`} href={`/manage/node?${props.page}`}>
-        <a className="page-link">{props.name}</a>
     </Link>
 )
 
@@ -25,32 +20,23 @@ export default class extends React.Component {
         const nodes = await axios.get(`http://192.168.56.101:8000/moon/nodes?${page}&format=json`);
         const constants = await axios.get(`http://192.168.56.101:8000/moon/nodes/constants?format=json`);
 
-        const totalPageNumber = Math.ceil(nodes.data.count / constants.data.page_size);
-        const maxPageSize = parseInt(constants.data.max_page_size)
-        const pageNumber = totalPageNumber > maxPageSize ? maxPageSize : totalPageNumber;
-        let start = 0;
-        const paginationParams = {
-            dataTotal: nodes.data.count,
-            pageNumber: pageNumber,
-            prevPage: nodes.data.previous ? nodes.data.previous.split('?')[1] : null,
-            nextPage: nodes.data.next ? nodes.data.next.split('?')[1] : null,
-            numberArray: [...(new Array(pageNumber))].map((_, i) => i + 1),
-            start: start
-        };
-
+        // pagination params
+        const maxPageNumber = parseInt(constants.data.max_page_size)
+        const dataTotal = nodes.data.count;
+        const pageSize = parseInt(constants.data.page_size);
         const currentPage = context.query.page ? parseInt(context.query.page) : 0;
-        start = currentPage - maxPageSize + 1;
-        start = start > 0 ? start : 0;
-        paginationParams.currentPage = currentPage;
-        if (start > 0) {
-            paginationParams.start = start;
-            paginationParams.pageNumber = maxPageSize;
-            paginationParams.numberArray = [...(new Array(pageNumber))].map((_, i) => i + start);
-        }
+        const nextPage = nodes.data.next ? nodes.data.next.split('?')[1] : null;
+        const prevPage = nodes.data.previous ? nodes.data.previous.split('?')[1] : null;
 
         return {
             nodeList: nodes.data,
-            paginationParams: paginationParams,
+
+            dataTotal: dataTotal,
+            maxPageNumber: maxPageNumber,
+            pageSize: pageSize,
+            currentPage: currentPage,
+            nextPage: nextPage,
+            prevPage: prevPage
         }
     }
 
@@ -76,7 +62,6 @@ export default class extends React.Component {
 
 
     render() {
-        const currentPage = this.props.paginationParams.currentPage;
         return (
             <Layout>
                 <table className="table table-striped">
@@ -115,43 +100,13 @@ export default class extends React.Component {
                     </tbody>
                 </table>
 
-                <nav aria-label="Page navigation">
-                    <ul className="pagination">
-
-                        {this.props.paginationParams.prevPage &&
-                        <li className="page-item">
-                            <PaginationLink page={this.props.paginationParams.prevPage}
-                                            name="prev"/>
-                        </li>
-                        }
-
-                        {this.props.paginationParams.start > 1 &&
-                        <li className="page-item">
-                            <PaginationLink page={'page=1'}
-                                            name="1..."/>
-                        </li>
-                        }
-
-                        {this.props.paginationParams.pageNumber > 1 &&
-                        this.props.paginationParams.numberArray.map(function (number, index) {
-                            let style = currentPage === number ? 'page-item active' : 'page_item';
-                            return <li className={style} key={number}>
-                                <PaginationLink page={'page=' + number}
-                                                name={number}/>
-                            </li>;
-                        })
-                        }
-
-
-                        {this.props.paginationParams.nextPage &&
-                        <li className="page-item">
-                            <PaginationLink page={this.props.paginationParams.nextPage}
-                                            name="next"/>
-                        </li>
-                        }
-
-                    </ul>
-                </nav>
+                <Pagination dataTotal={this.props.dataTotal}
+                            maxPageNumber={this.props.maxPageNumber}
+                            pageSize={this.props.pageSize}
+                            currentPage={this.props.currentPage}
+                            nextPage={this.props.nextPage}
+                            prevPage={this.props.prevPage}
+                            pathName='/manage/node' />
             </Layout>
         );
     }
