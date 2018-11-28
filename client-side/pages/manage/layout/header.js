@@ -1,15 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 
 
 export default class Header extends React.Component {
-
     render() {
         return (
             <div>
                 <Head>
-                    <title>League Table</title>
-
+                    <title>Management</title>
                     <meta charSet="utf-8"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
                     <meta name="description" content=""/>
@@ -19,34 +18,33 @@ export default class Header extends React.Component {
                           rel="stylesheet"/>
                 </Head>
 
+
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                     <div className="container">
-                        <a className="navbar-brand" href="#">Start Bootstrap</a>
+                        <a href="/" className="navbar-brand">Front</a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                                aria-label="Toggle navigation">
+                                data-target="#navbarResponsive"
+                                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarResponsive">
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item active">
-                                    <a className="nav-link" href="#">Home
-                                        <span className="sr-only">(current)</span>
-                                    </a>
+                                    <Link as={`/manage/home`} href={`/manage/home`}>
+                                        <a className="nav-link">Home</a>
+                                    </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">About</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Services</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">Contact</a>
+                                    <Link as={`/manage/node`} href={`/manage/node`}>
+                                        <a className="nav-link">Node</a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
+
+
             </div>
         );
     }

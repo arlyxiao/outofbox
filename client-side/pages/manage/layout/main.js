@@ -1,6 +1,6 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import Sidebar from "./Sidebar";
+import Header from "./header";
+import Footer from "./footer";
+import Sidebar from "./sidebar";
 
 
 export default ({children}) => (

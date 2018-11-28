@@ -51,7 +51,7 @@ export default class Form extends React.Component {
     createNode = () => {
         axios({
             method: 'POST',
-            url: 'http://192.168.56.101:8000/moon/nodes/',
+            url: 'http://192.168.56.101:8000/moon/manage/nodes/',
             data: {
                 user_id: 1,
                 title: this.state.title,
@@ -84,7 +84,7 @@ export default class Form extends React.Component {
 
         axios({
             method: 'PUT',
-            url: `http://192.168.56.101:8000/moon/nodes/${this.state.id}/`,
+            url: `http://192.168.56.101:8000/moon/manage/nodes/${this.state.id}/`,
             data: {
                 title: this.state.title,
                 type: this.state.type,

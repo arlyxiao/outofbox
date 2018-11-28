@@ -3,7 +3,7 @@ import React from "react";
 import Link from 'next/link'
 import Router from "next/router";
 
-import Layout from '../layout/Main';
+import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
 
 
@@ -17,8 +17,8 @@ export default class extends React.Component {
 
     static async getInitialProps(context) {
         const page = context.query.page ? `page=${context.query.page}` : '';
-        const nodes = await axios.get(`http://192.168.56.101:8000/moon/nodes?${page}&format=json`);
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/nodes/constants?format=json`);
+        const nodes = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes?${page}&format=json`);
+        const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`);
 
         // pagination params
         const maxPageNumber = parseInt(constants.data.max_page_size)
@@ -47,7 +47,7 @@ export default class extends React.Component {
     removeNode = (id) => {
         axios({
             method: 'DELETE',
-            url: 'http://192.168.56.101:8000/moon/nodes/' + id + '/'
+            url: 'http://192.168.56.101:8000/moon/manage/nodes/' + id + '/'
         })
             .then(function (response) {
                 console.log(response);
