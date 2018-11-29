@@ -30,6 +30,7 @@ export default class extends React.Component {
 
         return {
             nodeList: nodes.data,
+            channels: constants.data.channels,
 
             dataTotal: dataTotal,
             maxPageNumber: maxPageNumber,
@@ -41,7 +42,11 @@ export default class extends React.Component {
     }
 
     constructor(props) {
-        super(props)
+        super(props);
+
+        this.state = {
+            channels: props.channels
+        };
     }
 
     removeNode = (id) => {
@@ -62,12 +67,15 @@ export default class extends React.Component {
 
 
     render() {
+        const channels = this.state.channels;
+
         return (
             <Layout>
                 <table className="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Channel</th>
                         <th scope="col">Type</th>
                         <th scope="col">Title</th>
                         <th scope="col">State</th>
@@ -79,9 +87,11 @@ export default class extends React.Component {
 
                     <tbody>
                     {this.props.nodeList.results.map((item, i) => {
+                        let channel = Object.keys(channels).find(key => channels[key] === item.parent_id);
                         return (
                             <tr key={i}>
                                 <td>{item.id}</td>
+                                <td>{channel}</td>
                                 <td>{item.type}</td>
                                 <td>{item.title}</td>
                                 <td>{item.state}</td>

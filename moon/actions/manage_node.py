@@ -9,7 +9,7 @@ from moon.schemas.node import Node
 
 
 class Pagination(PageNumberPagination):
-    page_size = 2
+    page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 3
 
@@ -18,6 +18,7 @@ class NodeConstantList(APIView):
 
     def get(self, request, format=None):
         data = {
+            'channels': Node.CHANNELS,
             'node_states': [x[0] for x in Node.STATES],
             'types': [x[0] for x in Node.TYPES],
             'page_size': Pagination.page_size,
@@ -27,7 +28,7 @@ class NodeConstantList(APIView):
 
 
 class NodeList(generics.ListCreateAPIView):
-    queryset = Node.objects.all()
+    queryset = Node.objects.all().order_by('-updated_at')
     serializer_class = NodeSerializer
     pagination_class = Pagination
 

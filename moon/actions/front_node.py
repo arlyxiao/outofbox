@@ -29,7 +29,7 @@ class NodeList(generics.ListCreateAPIView):
     def get_queryset(self):
         id = self.request.query_params.get('id', None)
         if id is None:
-            return Node.objects.exclude(parent=None).order_by('-updated_at')
+            return Node.objects.filter(state=Node.PUBLIC).exclude(parent=None).order_by('-updated_at')
         else:
             return Node.objects.filter(parent=id, state=Node.PUBLIC).order_by('-updated_at')
 

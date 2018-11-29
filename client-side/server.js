@@ -20,7 +20,6 @@ app.prepare()
             '/software',
             '/finance',
             '/wisdom',
-            '/culture',
             '/education'
         ];
 

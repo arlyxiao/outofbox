@@ -5,6 +5,21 @@ from .user import User
 
 
 class Node(models.Model):
+    SCIENCE = 'science'
+    SOFTWARE = 'software'
+    FINANCE = 'finance'
+    WISDOM = 'wisdom'
+    CULTURE = 'culture'
+    EDUCATION = 'education'
+    CHANNELS = {
+        SCIENCE: 1,
+        SOFTWARE: 2,
+        FINANCE: 3,
+        WISDOM: 4,
+        CULTURE: 5,
+        EDUCATION: 6,
+    }
+
     PUBLIC = 'public'
     PERSONAL = 'personal'
     DRAFT = 'draft'

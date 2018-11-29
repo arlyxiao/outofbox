@@ -2,7 +2,6 @@ import React from 'react'
 
 import Layout from './layout/main';
 import axios from "axios/index";
-import Router from "next/router";
 
 
 export default class extends React.Component {

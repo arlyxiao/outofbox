@@ -41,12 +41,7 @@ export default ({children}) => (
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link as={`/culture`} href={`/index?id=5`}>
-                                <a className="nav-link">人文</a>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link as={`/education`} href={`/index?id=6`}>
+                            <Link as={`/education`} href={`/index?id=5`}>
                                 <a className="nav-link">教育</a>
                             </Link>
                         </li>

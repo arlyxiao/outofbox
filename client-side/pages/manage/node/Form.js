@@ -14,8 +14,10 @@ export default class Form extends React.Component {
                 title: '',
                 body: '',
                 current_state: 'draft',
+                current_channel: props.constants.channels['software'],
                 node_states: props.constants.node_states,
                 types: props.constants.types,
+                channels: props.constants.channels,
                 action: props.action
             };
         } else {
@@ -25,12 +27,18 @@ export default class Form extends React.Component {
                 title: props.node.title,
                 body: props.node.revision ? props.node.revision.body : '',
                 current_state: props.node.state,
+                current_channel: props.node.parent_id,
                 node_states: props.constants.node_states,
                 types: props.constants.types,
+                channels: props.constants.channels,
                 action: props.action
             };
         }
     }
+
+    handleChangeChannel = event => {
+        this.setState({current_channel: event.target.value});
+    };
 
     handleChangeType = event => {
         this.setState({type: event.target.value});
@@ -56,6 +64,8 @@ export default class Form extends React.Component {
                 user_id: 1,
                 title: this.state.title,
                 type: 'text',
+                parent_id: this.state.current_channel,
+                state: this.state.current_state,
                 revisions: [
                     {'body': this.state.body}
                 ]
@@ -88,6 +98,7 @@ export default class Form extends React.Component {
             data: {
                 title: this.state.title,
                 type: this.state.type,
+                parent_id: this.state.current_channel,
                 revisions: [
                     {'body': this.state.body}
                 ],
@@ -109,8 +120,10 @@ export default class Form extends React.Component {
     }
 
     render() {
+        const channels = this.state.channels;
         const currentState = this.state.current_state;
         const currentType = this.state.type;
+        const currentChannel = this.state.current_channel;
 
         return (
             <div>
@@ -120,6 +133,17 @@ export default class Form extends React.Component {
                         {this.state.types.map(function (name, index) {
                             let selected = (name === currentType) ? 'selected' : '';
                             return <option key={name} selected={selected} value={name}>{name}</option>;
+                        })}
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="form-channel">Channel</label>
+                    <select className="form-control" id="form-channel" onChange={this.handleChangeChannel}>
+                        {Object.keys(channels).map(function (name, index) {
+                            let id = channels[name];
+                            let selected = (id === currentChannel) ? 'selected' : '';
+                            return <option key={name} selected={selected} value={id}>{name}</option>;
                         })}
                     </select>
                 </div>
