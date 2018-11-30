@@ -5,10 +5,11 @@ from rest_framework.pagination import PageNumberPagination
 
 from moon.serializers import NodeSerializer
 from moon.schemas.node import Node
+from moon.schemas.tag import Tag
 
 
 class Pagination(PageNumberPagination):
-    page_size = 20
+    page_size = 10
     page_size_query_param = 'page_size'
 
 
@@ -19,6 +20,16 @@ class NodeConstantList(APIView):
             'page_size': Pagination.page_size,
             'max_page_size': Pagination.max_page_size
         }
+
+        id = request.query_params.get('id', '')
+        if not id:
+            return Response(data)
+
+        channel = Node.objects.get(pk=id)
+        parent_tag = Tag.objects.filter(name=channel.title).first()
+        tags = Tag.objects.filter(parent_id=parent_tag.id)
+        data['tags'] = list(map(lambda tag: [tag.id, tag.name, channel.title], tags))
+
         return Response(data)
 
 
@@ -27,13 +38,19 @@ class NodeList(generics.ListCreateAPIView):
     pagination_class = Pagination
 
     def get_queryset(self):
-        id = self.request.query_params.get('id', None)
-        if id is None:
-            return Node.objects.filter(state=Node.PUBLIC).exclude(parent=None).order_by('-updated_at')
-        else:
-            return Node.objects.filter(parent=id, state=Node.PUBLIC).order_by('-updated_at')
+        nodes = Node.objects.filter(state=Node.PUBLIC)\
+            .exclude(type='channel')\
+            .order_by('-created_at', '-updated_at')
+        id = self.request.query_params.get('id', '')
+        if not id:
+            return nodes
+
+        tag = self.request.query_params.get('tag', '')
+        if not tag:
+            return nodes.filter(parent=id)
+
+        return nodes.filter(tags__id=tag)
 
 
 class NodeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Node.objects.all()
-

@@ -19,3 +19,4 @@ It's far more than CMS
 ### Load example data
 1. python manage.py loaddata example-data/users.json
 1. python manage.py loaddata example-data/nodes.json
+1. python manage.py loaddata example-data/tags.json

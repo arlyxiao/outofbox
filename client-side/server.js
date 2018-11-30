@@ -15,20 +15,26 @@ app.prepare()
             app.render(req, res, actualPage, queryParams)
         });
 
-        const menus = [
-            '/science',
-            '/software',
-            '/finance',
-            '/wisdom',
-            '/education'
-        ];
+        const menus = {
+            '/science': 1,
+            '/software': 2,
+            '/finance': 3,
+            '/wisdom': 4,
+            '/education': 5
+        };
 
-        menus.forEach(function(menu) {
-          server.get(menu, (req, res) => {
+        Object.keys(menus).forEach(function (menu, index) {
+            server.get(menu + '/:tag', (req, res) => {
                 const actualPage = '/index';
-                const queryParams = {id: req.params.id};
+                const queryParams = {id: menus[menu], tag: req.params.tag};
                 app.render(req, res, actualPage, queryParams)
-            })
+            });
+
+            server.get(menu, (req, res) => {
+                const actualPage = '/index';
+                const queryParams = {id: menus[menu]};
+                app.render(req, res, actualPage, queryParams)
+            });
         });
 
         server.get('*', (req, res) => {

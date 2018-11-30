@@ -50,7 +50,7 @@ services:
       - /home/player/practicing/outofbox:/var/www:rw
     ports:
       - "5000:5000"
-    command: sh -c "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0"
+    command: sh -c "cd client-side && npm cache verify && npm install && npm run build && npm run dev -- -p 5000 -H 0.0.0.0"
 
   web:
     build:

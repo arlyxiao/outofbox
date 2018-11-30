@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Footer from "./footer";
 
 
-export default ({children}) => (
+export default ({children, tags = [], channelId}) => (
     <div>
         <Meta/>
 
@@ -63,7 +63,8 @@ export default ({children}) => (
 
             <div className="row">
 
-                <Sidebar/>
+                <Sidebar tags={tags}
+                         channelId={channelId} />
 
                 <div className="col-lg-9">
                     {children}

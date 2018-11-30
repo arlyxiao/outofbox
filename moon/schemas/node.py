@@ -9,15 +9,13 @@ class Node(models.Model):
     SOFTWARE = 'software'
     FINANCE = 'finance'
     WISDOM = 'wisdom'
-    CULTURE = 'culture'
     EDUCATION = 'education'
     CHANNELS = {
         SCIENCE: 1,
         SOFTWARE: 2,
         FINANCE: 3,
         WISDOM: 4,
-        CULTURE: 5,
-        EDUCATION: 6,
+        EDUCATION: 5,
     }
 
     PUBLIC = 'public'

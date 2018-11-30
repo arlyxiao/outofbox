@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from moon.serializers import NodeSerializer
 from moon.serializers import NodeUpdateSerializer
 from moon.schemas.node import Node
+from moon.schemas.tag import Tag
 
 
 class Pagination(PageNumberPagination):
@@ -17,10 +18,16 @@ class Pagination(PageNumberPagination):
 class NodeConstantList(APIView):
 
     def get(self, request, format=None):
+        tag_set = Tag.objects.filter(parent_id=1)
+        ids = list(map(lambda item: item.id, tag_set))
+        actual_set = Tag.objects.filter(parent_id__in=ids)
+        actual_tags = list(map(lambda item: item.name, actual_set))
+
         data = {
             'channels': Node.CHANNELS,
             'node_states': [x[0] for x in Node.STATES],
             'types': [x[0] for x in Node.TYPES],
+            'tags': actual_tags,
             'page_size': Pagination.page_size,
             'max_page_size': Pagination.max_page_size
         }
@@ -28,7 +35,7 @@ class NodeConstantList(APIView):
 
 
 class NodeList(generics.ListCreateAPIView):
-    queryset = Node.objects.all().order_by('-updated_at')
+    queryset = Node.objects.all().exclude(type='channel').order_by('-created_at', '-updated_at')
     serializer_class = NodeSerializer
     pagination_class = Pagination
 

@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios/index";
 import Router from "next/router";
 
+import {Typeahead} from 'react-bootstrap-typeahead';
+
 
 export default class Form extends React.Component {
 
@@ -18,6 +20,8 @@ export default class Form extends React.Component {
                 node_states: props.constants.node_states,
                 types: props.constants.types,
                 channels: props.constants.channels,
+                tags: props.constants.tags,
+                selected_tags: [],
                 action: props.action
             };
         } else {
@@ -31,6 +35,8 @@ export default class Form extends React.Component {
                 node_states: props.constants.node_states,
                 types: props.constants.types,
                 channels: props.constants.channels,
+                tags: props.constants.tags,
+                selected_tags: props.node.tags,
                 action: props.action
             };
         }
@@ -56,6 +62,22 @@ export default class Form extends React.Component {
         this.setState({current_state: event.target.value});
     };
 
+    refreshSelectedTags = tags => {
+        const buildSelectedTags = (item) => {
+            if (item.name !== undefined) {
+                return {'name': item.name};
+            }
+
+            if (item.label !== undefined) {
+                return {'name': item.label};
+            }
+
+            return {'name': item};
+        };
+        return tags.map((item) => buildSelectedTags(item));
+    };
+
+
     createNode = () => {
         axios({
             method: 'POST',
@@ -66,6 +88,7 @@ export default class Form extends React.Component {
                 type: 'text',
                 parent_id: this.state.current_channel,
                 state: this.state.current_state,
+                tags: this.refreshSelectedTags(this.state.selected_tags),
                 revisions: [
                     {'body': this.state.body}
                 ]
@@ -83,7 +106,7 @@ export default class Form extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-    }
+    };
 
 
     updateNode = () => {
@@ -102,6 +125,7 @@ export default class Form extends React.Component {
                 revisions: [
                     {'body': this.state.body}
                 ],
+                tags: this.refreshSelectedTags(this.state.selected_tags),
                 state: this.state.current_state
             },
             headers: {
@@ -121,29 +145,31 @@ export default class Form extends React.Component {
 
     render() {
         const channels = this.state.channels;
-        const currentState = this.state.current_state;
-        const currentType = this.state.type;
-        const currentChannel = this.state.current_channel;
+        const tags = this.state.tags;
 
         return (
             <div>
                 <div className="form-group">
-                    <label htmlFor="form-state">Type</label>
-                    <select className="form-control" id="form-state" onChange={this.handleChangeType}>
+                    <label htmlFor="form-type">Type</label>
+                    <select className="form-control"
+                            id="form-type"
+                            value={this.state.type}
+                            onChange={this.handleChangeType}>
                         {this.state.types.map(function (name, index) {
-                            let selected = (name === currentType) ? 'selected' : '';
-                            return <option key={name} selected={selected} value={name}>{name}</option>;
+                            return <option key={name} value={name}>{name}</option>;
                         })}
                     </select>
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="form-channel">Channel</label>
-                    <select className="form-control" id="form-channel" onChange={this.handleChangeChannel}>
+                    <select className="form-control"
+                            id="form-channel"
+                            value={this.state.current_channel}
+                            onChange={this.handleChangeChannel}>
                         {Object.keys(channels).map(function (name, index) {
                             let id = channels[name];
-                            let selected = (id === currentChannel) ? 'selected' : '';
-                            return <option key={name} selected={selected} value={id}>{name}</option>;
+                            return <option key={name} value={id}>{name}</option>;
                         })}
                     </select>
                 </div>
@@ -151,12 +177,9 @@ export default class Form extends React.Component {
                 <div className="form-group">
                     <label htmlFor="form-title">Title</label>
                     <input type="text" className="form-control" id="form-title"
-                           aria-describedby="titleHelp" placeholder=""
+                           placeholder=""
                            onChange={this.handleChangeTitle}
                            value={this.state.title}/>
-                    <small id="titleHelp" className="form-text text-muted">
-
-                    </small>
                 </div>
 
                 <div className="form-group">
@@ -169,11 +192,27 @@ export default class Form extends React.Component {
                 </div>
 
                 <div className="form-group">
+                    <label htmlFor="form-tag">Tags</label>
+                    <Typeahead
+                        labelKey="name"
+                        multiple={true}
+                        options={tags}
+                        defaultSelected={this.state.selected_tags ? this.state.selected_tags : []}
+                        allowNew
+                        onChange={(selected_tags) => {
+                            this.setState({selected_tags});
+                        }}
+                    />
+                </div>
+
+                <div className="form-group">
                     <label htmlFor="form-state">State</label>
-                    <select className="form-control" id="form-state" onChange={this.handleChangeCurrentState}>
+                    <select className="form-control"
+                            id="form-state"
+                            value={this.state.current_state}
+                            onChange={this.handleChangeCurrentState}>
                         {this.state.node_states.map(function (name, index) {
-                            let selected = (name === currentState) ? 'selected' : '';
-                            return <option key={name} selected={selected} value={name}>{name}</option>;
+                            return <option key={name} value={name}>{name}</option>;
                         })}
                     </select>
                 </div>

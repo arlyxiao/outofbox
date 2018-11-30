@@ -16,6 +16,8 @@ export default class Header extends React.Component {
 
                     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
                           rel="stylesheet"/>
+                    <link rel="stylesheet" href="https://unpkg.com/react-bootstrap-typeahead/css/Typeahead.css" />
+
                 </Head>
 
 
