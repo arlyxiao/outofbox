@@ -44,6 +44,8 @@ class NodeSerializer(serializers.ModelSerializer):
     parent_id = serializers.IntegerField()
     revisions = NodeRevisionSerializer(many=True)
     tags = TagSerializer(many=True)
+    channel_name = serializers.SerializerMethodField()
+    node_tag = serializers.SerializerMethodField()
 
     created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
     updated_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', required=False)
@@ -53,7 +55,18 @@ class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
         fields = ('id', 'parent_id', 'user', 'user_id', 'revisions', 'tags', 'type', 'parent_id',
-                  'title', 'revision', 'state', 'created_at', 'updated_at')
+                  'channel_name', 'node_tag', 'title', 'revision', 'state', 'created_at', 'updated_at')
+
+
+    def get_channel_name(self, obj):
+        return obj.parent.title if obj.parent else ''
+
+    def get_node_tag(self, obj):
+        tags = obj.tags
+        channel_name = self.get_channel_name(obj)
+        for tag in tags.all():
+            if tag.parent.name == channel_name:
+                return {'id': tag.id, 'name': tag.name}
 
 
     def create(self, validated_data):

@@ -24,9 +24,15 @@ app.prepare()
         };
 
         Object.keys(menus).forEach(function (menu, index) {
-            server.get(menu + '/:tag', (req, res) => {
+            server.get(menu + '/tag/:tag', (req, res) => {
                 const actualPage = '/index';
                 const queryParams = {id: menus[menu], tag: req.params.tag};
+                app.render(req, res, actualPage, queryParams)
+            });
+
+            server.get(menu + '-:id', (req, res) => {
+                const actualPage = '/show';
+                const queryParams = {id: req.params.id};
                 app.render(req, res, actualPage, queryParams)
             });
 

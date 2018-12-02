@@ -1,20 +1,21 @@
 import React from 'react'
+import Link from 'next/link'
+import axios from "axios/index";
 
 import Layout from './layout/main';
-import axios from "axios/index";
 
 
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const id = context.query.id ? context.query.id : '';
+        const id = context.query.id ? context.query.id.toString() : '';
         const tag = context.query.tag ? context.query.tag : '';
 
         const nodes = await axios.get(`http://192.168.56.101:8000/moon/node/list?format=json&id=${id}&tag=${tag}`);
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/nodes/constants?format=json&id=${id}`);
+        const constants = await axios.get(`http://192.168.56.101:8000/moon/node/constants?format=json&id=${id}`);
 
         return {
-            menuClickTime: + new Date(),
+            menuClickTime: +new Date(),
             nodeData: nodes.data,
             nodeList: nodes.data.results,
             tags: constants.data.tags,
@@ -78,12 +79,10 @@ export default class extends React.Component {
 
 
     render() {
-        const color1 = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16759f32b16%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16759f32b16%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.890625%22%20y%3D%2216.8578125%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E";
-        const color2 = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16759f32b16%20text%20%7B%20fill%3A%23e83e8c%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16759f32b16%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23e83e8c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.890625%22%20y%3D%2216.8578125%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E";
-        const color3 = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16759f32b17%20text%20%7B%20fill%3A%236f42c1%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16759f32b17%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%236f42c1%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2211.890625%22%20y%3D%2216.8578125%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E";
-        const colorList = [color1, color2, color3];
         return (
-            <Layout tags={this.state.tags}
+            <Layout title=""
+                    tags={this.state.tags}
+                    menuClickTime={this.state.menuClickTime}
                     channelId={this.state.id}>
 
                 <main role="main" className="container">
@@ -94,18 +93,17 @@ export default class extends React.Component {
                         </h6>
 
                         {this.state.nodeList.map((item, i) => {
-                            const color = colorList[Math.floor(Math.random() * colorList.length)]
                             return (
-                                <div className="media text-muted pt-3">
-                                    <img data-src=""
-                                         alt="32x32" className="mr-2 rounded"
-                                         src={color}
-                                         data-holder-rendered="true"/>
-                                    <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                        <strong className="d-block text-gray-dark">&gt; {item.title}</strong>
-                                        {item.revision ? item.revision.body : ''}
-                                    </p>
-                                </div>
+                                <p key={item.title + i}
+                                   className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    <Link as={`/${item.channel_name}-${item.id}`}
+                                          href={`/show?id=${item.id}`}>
+                                        <a className="node-title">
+                                            <strong className="d-block text-gray-dark">&gt; {item.title}</strong>
+                                        </a>
+                                    </Link>
+                                    {item.revision ? item.revision.body.substring(0, 100) : ''}
+                                </p>
                             );
                         })}
 
@@ -114,10 +112,10 @@ export default class extends React.Component {
                                 <input type="hidden" name="next" value={this.state.next}/>
 
                                 {this.state.next !== '' &&
-                                    <button type="button"
-                                            className="btn btn-outline-secondary"
-                                            onClick={this.loadMore}>加载更多...
-                                    </button>
+                                <button type="button"
+                                        className="btn btn-outline-secondary"
+                                        onClick={this.loadMore}>加载更多...
+                                </button>
                                 }
 
 
@@ -128,9 +126,21 @@ export default class extends React.Component {
 
                 </main>
 
-                <style jsx>{`
+                <style jsx global>{`
                 .load-more {
                     margin-top: 20px;
+                }
+
+                .node-title {
+                    margin-top: 5px;
+                    margin-bottom: 6px;
+                    display: block;
+                    color: rgba(37, 34, 40, 0.89);
+                    font-size: 0.9rem;
+                }
+
+                .node-title:hover {
+                    text-decoration: none;
                 }
                 `}</style>
 

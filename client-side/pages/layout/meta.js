@@ -1,10 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
 
-import styles from '../../styles/main.scss'
+// import styles from '../../styles/main.scss'
 
 
 export default class Meta extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
@@ -12,8 +16,8 @@ export default class Meta extends React.Component {
                 <Head>
                     <meta charSet="utf-8"/>
                     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-                    <title>快码头 - 做最好的内容分享</title>
-                    <meta name="description" content="您喜欢的, 想要的都在这里"/>
+                    <title>{this.props.title ? this.props.title : '快码头'}</title>
+                    <meta name="description" content="快码头 - 您喜欢的, 想要的都在这里"/>
                     <meta name="viewport"
                           content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -23,10 +27,10 @@ export default class Meta extends React.Component {
                           rel="stylesheet"/>
                 </Head>
 
-                <style jsx>{styles}</style>
+                {/*<style jsx global>{styles}</style>*/}
 
-                <style jsx global>{`
-                `}</style>
+                {/*<style jsx global>{`*/}
+                {/*`}</style>*/}
 
             </div>
         );

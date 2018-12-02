@@ -1,7 +1,7 @@
 const withCSS = require('@zeit/next-css')
-module.exports = withCSS()
+module.exports = withCSS();
 
-//
+
 // module.exports = {
 //   webpack: (config, { defaultLoaders }) => {
 //     config.module.rules.push({

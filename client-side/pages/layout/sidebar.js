@@ -1,21 +1,25 @@
 import React from 'react'
 import Link from 'next/link'
+import {withRouter} from 'next/router'
 
 
-export default class Sidebar extends React.Component {
+export default withRouter(class Sidebar extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            menuClickTime: props.menuClickTime,
             tags: props.tags,
+            nodeTag: props.nodeTag,
             channelId: props.channelId
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.channelId !== prevProps.channelId) {
+        if (this.props.menuClickTime !== prevProps.menuClickTime) {
             this.setState({
                 tags: this.props.tags,
+                nodeTag: this.props.nodeTag,
                 channelId: this.props.channelId
             });
         }
@@ -23,24 +27,25 @@ export default class Sidebar extends React.Component {
 
 
     render() {
+        const channelId = this.state.channelId;
+        const { pathname, query } = this.props.router;
+        const nodeTagId = this.state.nodeTag ? this.state.nodeTag['id'].toString() : '';
+        const currentTag = query.tag ? query.tag.toString() : nodeTagId;
         return (
             <div id="sidebar">
                 <div className="dropdown-menu">
                     <h2 className="dropdown-header">热门标签</h2>
-
                     {this.state.tags.map((item, i) => {
+                        let tag = item[0].toString();
+                        let style = currentTag === tag ? 'btn btn-secondary btn-sm' : '';
                         return (
-                            <Link as={`/${item[2]}/${item[0]}`}
-                                  href={`/index?id=${this.state.channelId}&tag=${item[0]}`}>
-                                <a className="dropdown-item">&gt; {item[1]}</a>
+                            <Link key={item[0]}
+                                  as={`/${item[2]}/tag/${tag}`}
+                                  href={`/index?id=${channelId}&tag=${tag}`}>
+                                <a className="dropdown-item">&gt; <span className={style}>{item[1]}</span></a>
                             </Link>
                         );
                     })}
-
-
-                    {/*<Link as={`/node`} href={`/node`}>*/}
-                        {/*<a className="dropdown-item">&gt; Node List</a>*/}
-                    {/*</Link>*/}
                 </div>
 
                 <style jsx global>{`
@@ -61,6 +66,10 @@ export default class Sidebar extends React.Component {
                   font-weight: 500;
                 }
 
+                #sidebar a.dropdown-item:active{
+                    background-color: #fff;
+                }
+
                 .main-body {
                   margin-top: 30px;
                   margin-bottom: 50px;
@@ -69,4 +78,4 @@ export default class Sidebar extends React.Component {
             </div>
         );
     }
-}
+})

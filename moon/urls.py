@@ -11,8 +11,8 @@ urlpatterns = [
     path('manage/nodes/constants', manage_node.NodeConstantList.as_view(), name='index'),
 
     path('node/list/', front_node.NodeList.as_view()),
-    path('nodes/<int:pk>/', front_node.NodeDetail.as_view()),
-    path('nodes/constants', front_node.NodeConstantList.as_view(), name='index'),
+    path('node/<int:pk>/', front_node.NodeDetail.as_view()),
+    path('node/constants', front_node.NodeConstantList.as_view(), name='index'),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

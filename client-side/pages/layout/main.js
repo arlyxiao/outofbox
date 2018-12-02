@@ -1,12 +1,24 @@
-import Meta from "./meta";
-import Sidebar from "./sidebar";
 import Link from 'next/link'
+
+import Meta from "./meta";
 import Footer from "./footer";
+import Sidebar from "./sidebar";
 
 
-export default ({children, tags = [], channelId}) => (
+const menus = () => {
+    return {
+        'science': {'id': 1, 'label': '科技'},
+        'software': {'id': 2, 'label': 'IT/软件'},
+        'finance': {'id': 3, 'label': '财经'},
+        'wisdom': {'id': 4, 'label': '哲理'},
+        'education': {'id': 5, 'label': '教育'}
+    };
+};
+
+
+export default ({children, title='', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
     <div>
-        <Meta/>
+        <Meta title={title}/>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -20,31 +32,18 @@ export default ({children, tags = [], channelId}) => (
 
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <Link as={`/science`} href={`/index?id=1`}>
-                                <a className="nav-link">科技</a>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link as={`/software`} href={`/index?id=2`}>
-                                <a className="nav-link">IT/软件</a>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link as={`/finance`} href={`/index?id=3`}>
-                                <a className="nav-link">财经</a>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link as={`/wisdom`} href={`/index?id=4`}>
-                                <a className="nav-link">哲理</a>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link as={`/education`} href={`/index?id=5`}>
-                                <a className="nav-link">教育</a>
-                            </Link>
-                        </li>
+                        {Object.keys(menus()).map((name, i) => {
+                            let id = menus()[name]['id'].toString();
+                            let label = menus()[name]['label'];
+                            let style = id === channelId ? 'nav-link btn btn-secondary btn-sm active' : 'nav-link';
+                            return (
+                                <li className="nav-item" key={name}>
+                                    <Link as={`/${name}`} href={`/index?id=${id}`}>
+                                        <a className={style}>{label}</a>
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
 
                     <ul className="navbar-nav ml-auto">
@@ -64,7 +63,9 @@ export default ({children, tags = [], channelId}) => (
             <div className="row">
 
                 <Sidebar tags={tags}
-                         channelId={channelId} />
+                         menuClickTime={menuClickTime}
+                         channelId={channelId}
+                         nodeTag={nodeTag}/>
 
                 <div className="col-lg-9">
                     {children}
@@ -78,3 +79,4 @@ export default ({children, tags = [], channelId}) => (
 
     </div>
 )
+
