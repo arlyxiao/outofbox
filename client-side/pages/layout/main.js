@@ -22,7 +22,7 @@ export default ({children, title='', tags = [], menuClickTime, channelId, nodeTa
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <Link as={`/`} href={`/`}>
+                <Link as={`/home`} href={`/home`}>
                     <a className="navbar-brand">FD</a>
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
