@@ -47,6 +47,7 @@ class Node(models.Model):
     )
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     title = models.CharField(max_length=255)
+    intro = models.CharField(max_length=255)
     tags = models.ManyToManyField('Tag', through='NodeTag')
     state = models.CharField(max_length=20, choices=STATES, default=DRAFT)
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)

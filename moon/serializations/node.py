@@ -55,7 +55,8 @@ class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
         fields = ('id', 'parent_id', 'user', 'user_id', 'revisions', 'tags', 'type', 'parent_id',
-                  'channel_name', 'node_tag', 'title', 'revision', 'state', 'created_at', 'updated_at')
+                  'channel_name', 'node_tag', 'title', 'intro',
+                  'revision', 'state', 'created_at', 'updated_at')
 
 
     def get_channel_name(self, obj):
@@ -94,13 +95,14 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Node
-        fields = ('id', 'title', 'revisions', 'tags', 'type', 'state', 'parent_id')
+        fields = ('id', 'title', 'intro', 'revisions', 'tags', 'type', 'state', 'parent_id')
 
     def update(self, instance, validated_data):
         parent_id = validated_data.get('parent_id', instance.parent.id)
 
         instance.parent = Node.objects.get(id=parent_id)
         instance.title = validated_data.get('title', instance.title)
+        instance.intro = validated_data.get('intro', instance.intro)
         instance.state = validated_data.get('state', instance.state)
         instance.updated_at = datetime.datetime.now()
         instance.save()

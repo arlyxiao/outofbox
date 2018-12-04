@@ -6,6 +6,7 @@
       "user": 1,
       "type": "channel",
       "title": "science",
+      "intro": "science",
       "state": "public",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
@@ -19,6 +20,7 @@
       "user": 1,
       "type": "channel",
       "title": "software",
+      "intro": "software",
       "state": "public",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
@@ -32,6 +34,7 @@
       "user": 1,
       "type": "channel",
       "title": "finance",
+      "intro": "finance",
       "state": "public",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
@@ -45,6 +48,7 @@
       "user": 1,
       "type": "channel",
       "title": "wisdom",
+      "intro": "wisdom",
       "state": "public",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
@@ -58,6 +62,7 @@
       "user": 1,
       "type": "channel",
       "title": "education",
+      "intro": "education",
       "state": "public",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
@@ -73,6 +78,7 @@
       "parent": 1,
       "revision": 1,
       "title": "An example of news title",
+      "intro": "testing",
       "created_at": "2018-10-01",
       "updated_at": "2018-10-01"
     }

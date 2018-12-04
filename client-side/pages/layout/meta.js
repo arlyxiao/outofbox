@@ -16,8 +16,8 @@ export default class Meta extends React.Component {
                 <Head>
                     <meta charSet="utf-8"/>
                     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-                    <title>{this.props.title ? this.props.title : '快码头'}</title>
-                    <meta name="description" content="快码头 - 您喜欢的, 想要的都在这里"/>
+                    <title>{this.props.title ? this.props.title : ''}</title>
+                    <meta name="description" content={this.props.intro ? this.props.intro : ''} />
                     <meta name="viewport"
                           content="width=device-width, initial-scale=1, maximum-scale=1"/>
 

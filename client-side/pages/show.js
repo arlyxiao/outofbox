@@ -53,6 +53,7 @@ export default class extends React.Component {
         const node = this.state.node;
         return (
             <Layout title={node.title}
+                    intro={node.intro}
                     tags={this.state.tags}
                     menuClickTime={this.state.menuClickTime}
                     channelId={this.state.channelId}

@@ -16,9 +16,9 @@ const menus = () => {
 };
 
 
-export default ({children, title='', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
+export default ({children, title='', intro='', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
     <div>
-        <Meta title={title}/>
+        <Meta title={title} intro={intro} />
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">

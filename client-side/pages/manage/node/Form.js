@@ -19,6 +19,7 @@ export default class Form extends React.Component {
             this.state = {
                 type: 'text',
                 title: '',
+                intro: '',
                 body: '',
                 currentState: 'draft',
                 currentChannel: props.constants.channels['software'],
@@ -35,6 +36,7 @@ export default class Form extends React.Component {
                 id: props.node.id,
                 type: props.node.type,
                 title: props.node.title,
+                intro: props.node.intro,
                 body: props.node.revision ? props.node.revision.body : '',
                 currentState: props.node.state,
                 currentChannel: props.node.parent_id,
@@ -109,6 +111,7 @@ export default class Form extends React.Component {
             data: {
                 user_id: 1,
                 title: this.state.title,
+                intro: this.state.intro,
                 type: 'text',
                 parent_id: this.state.currentChannel,
                 state: this.state.currentState,
@@ -151,6 +154,7 @@ export default class Form extends React.Component {
             url: `http://192.168.56.101:8000/moon/manage/nodes/${this.state.id}/`,
             data: {
                 title: this.state.title,
+                intro: this.state.intro,
                 type: this.state.type,
                 parent_id: this.state.currentChannel,
                 revisions: [
@@ -213,6 +217,16 @@ export default class Form extends React.Component {
                            placeholder=""
                            onChange={this.handleChange}
                            value={this.state.title}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="form-intro">Intro</label>
+                    <textarea className="form-control rounded-0" id="form-intro"
+                              name="intro"
+                              placeholder="Your intro..."
+                              onChange={this.handleChange}
+                              value={this.state.intro}
+                              rows="5"></textarea>
                 </div>
 
                 <div className="form-group">

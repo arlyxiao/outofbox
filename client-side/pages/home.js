@@ -39,7 +39,7 @@ export default class extends React.Component {
             <Layout>
 
                 <main role="main" className="container">
-                    <img className="mx-auto d-block" src="/static/in-progress-home.png" />
+                    <img className="mx-auto d-block" src="/static/in-progress.png" />
                 </main>
 
             </Layout>

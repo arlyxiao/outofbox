@@ -93,7 +93,6 @@ export default class extends React.Component {
                         </h6>
 
                         {this.state.nodeList.map((item, i) => {
-                            let content = item.revision ? item.revision.body.substring(0, 20) : '';
                             return (
                                 <p key={item.title + i}
                                    className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -103,7 +102,7 @@ export default class extends React.Component {
                                             <strong className="d-block text-gray-dark">&gt; {item.title}</strong>
                                         </a>
                                     </Link>
-                                    <div dangerouslySetInnerHTML={{ __html: content }} />
+                                    {item.intro}
                                 </p>
                             );
                         })}
