@@ -4,6 +4,11 @@ import Router from "next/router";
 
 import {Typeahead} from 'react-bootstrap-typeahead';
 
+import {EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import {Editor} from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 
 export default class Form extends React.Component {
 
@@ -15,13 +20,14 @@ export default class Form extends React.Component {
                 type: 'text',
                 title: '',
                 body: '',
-                current_state: 'draft',
-                current_channel: props.constants.channels['software'],
-                node_states: props.constants.node_states,
+                currentState: 'draft',
+                currentChannel: props.constants.channels['software'],
+                nodeStates: props.constants.node_states,
                 types: props.constants.types,
                 channels: props.constants.channels,
                 tags: props.constants.tags,
-                selected_tags: [],
+                selectedTags: [],
+                editorState: null,
                 action: props.action
             };
         } else {
@@ -30,36 +36,47 @@ export default class Form extends React.Component {
                 type: props.node.type,
                 title: props.node.title,
                 body: props.node.revision ? props.node.revision.body : '',
-                current_state: props.node.state,
-                current_channel: props.node.parent_id,
-                node_states: props.constants.node_states,
+                currentState: props.node.state,
+                currentChannel: props.node.parent_id,
+                nodeStates: props.constants.node_states,
                 types: props.constants.types,
                 channels: props.constants.channels,
                 tags: props.constants.tags,
-                selected_tags: props.node.tags,
+                selectedTags: props.node.tags,
+                editorState: null,
                 action: props.action
             };
         }
     }
 
-    handleChangeChannel = event => {
-        this.setState({current_channel: event.target.value});
+    componentDidMount() {
+        let body = null;
+        if (this.state.body.trim() === '') {
+            body = EditorState.createEmpty();
+        } else {
+            const blocksFromHTML = convertFromHTML(this.state.body);
+            const state = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            );
+            body = EditorState.createWithContent(state);
+        }
+
+        this.setState({
+            editorState: body,
+        });
+    }
+
+    handleChange = (event) => {
+        let data = {};
+        data[event.target.name] = event.target.value;
+        this.setState(data);
     };
 
-    handleChangeType = event => {
-        this.setState({type: event.target.value});
-    };
-
-    handleChangeTitle = event => {
-        this.setState({title: event.target.value});
-    };
-
-    handleChangeBody = event => {
-        this.setState({body: event.target.value});
-    };
-
-    handleChangeCurrentState = event => {
-        this.setState({current_state: event.target.value});
+    onEditorStateChange = (editorState) => {
+        this.setState({
+            editorState,
+        });
     };
 
     refreshSelectedTags = tags => {
@@ -79,6 +96,13 @@ export default class Form extends React.Component {
 
 
     createNode = () => {
+        const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+        const body = draftToHtml(rawContentState);
+        if (body === '') {
+            alert('Body Required');
+            return;
+        }
+
         axios({
             method: 'POST',
             url: 'http://192.168.56.101:8000/moon/manage/nodes/',
@@ -86,11 +110,11 @@ export default class Form extends React.Component {
                 user_id: 1,
                 title: this.state.title,
                 type: 'text',
-                parent_id: this.state.current_channel,
-                state: this.state.current_state,
-                tags: this.refreshSelectedTags(this.state.selected_tags),
+                parent_id: this.state.currentChannel,
+                state: this.state.currentState,
+                tags: this.refreshSelectedTags(this.state.selectedTags),
                 revisions: [
-                    {'body': this.state.body}
+                    {'body': body}
                 ]
             },
             headers: {
@@ -115,18 +139,25 @@ export default class Form extends React.Component {
             return;
         }
 
+        const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+        const body = draftToHtml(rawContentState);
+        if (body === '') {
+            alert('Body Required');
+            return;
+        }
+
         axios({
             method: 'PUT',
             url: `http://192.168.56.101:8000/moon/manage/nodes/${this.state.id}/`,
             data: {
                 title: this.state.title,
                 type: this.state.type,
-                parent_id: this.state.current_channel,
+                parent_id: this.state.currentChannel,
                 revisions: [
-                    {'body': this.state.body}
+                    {'body': body}
                 ],
-                tags: this.refreshSelectedTags(this.state.selected_tags),
-                state: this.state.current_state
+                tags: this.refreshSelectedTags(this.state.selectedTags),
+                state: this.state.currentState
             },
             headers: {
                 'Accept': 'application/json',
@@ -141,11 +172,12 @@ export default class Form extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-    }
+    };
 
     render() {
         const channels = this.state.channels;
         const tags = this.state.tags;
+        const {editorState} = this.state;
 
         return (
             <div>
@@ -154,7 +186,7 @@ export default class Form extends React.Component {
                     <select className="form-control"
                             id="form-type"
                             value={this.state.type}
-                            onChange={this.handleChangeType}>
+                            onChange={this.handleChange}>
                         {this.state.types.map(function (name, index) {
                             return <option key={name} value={name}>{name}</option>;
                         })}
@@ -164,9 +196,10 @@ export default class Form extends React.Component {
                 <div className="form-group">
                     <label htmlFor="form-channel">Channel</label>
                     <select className="form-control"
+                            name="currentChannel"
                             id="form-channel"
-                            value={this.state.current_channel}
-                            onChange={this.handleChangeChannel}>
+                            value={this.state.currentChannel}
+                            onChange={this.handleChange}>
                         {Object.keys(channels).map(function (name, index) {
                             let id = channels[name];
                             return <option key={name} value={id}>{name}</option>;
@@ -176,19 +209,22 @@ export default class Form extends React.Component {
 
                 <div className="form-group">
                     <label htmlFor="form-title">Title</label>
-                    <input type="text" className="form-control" id="form-title"
+                    <input type="text" name="title" className="form-control" id="form-title"
                            placeholder=""
-                           onChange={this.handleChangeTitle}
+                           onChange={this.handleChange}
                            value={this.state.title}/>
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="form-body">Body</label>
-                    <textarea className="form-control rounded-0" id="form-body"
-                              placeholder="Your words could save thousands of people"
-                              onChange={this.handleChangeBody}
-                              value={this.state.body}
-                              rows="10"></textarea>
+                    {editorState &&
+                    <Editor
+                        editorState={editorState}
+                        wrapperClassName="demo-wrapper"
+                        editorClassName="demo-editor"
+                        onEditorStateChange={this.onEditorStateChange}
+                    />
+                    }
                 </div>
 
                 <div className="form-group">
@@ -197,10 +233,10 @@ export default class Form extends React.Component {
                         labelKey="name"
                         multiple={true}
                         options={tags}
-                        defaultSelected={this.state.selected_tags ? this.state.selected_tags : []}
+                        defaultSelected={this.state.selectedTags ? this.state.selectedTags : []}
                         allowNew
-                        onChange={(selected_tags) => {
-                            this.setState({selected_tags});
+                        onChange={(selectedTags) => {
+                            this.setState({selectedTags});
                         }}
                     />
                 </div>
@@ -208,10 +244,11 @@ export default class Form extends React.Component {
                 <div className="form-group">
                     <label htmlFor="form-state">State</label>
                     <select className="form-control"
+                            name="currentState"
                             id="form-state"
-                            value={this.state.current_state}
-                            onChange={this.handleChangeCurrentState}>
-                        {this.state.node_states.map(function (name, index) {
+                            value={this.state.currentState}
+                            onChange={this.handleChange}>
+                        {this.state.nodeStates.map(function (name, index) {
                             return <option key={name} value={name}>{name}</option>;
                         })}
                     </select>

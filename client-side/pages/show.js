@@ -66,13 +66,19 @@ export default class extends React.Component {
                         <p>
                             <small>{node.created_at}</small>
                         </p>
-                        <p>
-                            {node.revision ? node.revision.body : ''}
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: node.revision ? node.revision.body : '' }} />
 
                     </div>
 
                 </main>
+
+                <style jsx global>{`
+                pre {
+                    background-color: #d8d8dc;
+                    color: #0f0101;
+                    padding: 5px;
+                }
+                `}</style>
 
 
             </Layout>
