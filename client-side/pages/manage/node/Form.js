@@ -226,7 +226,7 @@ export default class Form extends React.Component {
                               placeholder="Your intro..."
                               onChange={this.handleChange}
                               value={this.state.intro}
-                              rows="5"></textarea>
+                              rows="4">&nbsp;</textarea>
                 </div>
 
                 <div className="form-group">

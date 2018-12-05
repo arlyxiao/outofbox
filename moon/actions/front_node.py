@@ -56,3 +56,4 @@ class NodeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Node.objects.all()
     serializer_class = NodeSerializer
 
+

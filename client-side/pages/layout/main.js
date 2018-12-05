@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Meta from "./meta";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
+import LoginMenu from "./login-menu";
 
 
 const menus = () => {
@@ -16,9 +17,9 @@ const menus = () => {
 };
 
 
-export default ({children, title='', intro='', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
+export default ({children, title = '', intro = '', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
     <div>
-        <Meta title={title} intro={intro} />
+        <Meta title={title} intro={intro}/>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -46,14 +47,8 @@ export default ({children, title='', intro='', tags = [], menuClickTime, channel
                         })}
                     </ul>
 
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="">登录</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="">注册</a>
-                        </li>
-                    </ul>
+                    <LoginMenu/>
+
                 </div>
             </div>
         </nav>

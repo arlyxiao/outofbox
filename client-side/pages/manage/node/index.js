@@ -3,6 +3,8 @@ import React from "react";
 import Link from 'next/link'
 import Router from "next/router";
 
+import Cookies from 'universal-cookie';
+
 import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
 
@@ -16,9 +18,21 @@ const EditLink = (props) => (
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const page = context.query.page ? `page=${context.query.page}` : '';
-        const nodes = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes?${page}&format=json`);
+        const {store, isServer, query, req} = context;
+
+        // const cookies = new Cookies(req.cookies);
+        // const token = cookies.get('your-id');
+        //
+        // const headers = {headers: {Authorization: `Token ${token}`}};
+        // const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`, headers);
+        // if (constants.data.denied) {
+        //     context.res.end();
+        //     return {}
+        // }
         const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`);
+
+        const page = query.page ? `page=${query.page}` : '';
+        const nodes = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes?${page}&format=json`);
 
         // pagination params
         const maxPageNumber = parseInt(constants.data.max_page_size)
@@ -29,6 +43,7 @@ export default class extends React.Component {
         const prevPage = nodes.data.previous ? nodes.data.previous.split('?')[1] : null;
 
         return {
+            denied: constants.data.denied,
             nodeList: nodes.data,
             channels: constants.data.channels,
 
@@ -116,7 +131,7 @@ export default class extends React.Component {
                             currentPage={this.props.currentPage}
                             nextPage={this.props.nextPage}
                             prevPage={this.props.prevPage}
-                            pathName='/manage/node' />
+                            pathName='/manage/node'/>
             </Layout>
         );
     }

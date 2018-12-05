@@ -31,6 +31,7 @@ class NodeConstantList(APIView):
             'page_size': Pagination.page_size,
             'max_page_size': Pagination.max_page_size
         }
+
         return Response(data)
 
 
@@ -38,6 +39,7 @@ class NodeList(generics.ListCreateAPIView):
     queryset = Node.objects.all().exclude(type='channel').order_by('-created_at', '-updated_at')
     serializer_class = NodeSerializer
     pagination_class = Pagination
+
 
 
 class NodeDetail(generics.RetrieveUpdateDestroyAPIView):
