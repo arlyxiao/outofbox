@@ -2,6 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import axios from "axios/index";
 
+import nookies from "nookies";
+
 import Layout from './layout/main';
 
 
@@ -11,10 +13,15 @@ export default class extends React.Component {
         const id = context.query.id ? context.query.id.toString() : '';
         const tag = context.query.tag ? context.query.tag : '';
 
+        const cookie = nookies.get(context);
+        const token = cookie['your-id'];
+        // const token = context.req.cookies;
+
         const nodes = await axios.get(`http://192.168.56.101:8000/moon/node/list?format=json&id=${id}&tag=${tag}`);
         const constants = await axios.get(`http://192.168.56.101:8000/moon/node/constants?format=json&id=${id}`);
 
         return {
+            token: token,
             menuClickTime: +new Date(),
             nodeData: nodes.data,
             nodeList: nodes.data.results,
@@ -27,7 +34,12 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('---')
+        console.log(props.token)
+        console.log('---')
+
         this.state = {
+            token: props.token,
             menuClickTime: props.menuClickTime,
             next: props.nodeData.next === null ? '' : props.nodeData.next,
             nodeList: props.nodeList,
@@ -39,6 +51,11 @@ export default class extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.menuClickTime !== prevProps.menuClickTime) {
+
+            console.log('===')
+            console.log(this.props.token)
+            console.log('===')
+
             this.setState({
                 menuClickTime: this.props.menuClickTime,
                 next: this.props.nodeData.next === null ? '' : this.props.nodeData.next,

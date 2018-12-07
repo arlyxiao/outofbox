@@ -5,7 +5,6 @@ from .actions import auth
 from .actions import front_node
 from .actions import manage_node
 
-
 urlpatterns = [
     path('manage/nodes/', manage_node.NodeList.as_view()),
     path('manage/nodes/<int:pk>/', manage_node.NodeDetail.as_view()),
@@ -17,6 +16,7 @@ urlpatterns = [
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
     path('api/login', auth.Login.as_view()),
+    path('api/logout', auth.Logout.as_view()),
     path('api/user', auth.User.as_view())
 ]
 

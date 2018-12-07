@@ -3,7 +3,7 @@ import React from "react";
 import Link from 'next/link'
 import Router from "next/router";
 
-import Cookies from 'universal-cookie';
+import nookies from 'nookies'
 
 import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
@@ -13,29 +13,21 @@ const EditLink = (props) => (
     <Link as={`/manage/node/edit/${props.id}`} href={`/manage/node/edit?id=${props.id}`}>
         <a className="btn btn-success btn-sm">Edit</a>
     </Link>
-)
+);
 
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const {store, isServer, query, req} = context;
+        const cookie = nookies.get(context);
+        const token = cookie['your-id'];
+        const headers = {headers: {Authorization: `Token ${token}`}};
+        const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`, headers);
 
-        // const cookies = new Cookies(req.cookies);
-        // const token = cookies.get('your-id');
-        //
-        // const headers = {headers: {Authorization: `Token ${token}`}};
-        // const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`, headers);
-        // if (constants.data.denied) {
-        //     context.res.end();
-        //     return {}
-        // }
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`);
-
-        const page = query.page ? `page=${query.page}` : '';
+        const page = context.query.page ? `page=${context.query.page}` : '';
         const nodes = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes?${page}&format=json`);
 
         // pagination params
-        const maxPageNumber = parseInt(constants.data.max_page_size)
+        const maxPageNumber = parseInt(constants.data.max_page_size);
         const dataTotal = nodes.data.count;
         const pageSize = parseInt(constants.data.page_size);
         const currentPage = context.query.page ? parseInt(context.query.page) : 0;
@@ -43,6 +35,7 @@ export default class extends React.Component {
         const prevPage = nodes.data.previous ? nodes.data.previous.split('?')[1] : null;
 
         return {
+            cookie: cookie,
             denied: constants.data.denied,
             nodeList: nodes.data,
             channels: constants.data.channels,
@@ -58,6 +51,10 @@ export default class extends React.Component {
 
     constructor(props) {
         super(props);
+
+        console.log('====')
+        console.log(props.cookie)
+        console.log('====')
 
         this.state = {
             channels: props.channels

@@ -8,18 +8,17 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.18.0",
-    "cookie-parser": "^1.4.3",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "express": "^4.16.4",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "next": "^7.0.2",
+    "nookies": "^1.2.0",
     "react": "^16.6.3",
     "react-bootstrap-typeahead": "^3.2.4",
     "react-dom": "^16.6.3",
-    "react-draft-wysiwyg": "^1.12.13",
-    "universal-cookie": "^3.0.7"
+    "react-draft-wysiwyg": "^1.12.13"
   },
   "devDependencies": {
     "node-sass": "^4.10.0",

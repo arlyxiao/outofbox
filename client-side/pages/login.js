@@ -1,20 +1,13 @@
 import React from 'react'
 import axios from "axios/index";
 
-import Cookies from 'universal-cookie';
+import Cookie from 'js-cookie';
 
 import Layout from './layout/main';
 import Router from "next/router";
 
 
 export default class extends React.Component {
-
-    static async getInitialProps(context) {
-        const {store, isServer, query, req} = context;
-        const id = context.query.id ? context.query.id : '';
-
-        return {}
-    }
 
     constructor(props) {
         super(props);
@@ -38,7 +31,7 @@ export default class extends React.Component {
     login = (event) => {
         event.preventDefault();
 
-        const context = this;
+        const instance = this;
         axios({
             method: 'POST',
             url: 'http://192.168.56.101:8000/moon/api/login',
@@ -53,12 +46,10 @@ export default class extends React.Component {
         })
             .then(function (response) {
                 // console.log(response.data.token);
-                const cookies = new Cookies();
-
-                cookies.set('your-id', response.data.token, {path: '/'});
+                Cookie.set('your-id', response.data.token, { expires: 7 });
                 console.log("login done");
 
-                Router.push(`/home`);
+                Router.push(`/`);
             })
             .catch(function (error) {
                 console.log(error);

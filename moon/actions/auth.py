@@ -14,8 +14,8 @@ from rest_framework.status import (
 )
 
 class User(APIView):
-    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         if request.user is None:
@@ -48,4 +48,12 @@ class Login(APIView):
         }
 
         return Response(data, status=HTTP_200_OK)
+
+
+class Logout(APIView):
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+
+    def post(self, request, format=None):
+        request.user.auth_token.delete()
+        return Response(status=HTTP_200_OK)
 
