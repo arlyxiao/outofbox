@@ -1,10 +1,10 @@
 import React from 'react'
-import axios from "axios/index";
-
 import Cookie from 'js-cookie';
 
 import Layout from './layout/main';
 import Router from "next/router";
+import WrapAxios from '../service/axios';
+const wrapAxios = WrapAxios();
 
 
 export default class extends React.Component {
@@ -32,9 +32,9 @@ export default class extends React.Component {
         event.preventDefault();
 
         const instance = this;
-        axios({
+        wrapAxios({
             method: 'POST',
-            url: 'http://192.168.56.101:8000/moon/api/login',
+            url: '/moon/api/login',
             data: {
                 username: this.state.username,
                 password: this.state.password
@@ -49,7 +49,7 @@ export default class extends React.Component {
                 Cookie.set('your-id', response.data.token, { expires: 7 });
                 console.log("login done");
 
-                Router.push(`/`);
+                window.location = '/';
             })
             .catch(function (error) {
                 console.log(error);

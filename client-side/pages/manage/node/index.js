@@ -3,10 +3,11 @@ import React from "react";
 import Link from 'next/link'
 import Router from "next/router";
 
-import nookies from 'nookies'
-
+import authenticate from '../../../service/AdminAuth';
 import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
+import WrapAxios from '../../../service/axios';
+const wrapAxios = WrapAxios();
 
 
 const EditLink = (props) => (
@@ -18,13 +19,11 @@ const EditLink = (props) => (
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const cookie = nookies.get(context);
-        const token = cookie['your-id'];
-        const headers = {headers: {Authorization: `Token ${token}`}};
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes/constants?format=json`, headers);
+        const user = await authenticate(context);
 
+        const constants = await axios.get(`/moon/manage/nodes/constants`);
         const page = context.query.page ? `page=${context.query.page}` : '';
-        const nodes = await axios.get(`http://192.168.56.101:8000/moon/manage/nodes?${page}&format=json`);
+        const nodes = await axios.get(`/moon/manage/nodes?${page}`);
 
         // pagination params
         const maxPageNumber = parseInt(constants.data.max_page_size);
@@ -35,7 +34,7 @@ export default class extends React.Component {
         const prevPage = nodes.data.previous ? nodes.data.previous.split('?')[1] : null;
 
         return {
-            cookie: cookie,
+            user: user.data,
             denied: constants.data.denied,
             nodeList: nodes.data,
             channels: constants.data.channels,
@@ -52,9 +51,9 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log('====')
-        console.log(props.cookie)
-        console.log('====')
+        console.log('====');
+        console.log(props.user);
+        console.log('====');
 
         this.state = {
             channels: props.channels
@@ -62,9 +61,9 @@ export default class extends React.Component {
     }
 
     removeNode = (id) => {
-        axios({
+        wrapAxios({
             method: 'DELETE',
-            url: 'http://192.168.56.101:8000/moon/manage/nodes/' + id + '/'
+            url: '/moon/manage/nodes/' + id + '/'
         })
             .then(function (response) {
                 console.log(response);

@@ -3,6 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from moon.serializers import NodeSerializer
 from moon.serializers import NodeUpdateSerializer
 from moon.schemas.node import Node
@@ -36,6 +40,9 @@ class NodeConstantList(APIView):
 
 
 class NodeList(generics.ListCreateAPIView):
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     queryset = Node.objects.all().exclude(type='channel').order_by('-created_at', '-updated_at')
     serializer_class = NodeSerializer
     pagination_class = Pagination
@@ -43,6 +50,9 @@ class NodeList(generics.ListCreateAPIView):
 
 
 class NodeDetail(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = (SessionAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     queryset = Node.objects.all()
 
     def get_serializer_class(self):

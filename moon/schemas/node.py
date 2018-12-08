@@ -1,7 +1,6 @@
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
-
-from .user import User
 
 
 class Node(models.Model):
@@ -36,7 +35,7 @@ class Node(models.Model):
         (TEXT, 'text'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nodes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='nodes')
     type = models.CharField(max_length=50, default=TEXT)
     revision = models.OneToOneField(
         'NodeRevision',

@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios/index";
 import Router from "next/router";
 
 import {Typeahead} from 'react-bootstrap-typeahead';
@@ -8,6 +7,9 @@ import {EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js
 import draftToHtml from 'draftjs-to-html';
 import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+import WrapAxios from '../../../service/axios';
+const wrapAxios = WrapAxios();
 
 
 export default class Form extends React.Component {
@@ -105,9 +107,9 @@ export default class Form extends React.Component {
             return;
         }
 
-        axios({
+        wrapAxios({
             method: 'POST',
-            url: 'http://192.168.56.101:8000/moon/manage/nodes/',
+            url: '/moon/manage/nodes/',
             data: {
                 user_id: 1,
                 title: this.state.title,
@@ -149,9 +151,9 @@ export default class Form extends React.Component {
             return;
         }
 
-        axios({
+        wrapAxios({
             method: 'PUT',
-            url: `http://192.168.56.101:8000/moon/manage/nodes/${this.state.id}/`,
+            url: `/moon/manage/nodes/${this.state.id}/`,
             data: {
                 title: this.state.title,
                 intro: this.state.intro,

@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import axios from "axios/index";
 
 import Cookie from 'js-cookie';
 import Router from "next/router";
+
+import WrapAxios from '../../service/axios';
+const wrapAxios = WrapAxios();
 
 
 export default class LoginMenu extends React.Component {
@@ -16,34 +18,27 @@ export default class LoginMenu extends React.Component {
         };
 
         const instance = this;
-
-        const token = Cookie.get('your-id');
-        if (token) {
-            const headers = {headers: {Authorization: `Token ${token}`}};
-            axios.get(`http://192.168.56.101:8000/moon/api/user?format=json`, headers)
-                .then(function (response) {
-                    instance.setState({
-                        user: response.data
-                    });
-                })
-                .catch(function (error) {
-                })
-                .then(function () {
-                    // always executed
+        wrapAxios.get(`/moon/api/user`)
+            .then(function (response) {
+                instance.setState({
+                    user: response.data
                 });
-        }
+            })
+            .catch(function (error) {
+            })
+            .then(function () {
+                // always executed
+            });
     }
 
     logout = (event) => {
         event.preventDefault();
 
-        const token = Cookie.get('your-id');
         const instance = this;
-        axios({
+        wrapAxios({
             method: 'POST',
-            url: 'http://192.168.56.101:8000/moon/api/logout',
+            url: '/moon/api/logout',
             headers: {
-                'Authorization': 'Token ' + token,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
@@ -79,7 +74,10 @@ export default class LoginMenu extends React.Component {
                 {this.state.user &&
                 <div className="ml-auto dropdown show">
                     <Link as={`/`} href={`/`}>
-                        <a className="dropdown-toggle top-menu" data-toggle="dropdown">{this.state.user.username}</a>
+                        <a className="dropdown-toggle top-menu"
+                           data-toggle="dropdown">
+                            {this.state.user.username}
+                        </a>
                     </Link>
 
                     <div className="dropdown-menu">

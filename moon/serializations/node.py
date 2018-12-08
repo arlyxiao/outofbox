@@ -5,7 +5,6 @@ from moon.schemas.node import Node
 from moon.schemas.node_revision import NodeRevision
 from moon.schemas.tag import Tag
 from moon.schemas.node_tag import NodeTag
-from .user import UserSerializer
 from .tag import TagSerializer
 
 
@@ -39,8 +38,8 @@ class NodeRevisionSerializer(serializers.ModelSerializer):
 
 
 class NodeSerializer(serializers.ModelSerializer):
-    user = UserSerializer(many=False, read_only=True)
-    user_id = serializers.IntegerField()
+    # https://www.django-rest-framework.org/tutorial/1-serialization/
+    user_id = serializers.IntegerField(required=False)
     parent_id = serializers.IntegerField()
     revisions = NodeRevisionSerializer(many=True)
     tags = TagSerializer(many=True)
@@ -54,7 +53,7 @@ class NodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Node
-        fields = ('id', 'parent_id', 'user', 'user_id', 'revisions', 'tags', 'type', 'parent_id',
+        fields = ('id', 'user_id', 'parent_id', 'revisions', 'tags', 'type', 'parent_id',
                   'channel_name', 'node_tag', 'title', 'intro',
                   'revision', 'state', 'created_at', 'updated_at')
 
@@ -75,6 +74,10 @@ class NodeSerializer(serializers.ModelSerializer):
         revisions_data = validated_data.pop('revisions')
         tags_data = validated_data.pop('tags')
         node = Node.objects.create(**validated_data)
+
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            node.user = request.user
 
         revision_data = revisions_data[0]
         latest_version = NodeRevision.objects.create(node=node, **revision_data)
@@ -98,6 +101,11 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'intro', 'revisions', 'tags', 'type', 'state', 'parent_id')
 
     def update(self, instance, validated_data):
+        # https://stackoverflow.com/questions/30203652/how-to-get-request-user-in-django-rest-framework-serializer
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            instance.user = request.user
+
         parent_id = validated_data.get('parent_id', instance.parent.id)
 
         instance.parent = Node.objects.get(id=parent_id)

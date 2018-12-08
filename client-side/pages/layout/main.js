@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Meta from "./meta";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
-import LoginMenu from "./login-menu";
+import LoginMenu from "./LoginMenu";
 
 
 const menus = () => {
@@ -23,7 +23,7 @@ export default ({children, title = '', intro = '', tags = [], menuClickTime, cha
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <Link as={`/home`} href={`/home`}>
+                <Link as={`/`} href={`/`}>
                     <a className="navbar-brand">FD</a>
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"

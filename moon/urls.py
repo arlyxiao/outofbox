@@ -17,7 +17,8 @@ urlpatterns = [
 
     path('api/login', auth.Login.as_view()),
     path('api/logout', auth.Logout.as_view()),
-    path('api/user', auth.User.as_view())
+    path('api/user', auth.User.as_view()),
+    path('api/admin-user', auth.AdminUser.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

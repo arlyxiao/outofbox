@@ -17,8 +17,8 @@ export default class extends React.Component {
         const token = cookie['your-id'];
         // const token = context.req.cookies;
 
-        const nodes = await axios.get(`http://192.168.56.101:8000/moon/node/list?format=json&id=${id}&tag=${tag}`);
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/node/constants?format=json&id=${id}`);
+        const nodes = await axios.get(`/moon/node/list?id=${id}&tag=${tag}`);
+        const constants = await axios.get(`/moon/node/constants?id=${id}`);
 
         return {
             token: token,
@@ -104,6 +104,13 @@ export default class extends React.Component {
 
                 <main role="main" className="container">
 
+                    {!this.state.id &&
+                    <div className="my-3 p-3 bg-white rounded shadow-sm">
+                        <img src="/static/in-progress.png" />
+                    </div>
+                    }
+
+                    {this.state.id &&
                     <div className="my-3 p-3 bg-white rounded shadow-sm">
                         <h6 className="border-bottom border-gray pb-2 mb-0">
                             最近更新
@@ -140,6 +147,7 @@ export default class extends React.Component {
                         </div>
 
                     </div>
+                    }
 
                 </main>
 
