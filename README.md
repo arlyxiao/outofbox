@@ -16,7 +16,10 @@ It's far more than CMS
 1. docker-compose down
 2. docker-compose up
 
+### Create super user
+1. docker exec outofbox-docker_web_1 /bin/bash
+1. python manage.py createsuperuser
+
 ### Load example data
-1. python manage.py loaddata example-data/users.json
 1. python manage.py loaddata example-data/nodes.json
 1. python manage.py loaddata example-data/tags.json

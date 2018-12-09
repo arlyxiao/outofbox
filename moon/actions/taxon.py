@@ -27,13 +27,15 @@ class NodeConstantList(APIView):
 
         channel = Node.objects.get(pk=id)
         parent_tag = Tag.objects.filter(name=channel.title).first()
-        tags = Tag.objects.filter(parent_id=parent_tag.id)
-        data['tags'] = list(map(lambda tag: [tag.id, tag.name, channel.title], tags))
+
+        if parent_tag:
+            tags = Tag.objects.filter(parent_id=parent_tag.id)
+            data['tags'] = list(map(lambda tag: [tag.id, tag.name, channel.title], tags))
 
         return Response(data)
 
 
-class NodeList(generics.ListCreateAPIView):
+class NodeList(generics.ListAPIView):
     serializer_class = NodeSerializer
     pagination_class = Pagination
 
@@ -52,7 +54,7 @@ class NodeList(generics.ListCreateAPIView):
         return nodes.filter(tags__id=tag)
 
 
-class NodeDetail(generics.RetrieveUpdateDestroyAPIView):
+class NodeDetail(generics.RetrieveAPIView):
     queryset = Node.objects.all()
     serializer_class = NodeSerializer
 

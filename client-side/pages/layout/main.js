@@ -2,7 +2,6 @@ import Link from 'next/link'
 
 import Meta from "./meta";
 import Footer from "./footer";
-import Sidebar from "./sidebar";
 import LoginMenu from "./LoginMenu";
 
 
@@ -17,7 +16,7 @@ const menus = () => {
 };
 
 
-export default ({children, title = '', intro = '', tags = [], menuClickTime, channelId, nodeTag = ''}) => (
+export default ({children, title = '', intro = '', channelId = ''}) => (
     <div>
         <Meta title={title} intro={intro}/>
 
@@ -39,7 +38,7 @@ export default ({children, title = '', intro = '', tags = [], menuClickTime, cha
                             let style = id === channelId ? 'nav-link btn btn-secondary btn-sm active' : 'nav-link';
                             return (
                                 <li className="nav-item" key={name}>
-                                    <Link as={`/${name}`} href={`/index?id=${id}`}>
+                                    <Link as={`/${name}`} href={`/taxon?id=${id}`}>
                                         <a className={style}>{label}</a>
                                     </Link>
                                 </li>
@@ -55,18 +54,7 @@ export default ({children, title = '', intro = '', tags = [], menuClickTime, cha
 
         <div className="container main-body">
 
-            <div className="row">
-
-                <Sidebar tags={tags}
-                         menuClickTime={menuClickTime}
-                         channelId={channelId}
-                         nodeTag={nodeTag}/>
-
-                <div className="col-lg-9">
-                    {children}
-                </div>
-
-            </div>
+            {children}
 
         </div>
 

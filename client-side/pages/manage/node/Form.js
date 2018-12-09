@@ -21,6 +21,7 @@ export default class Form extends React.Component {
             this.state = {
                 type: 'text',
                 title: '',
+                cover: '',
                 intro: '',
                 body: '',
                 currentState: 'draft',
@@ -38,6 +39,7 @@ export default class Form extends React.Component {
                 id: props.node.id,
                 type: props.node.type,
                 title: props.node.title,
+                cover: props.node.cover,
                 intro: props.node.intro,
                 body: props.node.revision ? props.node.revision.body : '',
                 currentState: props.node.state,
@@ -113,6 +115,7 @@ export default class Form extends React.Component {
             data: {
                 user_id: 1,
                 title: this.state.title,
+                cover: this.state.cover,
                 intro: this.state.intro,
                 type: 'text',
                 parent_id: this.state.currentChannel,
@@ -156,6 +159,7 @@ export default class Form extends React.Component {
             url: `/moon/manage/nodes/${this.state.id}/`,
             data: {
                 title: this.state.title,
+                cover: this.state.cover,
                 intro: this.state.intro,
                 type: this.state.type,
                 parent_id: this.state.currentChannel,
@@ -190,6 +194,7 @@ export default class Form extends React.Component {
                 <div className="form-group">
                     <label htmlFor="form-type">Type</label>
                     <select className="form-control"
+                            name="type"
                             id="form-type"
                             value={this.state.type}
                             onChange={this.handleChange}>
@@ -219,6 +224,14 @@ export default class Form extends React.Component {
                            placeholder=""
                            onChange={this.handleChange}
                            value={this.state.title}/>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="form-cover">Cover Image</label>
+                    <input type="text" name="cover" className="form-control" id="form-cover"
+                           placeholder=""
+                           onChange={this.handleChange}
+                           value={this.state.cover}/>
                 </div>
 
                 <div className="form-group">

@@ -1,177 +1,172 @@
 import React from 'react'
 import Link from 'next/link'
-import axios from "axios/index";
-
-import nookies from "nookies";
 
 import Layout from './layout/main';
+
+import WrapAxios from '../service/axios';
+
+const wrapAxios = WrapAxios();
 
 
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const id = context.query.id ? context.query.id.toString() : '';
-        const tag = context.query.tag ? context.query.tag : '';
-
-        const cookie = nookies.get(context);
-        const token = cookie['your-id'];
-        // const token = context.req.cookies;
-
-        const nodes = await axios.get(`/moon/node/list?id=${id}&tag=${tag}`);
-        const constants = await axios.get(`/moon/node/constants?id=${id}`);
+        const articles = await wrapAxios.get(`/moon/home/nodes?type=text`);
+        const sharedVideos = await wrapAxios.get(`/moon/home/nodes?type=shared-video`);
 
         return {
-            token: token,
-            menuClickTime: +new Date(),
-            nodeData: nodes.data,
-            nodeList: nodes.data.results,
-            tags: constants.data.tags,
-            tag: tag,
-            id: id
+            articles: articles.data,
+            sharedVideos: sharedVideos.data
         }
     }
 
     constructor(props) {
         super(props);
 
-        console.log('---')
-        console.log(props.token)
-        console.log('---')
+        console.log('+++');
+        console.log(props.articles);
+        console.log('+++');
 
         this.state = {
-            token: props.token,
-            menuClickTime: props.menuClickTime,
-            next: props.nodeData.next === null ? '' : props.nodeData.next,
-            nodeList: props.nodeList,
-            tags: props.tags,
-            tag: props.tag,
-            id: props.id
-        }
+            articles: props.articles,
+            sharedVideos: props.sharedVideos
+        };
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.menuClickTime !== prevProps.menuClickTime) {
-
-            console.log('===')
-            console.log(this.props.token)
-            console.log('===')
-
-            this.setState({
-                menuClickTime: this.props.menuClickTime,
-                next: this.props.nodeData.next === null ? '' : this.props.nodeData.next,
-                tags: this.props.tags,
-                id: this.props.id,
-                nodeList: this.props.nodeList
-            });
-        }
     }
-
-    loadMore = () => {
-        const next = this.state.next;
-        if (next === null || next.trim() === '') {
-            this.setState({
-                next: '',
-            });
-            return;
-        }
-
-        const context = this;
-        const currentList = this.state.nodeList;
-        axios.get(next)
-            .then(function (response) {
-                const nodeList = currentList.concat(response.data.results);
-                context.setState({
-                    next: response.data.next,
-                    nodeList: nodeList
-                });
-            })
-            .catch(function (error) {
-                // handle error
-                // console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-    };
 
 
     render() {
         return (
-            <Layout title=""
-                    tags={this.state.tags}
-                    menuClickTime={this.state.menuClickTime}
-                    channelId={this.state.id}>
+            <Layout title="">
 
-                <main role="main" className="container">
+                <div className="main">
 
-                    {!this.state.id &&
-                    <div className="my-3 p-3 bg-white rounded shadow-sm">
-                        <img src="/static/in-progress.png" />
+                    <div className="row section article-list">
+
+                        <div className="my-3 p-3 bg-white rounded box-shadow">
+                            <h6 className="border-bottom border-gray pb-2 mb-0">您可能感兴趣的文章</h6>
+
+                            {this.state.articles.results.map((item, i) => {
+                                return (
+                                    <div className="media text-muted pt-3" key={item.id + i}>
+                                        <img className="mr-2 rounded"
+                                             src={item.cover}/>
+                                        <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+
+                                            <Link as={`/${item.channel_name}-${item.id}`}
+                                                  href={`/show?id=${item.id}`}>
+                                                <a className="node-title">
+                                                    <strong className="d-block text-gray-dark">{item.title}</strong>
+                                                </a>
+                                            </Link>
+                                            {item.intro}
+                                        </p>
+                                    </div>
+                                );
+                            })}
+
+                            <small className="d-block text-right mt-3">
+                                <Link as={`/search?type=shared-video`}
+                                      href={`/search?type=shared-video`}>
+                                    <a className="btn btn-sm btn-secondary">
+                                        查看更多
+                                    </a>
+                                </Link>
+                            </small>
+                        </div>
                     </div>
-                    }
 
-                    {this.state.id &&
-                    <div className="my-3 p-3 bg-white rounded shadow-sm">
-                        <h6 className="border-bottom border-gray pb-2 mb-0">
-                            最近更新
-                        </h6>
+                    <div className="row section video-list">
 
-                        {this.state.nodeList.map((item, i) => {
+                        <h5>您可能感兴趣的视频</h5>
+
+                        {this.state.sharedVideos.results.map((item, i) => {
                             return (
-                                <p key={item.title + i}
-                                   className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                          href={`/show?id=${item.id}`}>
-                                        <a className="node-title">
-                                            <strong className="d-block text-gray-dark">&gt; {item.title}</strong>
-                                        </a>
-                                    </Link>
-                                    {item.intro}
-                                </p>
+                                <div className="col-sm-2" key={item.id + i}>
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <Link as={`/${item.channel_name}-${item.id}`}
+                                                  href={`/show?id=${item.id}`}>
+                                                <img src={item.cover} alt={item.title}/>
+                                            </Link>
+
+
+                                            <p className="card-text">
+                                                <Link as={`/${item.channel_name}-${item.id}`}
+                                                      href={`/show?id=${item.id}`}>
+                                                    <a className="node-title">
+                                                        <strong className="d-block text-gray-dark">{item.title}</strong>
+                                                    </a>
+                                                </Link>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             );
                         })}
-
-                        <div className="row load-more">
-                            <div className="col-12 text-center">
-                                <input type="hidden" name="next" value={this.state.next}/>
-
-                                {this.state.next !== '' &&
-                                <button type="button"
-                                        className="btn btn-outline-secondary"
-                                        onClick={this.loadMore}>加载更多...
-                                </button>
-                                }
-
-
-                            </div>
-                        </div>
-
                     </div>
+
+
+                </div>
+
+                <style jsx>{`
+                    h5 {
+                        text-align: left;
+                        width: 100%;
+                        margin-left: 1rem;
+                        margin-bottom: 1rem;
+                        font-size: 1rem;
+                        font-weight: bold;
+                    }
+                    .main {
+                        margin-top: 4rem;
                     }
 
-                </main>
+                    .section .card {
+                        margin-bottom: 2rem;
+                    }
 
-                <style jsx global>{`
-                .load-more {
-                    margin-top: 20px;
-                }
+                    .video-list p {
+                        padding: 0.5rem;
+                    }
 
-                .node-title {
-                    margin-top: 5px;
-                    margin-bottom: 6px;
-                    display: block;
-                    color: rgba(37, 34, 40, 0.89);
-                    font-size: 0.9rem;
-                }
+                    .section .col-sm-3 {
+                        margin-bottom: 2rem;
+                    }
 
-                .node-title:hover {
-                    text-decoration: none;
-                }
-                `}</style>
+                    .section .card-body {
+                        padding: 0;
+                        height: 15rem;
+                        overflow: hidden;
+                    }
+
+                    .section .card-body img {
+                        width: 100%;
+                        height: 11rem;
+                        cursor: pointer;
+                    }
+
+                    .article-list img {
+                        width: 3rem;
+                    }
+
+                    .article-list .box-shadow {
+                        width: 100%;
+                    }
+
+                    .node-title {
+                        color: rgba(37, 34, 40, 0.89);
+                        font-size: 0.9rem;
+                        text-decoration: none;
+                    }
+
+                    `}</style>
+
 
             </Layout>
         );
     }
-
 }
 

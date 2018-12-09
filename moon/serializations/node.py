@@ -54,7 +54,7 @@ class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
         fields = ('id', 'user_id', 'parent_id', 'revisions', 'tags', 'type', 'parent_id',
-                  'channel_name', 'node_tag', 'title', 'intro',
+                  'channel_name', 'node_tag', 'title', 'cover', 'intro',
                   'revision', 'state', 'created_at', 'updated_at')
 
 
@@ -98,7 +98,8 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Node
-        fields = ('id', 'title', 'intro', 'revisions', 'tags', 'type', 'state', 'parent_id')
+        fields = ('id', 'title', 'cover', 'intro', 'revisions', 'tags',
+                  'type', 'state', 'parent_id')
 
     def update(self, instance, validated_data):
         # https://stackoverflow.com/questions/30203652/how-to-get-request-user-in-django-rest-framework-serializer
@@ -110,6 +111,8 @@ class NodeUpdateSerializer(serializers.ModelSerializer):
 
         instance.parent = Node.objects.get(id=parent_id)
         instance.title = validated_data.get('title', instance.title)
+        instance.type = validated_data.get('type', instance.type)
+        instance.cover = validated_data.get('cover', instance.cover)
         instance.intro = validated_data.get('intro', instance.intro)
         instance.state = validated_data.get('state', instance.state)
         instance.updated_at = datetime.datetime.now()

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from "axios/index";
 
+import Sidebar from './layout/sidebar';
 import Layout from './layout/main';
 
 
@@ -14,7 +15,7 @@ export default class extends React.Component {
         const constants = await axios.get(`http://192.168.56.101:8000/moon/node/constants?format=json&id=${channelId}`);
 
         return {
-            menuClickTime: +new Date(),
+            linkClickTime: +new Date(),
             channelId: channelId,
             node: node.data,
             tags: constants.data.tags,
@@ -27,7 +28,7 @@ export default class extends React.Component {
         super(props);
 
         this.state = {
-            menuClickTime: props.menuClickTime,
+            linkClickTime: props.linkClickTime,
             channelId: props.channelId,
             node: props.node,
             tags: props.tags,
@@ -37,9 +38,9 @@ export default class extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.menuClickTime !== prevProps.menuClickTime) {
+        if (this.props.linkClickTime !== prevProps.linkClickTime) {
             this.setState({
-                menuClickTime: this.props.menuClickTime,
+                linkClickTime: +new Date(),
                 channelId: this.props.channelId,
                 tags: this.props.tags,
                 nodeTag: this.props.nodeTag,
@@ -54,12 +55,14 @@ export default class extends React.Component {
         return (
             <Layout title={node.title}
                     intro={node.intro}
-                    tags={this.state.tags}
-                    menuClickTime={this.state.menuClickTime}
-                    channelId={this.state.channelId}
-                    nodeTag={this.state.nodeTag}>
+                    channelId={this.state.channelId}>
 
-                <main role="main" className="container">
+                <Sidebar tags={this.state.tags}
+                         linkClickTime={this.state.linkClickTime}
+                         nodeTag={this.state.nodeTag}
+                         channelId={this.state.channelId}/>
+
+                <div className="row col-lg-9">
 
                     <div className="my-3 p-3 bg-white rounded shadow-sm">
 
@@ -71,13 +74,17 @@ export default class extends React.Component {
 
                     </div>
 
-                </main>
+                </div>
 
                 <style jsx global>{`
                 pre {
                     background-color: #d8d8dc;
                     color: #0f0101;
                     padding: 5px;
+                }
+
+                .shadow-sm {
+                    width: 100%;
                 }
                 `}</style>
 

@@ -30,9 +30,11 @@ class Node(models.Model):
 
     CHANNEL = 'channel'
     TEXT = 'text'
+    SHARED_VIDEO = 'shared-video'
     TYPES = (
         (CHANNEL, 'channel'),
         (TEXT, 'text'),
+        (SHARED_VIDEO, 'shared-video'),
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='nodes')
@@ -46,7 +48,8 @@ class Node(models.Model):
     )
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     title = models.CharField(max_length=255)
-    intro = models.CharField(max_length=255)
+    intro = models.TextField()
+    cover = models.CharField(max_length=255, blank=True, null=True)
     tags = models.ManyToManyField('Tag', through='NodeTag')
     state = models.CharField(max_length=20, choices=STATES, default=DRAFT)
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)

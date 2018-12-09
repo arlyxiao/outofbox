@@ -8,7 +8,7 @@ export default withRouter(class Sidebar extends React.Component {
         super(props);
 
         this.state = {
-            menuClickTime: props.menuClickTime,
+            linkClickTime: props.linkClickTime,
             tags: props.tags,
             nodeTag: props.nodeTag,
             channelId: props.channelId
@@ -16,7 +16,7 @@ export default withRouter(class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.menuClickTime !== prevProps.menuClickTime) {
+        if (this.props.linkClickTime !== prevProps.linkClickTime) {
             this.setState({
                 tags: this.props.tags,
                 nodeTag: this.props.nodeTag,
@@ -48,7 +48,7 @@ export default withRouter(class Sidebar extends React.Component {
                             return (
                                 <Link key={item[0]}
                                       as={`/${item[2]}/tag/${tag}`}
-                                      href={`/index?id=${channelId}&tag=${tag}`}>
+                                      href={`/taxon?id=${channelId}&tag=${tag}`}>
                                     <a className="dropdown-item">&gt; <span className={style}>{item[1]}</span></a>
                                 </Link>
                             );

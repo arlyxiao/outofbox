@@ -16,6 +16,7 @@ export default class Meta extends React.Component {
                 <Head>
                     <meta charSet="utf-8"/>
                     <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta name="referrer" content="no-referrer" />
                     <title>{this.props.title ? this.props.title : ''}</title>
                     <meta name="description" content={this.props.intro ? this.props.intro : ''} />
                     <meta name="viewport"

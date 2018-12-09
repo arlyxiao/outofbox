@@ -11,6 +11,12 @@ export default class Footer extends React.Component {
                         <p className="m-0 text-center text-white">Copyright &copy;</p>
                     </div>
                 </footer>
+
+                <style jsx>{`
+                footer {
+                    margin-top: 3rem;
+                }
+                `}</style>
             </div>
         );
     }

@@ -25,7 +25,7 @@ app.prepare()
 
         Object.keys(menus).forEach(function (menu, index) {
             server.get(menu + '/tag/:tag', (req, res) => {
-                const actualPage = '/index';
+                const actualPage = '/taxon';
                 const queryParams = {id: menus[menu], tag: req.params.tag};
                 app.render(req, res, actualPage, queryParams)
             });
@@ -37,7 +37,7 @@ app.prepare()
             });
 
             server.get(menu, (req, res) => {
-                const actualPage = '/index';
+                const actualPage = '/taxon';
                 const queryParams = {id: menus[menu]};
                 app.render(req, res, actualPage, queryParams)
             });
