@@ -6,7 +6,6 @@ import nookies from "nookies";
 
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
-import Index from './index';
 
 
 export default class extends React.Component {
@@ -70,25 +69,21 @@ export default class extends React.Component {
 
     loadMore = () => {
         const next = this.state.next;
-        if (next === null || next.trim() === '') {
-            this.setState({
-                next: '',
-            });
+        if (next === null || next === undefined) {
             return;
         }
 
-        const context = this;
-        const currentList = this.state.nodeList;
+        const instance = this;
+        let data = this.state.nodeList;
         axios.get(next)
             .then(function (response) {
-                const nodeList = currentList.concat(response.data.results);
-                context.setState({
+                data = data.concat(response.data.results);
+                instance.setState({
                     next: response.data.next,
-                    nodeList: nodeList
+                    nodeList: data
                 });
             })
             .catch(function (error) {
-                // handle error
                 // console.log(error);
             })
             .then(function () {
@@ -106,38 +101,32 @@ export default class extends React.Component {
                          linkClickTime={this.state.linkClickTime}
                          channelId={this.state.id}/>
 
-                {!this.state.id &&
-                <Index/>
-                }
-
                 {this.state.id &&
                 <div className="row col-lg-9">
 
-                    <div className="my-3 p-3 bg-white rounded shadow-sm">
+                    <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-12">
                         <h6 className="border-bottom border-gray pb-2 mb-0">
                             最近更新
                         </h6>
 
                         {this.state.nodeList.map((item, i) => {
                             return (
-                                <p key={item.title + i}
+                                <div key={item.title + i}
                                    className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                                     <Link as={`/${item.channel_name}-${item.id}`}
                                           href={`/show?id=${item.id}`}>
                                         <a className="node-title">
-                                            <strong className="d-block text-gray-dark">&gt; {item.title}</strong>
+                                            <strong className="d-block text-gray-dark">{item.title}</strong>
                                         </a>
                                     </Link>
-                                    {item.intro}
-                                </p>
+                                    <p className="node-intro">{item.intro}</p>
+                                </div>
                             );
                         })}
 
                         <div className="row load-more">
                             <div className="col-12 text-center">
-                                <input type="hidden" name="next" value={this.state.next}/>
-
-                                {this.state.next !== '' &&
+                                {this.state.next &&
                                 <button type="button"
                                         className="btn btn-outline-secondary"
                                         onClick={this.loadMore}>加载更多...
@@ -156,23 +145,13 @@ export default class extends React.Component {
 
                 <style jsx global>{`
                 .load-more {
-                    margin-top: 20px;
+                    margin-top: 1.5rem;
                 }
 
                 .node-title {
                     margin-top: 5px;
                     margin-bottom: 6px;
                     display: block;
-                    color: rgba(37, 34, 40, 0.89);
-                    font-size: 0.9rem;
-                }
-
-                .node-title:hover {
-                    text-decoration: none;
-                }
-
-                .shadow-sm {
-                    width: 100%;
                 }
 
                 `}</style>

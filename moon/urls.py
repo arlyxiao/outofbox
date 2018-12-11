@@ -2,7 +2,7 @@ from django.urls import path, include, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from .actions import auth
-from .actions import home
+from .actions import node
 from .actions import taxon
 from .actions import manage_node
 
@@ -11,8 +11,11 @@ urlpatterns = [
     path('manage/nodes/<int:pk>/', manage_node.NodeDetail.as_view()),
     path('manage/nodes/constants', manage_node.NodeConstantList.as_view(), name='index'),
 
-    # Index
-    path('home/nodes', home.NodeList.as_view()),
+    # Home
+    path('home/nodes', node.Home.as_view()),
+
+    # Search
+    path('search/nodes', node.Search.as_view()),
 
     # Taxon
     path('node/list/', taxon.NodeList.as_view()),

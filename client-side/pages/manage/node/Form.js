@@ -117,7 +117,7 @@ export default class Form extends React.Component {
                 title: this.state.title,
                 cover: this.state.cover,
                 intro: this.state.intro,
-                type: 'text',
+                type: this.state.type,
                 parent_id: this.state.currentChannel,
                 state: this.state.currentState,
                 tags: this.refreshSelectedTags(this.state.selectedTags),

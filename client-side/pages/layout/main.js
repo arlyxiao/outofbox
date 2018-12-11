@@ -20,7 +20,7 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
     <div>
         <Meta title={title} intro={intro}/>
 
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark top-menu">
             <div className="container">
                 <Link as={`/`} href={`/`}>
                     <a className="navbar-brand">FD</a>
@@ -59,6 +59,12 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
         </div>
 
         <Footer/>
+
+        <style jsx global>{`
+        .top-menu a {
+            font-size: 1.1rem;
+        }
+        `}</style>
 
     </div>
 )

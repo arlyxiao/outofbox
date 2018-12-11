@@ -21,7 +21,8 @@
     "react-draft-wysiwyg": "^1.12.13"
   },
   "devDependencies": {
-    "node-sass": "^4.10.0",
-    "sass-loader": "^7.1.0"
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "styled-jsx-plugin-sass": "^1.0.0"
   }
 }

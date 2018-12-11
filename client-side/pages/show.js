@@ -66,11 +66,12 @@ export default class extends React.Component {
 
                     <div className="my-3 p-3 bg-white rounded shadow-sm">
 
-                        <p><b>{node.title}</b></p>
+                        <p className="node-title"><b>{node.title}</b></p>
                         <p>
                             <small>{node.created_at}</small>
                         </p>
-                        <div dangerouslySetInnerHTML={{ __html: node.revision ? node.revision.body : '' }} />
+                        <div className="node-content"
+                             dangerouslySetInnerHTML={{ __html: node.revision ? node.revision.body : '' }} />
 
                     </div>
 
@@ -85,6 +86,14 @@ export default class extends React.Component {
 
                 .shadow-sm {
                     width: 100%;
+                }
+
+                .node-title {
+                    font-size: 1.2rem;
+                }
+
+                .node-content {
+                    font-size: 1.1rem;
                 }
                 `}</style>
 

@@ -9,7 +9,7 @@ from moon.schemas.tag import Tag
 
 
 class Pagination(PageNumberPagination):
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'
 
 

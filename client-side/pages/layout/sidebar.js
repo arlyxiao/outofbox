@@ -44,7 +44,7 @@ export default withRouter(class Sidebar extends React.Component {
 
                         {this.state.tags.map((item, i) => {
                             let tag = item[0].toString();
-                            let style = currentTag === tag ? 'btn btn-secondary btn-sm' : '';
+                            let style = currentTag === tag ? 'btn btn-secondary' : '';
                             return (
                                 <Link key={item[0]}
                                       as={`/${item[2]}/tag/${tag}`}
@@ -54,34 +54,6 @@ export default withRouter(class Sidebar extends React.Component {
                             );
                         })}
                     </div>
-
-                    <style jsx global>{`
-                    #sidebar .dropdown-header {
-                      font-weight: 600;
-                      font-size: 1rem;
-                      margin-top: 13px;
-                    }
-
-                    #sidebar .dropdown-menu {
-                      position: static;
-                      display: block;
-                      border: 0;
-                    }
-
-                    #sidebar .dropdown-menu a {
-                      font-size: 0.9rem;
-                      font-weight: 500;
-                    }
-
-                    #sidebar a.dropdown-item:active{
-                        background-color: #fff;
-                    }
-
-                    .main-body {
-                      margin-top: 30px;
-                      margin-bottom: 50px;
-                    }
-                    `}</style>
                 </div>
             );
         }
