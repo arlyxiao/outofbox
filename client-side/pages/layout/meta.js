@@ -36,7 +36,6 @@ export default class Meta extends React.Component {
                 }
 
                 .main-body {
-                  margin-top: 2rem;
                   margin-bottom: 3rem;
                 }
 

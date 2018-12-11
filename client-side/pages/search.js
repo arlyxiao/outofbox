@@ -107,16 +107,7 @@ export default class extends React.Component {
 
                     <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-12">
 
-                        {/*<form className="form-inline mt-2 mt-md-0">*/}
-                            {/*<input className="form-control mr-sm-2"*/}
-                                   {/*type="text"*/}
-                                   {/*placeholder="文章, 视频"/>*/}
-                            {/*<button className="btn btn-secondary btn-sm my-2 my-sm-0"*/}
-                                    {/*type="submit">搜索*/}
-                            {/*</button>*/}
-                        {/*</form>*/}
-
-                        {type === 'text' &&
+                        {type !== 'shared-video' &&
                             nodes.map((item, i) => {
                                 return (
                                     <div key={item.created_at}
@@ -182,14 +173,6 @@ export default class extends React.Component {
 
 
                 <style jsx>{`
-                    form {
-                        margin-bottom: 2rem;
-
-                        input {
-                            width: 20rem;
-                        }
-                    }
-
                     .node-title {
                         margin-top: 5px;
                         margin-bottom: 6px;

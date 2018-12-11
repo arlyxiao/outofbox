@@ -41,8 +41,7 @@ class Search(generics.ListAPIView):
 
         type = self.request.query_params.get('type', '')
 
-        if type:
+        if type in ['text', 'shared-video']:
             return nodes.filter(type=type)
 
-        return None
-
+        return nodes.filter(title__icontains=type)

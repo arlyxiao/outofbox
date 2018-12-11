@@ -52,6 +52,20 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
             </div>
         </nav>
 
+        <div className="jumbotron">
+            <form className="form-inline container justify-content-end"
+                  method="get"
+                  action="/search">
+                <input className="form-control mr-sm-2"
+                       name="type"
+                       placeholder="搜索您感兴趣的文章或视频"/>
+                <button className="btn btn-secondary btn-sm my-2 my-sm-0"
+                        type="submit">搜索
+                </button>
+            </form>
+        </div>
+
+
         <div className="container main-body">
 
             {children}
@@ -63,6 +77,19 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
         <style jsx global>{`
         .top-menu a {
             font-size: 1.1rem;
+        }
+
+        .jumbotron {
+            padding: 1rem;
+            margin-bottom: 0;
+            overflow: hidden;
+
+            form {
+                input.form-control {
+                    width: 18rem;
+                    font-size: 0.9rem;
+                }
+            }
         }
         `}</style>
 

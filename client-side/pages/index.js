@@ -126,9 +126,6 @@ export default class extends React.Component {
                         font-size: 1rem;
                         font-weight: bold;
                     }
-                    .main {
-                        margin-top: 4rem;
-                    }
 
                     .article-list {
                         img {
