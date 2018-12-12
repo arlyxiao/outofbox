@@ -13,7 +13,7 @@ export default ({children}) => (
 
                 <Sidebar />
 
-                <div className="col-lg-9">
+                <div className="col-lg-10">
                     { children }
                 </div>
 

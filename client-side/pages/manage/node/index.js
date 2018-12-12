@@ -7,6 +7,7 @@ import authenticate from '../../../service/AdminAuth';
 import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
 import WrapAxios from '../../../service/axios';
+
 const wrapAxios = WrapAxios();
 
 
@@ -22,8 +23,14 @@ export default class extends React.Component {
         const user = await authenticate(context);
 
         const constants = await axios.get(`/moon/manage/nodes/constants`);
-        const page = context.query.page ? `page=${context.query.page}` : '';
-        const nodes = await axios.get(`/moon/manage/nodes?${page}`);
+
+        const page = context.query.page ? context.query.page : 1;
+        const type = context.query.type ? encodeURIComponent(context.query.type) : '';
+        const state = context.query.state ? context.query.state : '';
+        const title = context.query.title ? encodeURIComponent(context.query.title) : '';
+
+        const query = `page=${page}&type=${type}&state=${state}&title=${title}`;
+        const nodes = await axios.get(`/moon/manage/nodes?${query}`);
 
         // pagination params
         const maxPageNumber = parseInt(constants.data.max_page_size);
@@ -35,9 +42,14 @@ export default class extends React.Component {
 
         return {
             user: user.data,
-            denied: constants.data.denied,
-            nodeList: nodes.data,
+            nodes: nodes.data,
             channels: constants.data.channels,
+            types: constants.data.types,
+            nodeStates: constants.data.node_states,
+
+            type: type,
+            state: state,
+            title: title,
 
             dataTotal: dataTotal,
             maxPageNumber: maxPageNumber,
@@ -51,14 +63,25 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log('====');
-        console.log(props.user);
-        console.log('====');
+        // console.log('====');
+        // console.log(props.user);
+        // console.log('====');
 
         this.state = {
-            channels: props.channels
+            type: props.type,
+            state: props.state,
+            title: decodeURIComponent(props.title),
+            channels: props.channels,
+            types: props.types,
+            nodeStates: props.nodeStates
         };
     }
+
+    handleChange = (event) => {
+        let data = {};
+        data[event.target.name] = event.target.value;
+        this.setState(data);
+    };
 
     removeNode = (id) => {
         wrapAxios({
@@ -74,14 +97,61 @@ export default class extends React.Component {
                 console.log(error);
             });
         ;
-    }
+    };
 
 
     render() {
         const channels = this.state.channels;
+        const types = this.state.types;
 
         return (
             <Layout>
+                <form className="form-inline container justify-content-end"
+                      method="get"
+                      action="/manage/node">
+                    <div className="card col-lg-12">
+                        <div className="card-body row">
+                            <div className="col-sm-3">
+                                <select className="form-control"
+                                        name="type"
+                                        value={this.state.type}
+                                        onChange={this.handleChange}>
+                                    <option value="">Please select type</option>
+                                    {types.map(function (name, index) {
+                                        return <option key={name} value={name}>{name}</option>;
+                                    })}
+                                </select>
+                            </div>
+
+                            <div className="col-sm-3">
+                                <select className="form-control"
+                                        name="state"
+                                        value={this.state.state}
+                                        onChange={this.handleChange}>
+                                    <option value="">Please select state</option>
+                                    {this.state.nodeStates.map(function (name, index) {
+                                        return <option key={name} value={name}>{name}</option>;
+                                    })}
+                                </select>
+                            </div>
+
+                            <div className="col-sm-4">
+                                <input type="text"
+                                       name="title"
+                                       placeholder=" Title"
+                                       onChange={this.handleChange}
+                                       value={this.state.title} />
+                            </div>
+
+                            <div className="col-sm-2">
+                                <button className="btn btn-secondary btn-sm my-2 my-sm-0"
+                                        type="submit">GO
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
                 <table className="table table-striped">
                     <thead>
                     <tr>
@@ -97,7 +167,7 @@ export default class extends React.Component {
                     </thead>
 
                     <tbody>
-                    {this.props.nodeList.results.map((item, i) => {
+                    {this.props.nodes.results.map((item, i) => {
                         let channel = Object.keys(channels).find(key => channels[key] === item.parent_id);
                         return (
                             <tr key={i}>
@@ -127,7 +197,24 @@ export default class extends React.Component {
                             currentPage={this.props.currentPage}
                             nextPage={this.props.nextPage}
                             prevPage={this.props.prevPage}
+
+                            type={this.state.type}
+                            state={this.state.state}
+                            title={this.state.title}
+
                             pathName='/manage/node'/>
+
+                <style jsx>{`
+                table {
+                    margin-top: 2rem;
+                }
+
+                form {
+                    input {
+                        width: 16rem;
+                    }
+                }
+                `}</style>
             </Layout>
         );
     }

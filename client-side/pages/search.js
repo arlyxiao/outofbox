@@ -10,7 +10,7 @@ const wrapAxios = WrapAxios();
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const type = context.query.type ? context.query.type : '';
+        const type = context.query.type ? encodeURIComponent(context.query.type) : '';
         const nodes = await wrapAxios.get(`/moon/search/nodes?type=${type}`);
 
         return {
@@ -103,7 +103,7 @@ export default class extends React.Component {
                     </div>
                 </div>
 
-                <div className="row col-lg-9">
+                <div className="row col-lg-9 search-list">
 
                     <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-12">
 
@@ -142,7 +142,7 @@ export default class extends React.Component {
                                                               href={`/show?id=${item.id}`}>
                                                             <a className="node-title">
                                                                 <strong
-                                                                    className="d-block text-gray-dark">{item.title}</strong>
+                                                                    className="text-gray-dark">{item.title}</strong>
                                                             </a>
                                                         </Link>
                                                     </p>
@@ -173,6 +173,10 @@ export default class extends React.Component {
 
 
                 <style jsx>{`
+                    .search-list {
+                        margin-top: 1rem;
+                    }
+
                     .node-title {
                         margin-top: 5px;
                         margin-bottom: 6px;

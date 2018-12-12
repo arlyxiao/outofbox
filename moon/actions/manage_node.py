@@ -14,7 +14,7 @@ from moon.schemas.tag import Tag
 
 
 class Pagination(PageNumberPagination):
-    page_size = 20
+    page_size = 1
     page_size_query_param = 'page_size'
     max_page_size = 3
 
@@ -43,10 +43,27 @@ class NodeList(generics.ListCreateAPIView):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
 
-    queryset = Node.objects.all().exclude(type='channel').order_by('-created_at', '-updated_at')
     serializer_class = NodeSerializer
     pagination_class = Pagination
 
+    def get_queryset(self):
+        nodes = Node.objects.exclude(type=Node.CHANNEL) \
+            .order_by('-created_at', '-updated_at')
+
+        type = self.request.query_params.get('type', '')
+        state = self.request.query_params.get('state', '')
+        title = self.request.query_params.get('title', '')
+
+        if type:
+            nodes = nodes.filter(type=type)
+
+        if state:
+            nodes = nodes.filter(state=state)
+
+        if title:
+            nodes = nodes.filter(title__icontains=title)
+
+        return nodes
 
 
 class NodeDetail(generics.RetrieveUpdateDestroyAPIView):

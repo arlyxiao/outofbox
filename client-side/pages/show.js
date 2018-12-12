@@ -91,10 +91,6 @@ export default class extends React.Component {
                 .node-title {
                     font-size: 1.2rem;
                 }
-
-                .node-content {
-                    font-size: 1.1rem;
-                }
                 `}</style>
 
 

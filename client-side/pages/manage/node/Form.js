@@ -17,42 +17,27 @@ export default class Form extends React.Component {
     constructor(props) {
         super(props);
 
-        if (props.node == null) {
-            this.state = {
-                type: 'text',
-                title: '',
-                cover: '',
-                intro: '',
-                body: '',
-                currentState: 'draft',
-                currentChannel: props.constants.channels['software'],
-                nodeStates: props.constants.node_states,
-                types: props.constants.types,
-                channels: props.constants.channels,
-                tags: props.constants.tags,
-                selectedTags: [],
-                editorState: null,
-                action: props.action
-            };
-        } else {
-            this.state = {
-                id: props.node.id,
-                type: props.node.type,
-                title: props.node.title,
-                cover: props.node.cover,
-                intro: props.node.intro,
-                body: props.node.revision ? props.node.revision.body : '',
-                currentState: props.node.state,
-                currentChannel: props.node.parent_id,
-                nodeStates: props.constants.node_states,
-                types: props.constants.types,
-                channels: props.constants.channels,
-                tags: props.constants.tags,
-                selectedTags: props.node.tags,
-                editorState: null,
-                action: props.action
-            };
-        }
+        const constants = props.constants;
+        const node = props.node ? props.node : null;
+        const revision = node ? node.revision : null;
+
+        this.state = {
+            id: node ? node.id : '',
+            type: node ? node.type : 'text',
+            title: node ? node.title : '',
+            cover: node ? node.cover : '',
+            intro: node ? node.intro : '',
+            body: revision ? revision.body : '',
+            currentState: node ? node.state : 'draft',
+            currentChannel: node ? node.parent_id : constants.channels['software'],
+            nodeStates: constants.node_states,
+            types: constants.types,
+            channels: constants.channels,
+            tags: constants.tags,
+            selectedTags: node ? node.tags : [],
+            editorState: null,
+            action: props.action
+        };
     }
 
     componentDidMount() {
@@ -284,11 +269,15 @@ export default class Form extends React.Component {
                 </div>
 
                 {this.state.action === 'update' &&
-                <button type="submit" className="btn btn-primary" onClick={this.updateNode}>Submit</button>
+                <button type="submit"
+                        className="btn btn-primary"
+                        onClick={this.updateNode}>Submit</button>
                 }
 
                 {this.state.action === 'create' &&
-                <button type="submit" className="btn btn-primary" onClick={this.createNode}>Submit</button>
+                <button type="submit"
+                        className="btn btn-primary"
+                        onClick={this.createNode}>Submit</button>
                 }
 
             </div>

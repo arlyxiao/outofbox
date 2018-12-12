@@ -53,7 +53,7 @@ export default class extends React.Component {
                                             <Link as={`/${item.channel_name}-${item.id}`}
                                                   href={`/show?id=${item.id}`}>
                                                 <a className="node-title">
-                                                    <strong className="d-block text-gray-dark">{item.title}</strong>
+                                                    <strong className="text-gray-dark">{item.title}</strong>
                                                 </a>
                                             </Link>
                                             <p className="node-intro">{item.intro}</p>

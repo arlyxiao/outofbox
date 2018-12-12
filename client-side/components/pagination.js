@@ -4,7 +4,8 @@ import Router from 'next/router'
 
 
 const PaginationLink = (props) => (
-    <Link as={`${props.pathName}?${props.page}`} href={`${props.pathName}?${props.page}`}>
+    <Link as={`${props.pathName}?${props.page}${props.type}${props.state}${props.title}`}
+          href={`${props.pathName}?${props.page}${props.type}${props.state}${props.title}`}>
         <a className="page-link" onClick={props.updatePaginationStates}>{props.name}</a>
     </Link>
 )
@@ -27,7 +28,11 @@ export default class Pagination extends React.Component {
             pageNumber: pageNumberData.pageNumber,
             numberArray: pageNumberData.numberArray,
             currentPage: currentPage,
-            pathName: props.pathName
+            pathName: props.pathName,
+
+            type: props.type ? props.type : '',
+            state: props.state ? props.state : '',
+            title: props.title ? props.title : ''
         };
     }
 
@@ -48,7 +53,11 @@ export default class Pagination extends React.Component {
                 prevPage: this.props.prevPage,
                 dataTotal: this.props.dataTotal,
                 pageNumber: pageNumberData.pageNumber,
-                numberArray: pageNumberData.numberArray
+                numberArray: pageNumberData.numberArray,
+
+                type: this.props.type,
+                state: this.props.state,
+                title: this.props.title
             });
 
         }
@@ -73,6 +82,10 @@ export default class Pagination extends React.Component {
     render() {
         const currentPage = this.state.currentPage;
         const pathName = this.state.pathName;
+        const type = this.state.type;
+        const state = this.state.state;
+        const title = this.state.title;
+
         return (
             <div>
                 <nav aria-label="Page navigation">
@@ -82,13 +95,23 @@ export default class Pagination extends React.Component {
                         <li className="page-item">
                             <PaginationLink page={this.state.prevPage}
                                             pathName={pathName}
+
+                                            type=""
+                                            state=""
+                                            title=""
+
                                             name="prev"/>
                         </li>
                         }
 
                         {this.state.start > 1 &&
                         <li className="page-item">
-                            <PaginationLink page={'page=1'}
+                            <PaginationLink page="page=1"
+
+                                            type={`&type=${type}`}
+                                            state={`&state=${state}`}
+                                            title={`&title=${title}`}
+
                                             pathName={pathName}
                                             name="1..."/>
                         </li>
@@ -98,7 +121,12 @@ export default class Pagination extends React.Component {
                         this.state.numberArray.map(function (number, index) {
                             let style = currentPage === number ? 'page-item active' : 'page_item';
                             return <li className={style} key={number}>
-                                <PaginationLink page={'page=' + number}
+                                <PaginationLink page={`page=${number}`}
+
+                                                type={`&type=${type}`}
+                                                state={`&state=${state}`}
+                                                title={`&title=${title}`}
+
                                                 pathName={pathName}
                                                 name={number}/>
                             </li>;
@@ -110,6 +138,11 @@ export default class Pagination extends React.Component {
                         <li className="page-item">
                             <PaginationLink page={this.state.nextPage}
                                             pathName={pathName}
+
+                                            type=""
+                                            state=""
+                                            title=""
+
                                             name="next"/>
                         </li>
                         }

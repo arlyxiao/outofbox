@@ -22,10 +22,12 @@ class Home(generics.ListAPIView):
             .order_by('-created_at', '-updated_at')
 
         if type == 'text':
-            return nodes.filter(type=type).exclude(cover__isnull=True)[:6]
+            return nodes.filter(type=type).exclude(cover__isnull=True)\
+                        .exclude(cover='')[:6]
 
         if type == 'shared-video':
-            return nodes.filter(type=type).exclude(cover__isnull=True)[:18]
+            return nodes.filter(type=type).exclude(cover__isnull=True)\
+                        .exclude(cover='')[:18]
 
         return None
 

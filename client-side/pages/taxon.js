@@ -151,7 +151,6 @@ export default class extends React.Component {
                 .node-title {
                     margin-top: 5px;
                     margin-bottom: 6px;
-                    display: block;
                 }
 
                 `}</style>

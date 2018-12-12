@@ -101,6 +101,7 @@ export default class Meta extends React.Component {
                     font-size: 1.1rem;
                     text-decoration: none;
                     color: rgba(37, 34, 40, 0.89);
+                    display: inline-block;
 
                     &:hover {
                         text-decoration: none;
@@ -109,6 +110,12 @@ export default class Meta extends React.Component {
 
                 .node-intro {
                     font-size: 1rem;
+                    color: #753128;
+                }
+
+                .node-content {
+                    color: #653630;
+                    font-size: 1.1rem;
                 }
                 `}</style>
 
