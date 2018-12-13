@@ -9,7 +9,8 @@ import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import WrapAxios from '../../../service/axios';
-const wrapAxios = WrapAxios();
+const site = require('../../../site')();
+const channels = site['menus'];
 
 
 export default class Form extends React.Component {
@@ -29,10 +30,9 @@ export default class Form extends React.Component {
             intro: node ? node.intro : '',
             body: revision ? revision.body : '',
             currentState: node ? node.state : 'draft',
-            currentChannel: node ? node.parent_id : constants.channels['software'],
+            currentChannel: node ? node.parent_id : channels['software']['id'],
             nodeStates: constants.node_states,
             types: constants.types,
-            channels: constants.channels,
             tags: constants.tags,
             selectedTags: node ? node.tags : [],
             editorState: null,
@@ -94,7 +94,7 @@ export default class Form extends React.Component {
             return;
         }
 
-        wrapAxios({
+        WrapAxios({
             method: 'POST',
             url: '/moon/manage/nodes/',
             data: {
@@ -139,7 +139,7 @@ export default class Form extends React.Component {
             return;
         }
 
-        wrapAxios({
+        WrapAxios({
             method: 'PUT',
             url: `/moon/manage/nodes/${this.state.id}/`,
             data: {
@@ -170,7 +170,6 @@ export default class Form extends React.Component {
     };
 
     render() {
-        const channels = this.state.channels;
         const tags = this.state.tags;
         const {editorState} = this.state;
 
@@ -197,7 +196,7 @@ export default class Form extends React.Component {
                             value={this.state.currentChannel}
                             onChange={this.handleChange}>
                         {Object.keys(channels).map(function (name, index) {
-                            let id = channels[name];
+                            let id = channels[name]['id'];
                             return <option key={name} value={id}>{name}</option>;
                         })}
                     </select>

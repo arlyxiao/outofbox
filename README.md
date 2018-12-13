@@ -3,9 +3,11 @@ It's far more than CMS
 
 #### Start docker
 1. cd outofbox
-2. cp docker-compose.yml.example docker-compose.yml
-3. Change "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0" into "tail -F /bin/sh"
-4. docker-compose up -d
+1. cp config/mysql.cnf.example config/mysql.cnf
+1. cp docker-compose.yml.example docker-compose.yml
+1. cp client-side/site.js.example client-side/site.js
+1. Change "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0" into "tail -F /bin/sh"
+1. docker-compose up -d
 
 ### Install node_modules
 1. docker exec outofbox-docker_nodejs_1 /bin/bash

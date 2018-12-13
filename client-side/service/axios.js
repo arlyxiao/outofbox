@@ -1,14 +1,18 @@
 import axios from "axios/index";
 import Cookie from 'js-cookie';
 
+const site = require('../site')();
+
 
 // https://github.com/axios/axios/issues/649
-export default () => {
+const fetch = () => {
     const token = Cookie.get('your-id');
-    axios.defaults.baseURL = 'http://192.168.56.101:8000';
+    axios.defaults.baseURL = site['data_server'];
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Token ${token}`;
     }
 
     return axios;
-}
+};
+
+export default fetch();

@@ -5,7 +5,6 @@ import Cookie from 'js-cookie';
 import Router from "next/router";
 
 import WrapAxios from '../../service/axios';
-const wrapAxios = WrapAxios();
 
 
 export default class LoginMenu extends React.Component {
@@ -18,7 +17,7 @@ export default class LoginMenu extends React.Component {
         };
 
         const instance = this;
-        wrapAxios.get(`/moon/api/user`)
+        WrapAxios.get(`/moon/api/user`)
             .then(function (response) {
                 instance.setState({
                     user: response.data
@@ -35,7 +34,7 @@ export default class LoginMenu extends React.Component {
         event.preventDefault();
 
         const instance = this;
-        wrapAxios({
+        WrapAxios({
             method: 'POST',
             url: '/moon/api/logout',
             headers: {

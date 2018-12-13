@@ -1,6 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
 
+const site = require('../../site')();
+
 
 export default class Meta extends React.Component {
 
@@ -15,12 +17,13 @@ export default class Meta extends React.Component {
                     <meta charSet="utf-8"/>
                     <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
                     <meta name="referrer" content="no-referrer"/>
-                    <title>{this.props.title ? this.props.title : ''}</title>
-                    <meta name="description" content={this.props.intro ? this.props.intro : ''}/>
+                    <title>{this.props.title ? this.props.title : site['title']}</title>
+                    <meta name="description"
+                          content={this.props.intro ? this.props.intro : site['intro']}/>
                     <meta name="viewport"
                           content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-                    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/>
+                    <link rel="shortcut icon" href={site['icon']} type="image/x-icon"/>
 
                     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
                           rel="stylesheet"/>

@@ -115,9 +115,10 @@ dmypy.json
 
 
 # current project
+client-side/site.js
 client-side/node_modules/
 client-side/.next
-db-config/my.cnf
+config/mysql.cnf
 docker-compose.yml
 outofbox-docker/db-data
 .idea

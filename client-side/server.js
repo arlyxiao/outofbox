@@ -1,13 +1,21 @@
 const express = require('express');
 const next = require('next');
 
+const site = require('./site');
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({dev});
 const handle = app.getRequestHandler();
 
+
 app.prepare()
     .then(() => {
         const server = express();
+        const menus = site()['menus'];
+
+        console.log('---');
+        console.log(menus);
+        console.log('---');
 
         server.get('/manage/node/edit/:id', (req, res) => {
             const actualPage = '/manage/node/edit';
@@ -15,30 +23,26 @@ app.prepare()
             app.render(req, res, actualPage, queryParams)
         });
 
-        const menus = {
-            '/science': 1,
-            '/software': 2,
-            '/finance': 3,
-            '/wisdom': 4,
-            '/education': 5
-        };
-
         Object.keys(menus).forEach(function (menu, index) {
-            server.get(menu + '/tag/:tag', (req, res) => {
+            server.get('/' + menu + '/tag/:tag', (req, res) => {
                 const actualPage = '/taxon';
-                const queryParams = {id: menus[menu], tag: req.params.tag};
+                const queryParams = {id: menus[menu]['id'], tag: req.params.tag};
                 app.render(req, res, actualPage, queryParams)
             });
 
-            server.get(menu + '-:id', (req, res) => {
+            server.get('/' + menu + '-:id', (req, res) => {
                 const actualPage = '/show';
                 const queryParams = {id: req.params.id};
                 app.render(req, res, actualPage, queryParams)
             });
 
-            server.get(menu, (req, res) => {
+            server.get('/' + menu, (req, res) => {
+                console.log("====");
+                console.log(menus[menu]['id']);
+                console.log("====");
+
                 const actualPage = '/taxon';
-                const queryParams = {id: menus[menu]};
+                const queryParams = {id: menus[menu]['id']};
                 app.render(req, res, actualPage, queryParams)
             });
         });

@@ -4,14 +4,13 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-const wrapAxios = WrapAxios();
 
 
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const articles = await wrapAxios.get(`/moon/home/nodes?type=text`);
-        const sharedVideos = await wrapAxios.get(`/moon/home/nodes?type=shared-video`);
+        const articles = await WrapAxios.get(`/moon/home/nodes?type=text`);
+        const sharedVideos = await WrapAxios.get(`/moon/home/nodes?type=shared-video`);
 
         return {
             articles: articles.data,

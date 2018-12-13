@@ -4,14 +4,13 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-const wrapAxios = WrapAxios();
 
 
 export default class extends React.Component {
 
     static async getInitialProps(context) {
         const type = context.query.type ? encodeURIComponent(context.query.type) : '';
-        const nodes = await wrapAxios.get(`/moon/search/nodes?type=${type}`);
+        const nodes = await WrapAxios.get(`/moon/search/nodes?type=${type}`);
 
         return {
             linkClickTime: +new Date(),
@@ -52,7 +51,7 @@ export default class extends React.Component {
         const instance = this;
         let data = this.state.nodes;
 
-        wrapAxios.get(next)
+        WrapAxios.get(next)
             .then(function (response) {
                 data = data.concat(response.data.results);
                 instance.setState({

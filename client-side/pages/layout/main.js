@@ -4,16 +4,8 @@ import Meta from "./meta";
 import Footer from "./footer";
 import LoginMenu from "./LoginMenu";
 
-
-const menus = () => {
-    return {
-        'science': {'id': 1, 'label': '科技'},
-        'software': {'id': 2, 'label': 'IT/软件'},
-        'finance': {'id': 3, 'label': '财经'},
-        'wisdom': {'id': 4, 'label': '哲理'},
-        'education': {'id': 5, 'label': '教育'}
-    };
-};
+const site = require('../../site')();
+const menus = site['menus'];
 
 
 export default ({children, title = '', intro = '', channelId = ''}) => (
@@ -23,7 +15,9 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark top-menu">
             <div className="container">
                 <Link as={`/`} href={`/`}>
-                    <a className="navbar-brand">FD</a>
+                    <a className="navbar-brand">
+                        <img src={site['logo']} />
+                    </a>
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         aria-label="Toggle navigation">
@@ -31,10 +25,10 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
                 </button>
 
                 <div className="collapse navbar-collapse">
-                    <ul className="navbar-nav mr-auto">
-                        {Object.keys(menus()).map((name, i) => {
-                            let id = menus()[name]['id'].toString();
-                            let label = menus()[name]['label'];
+                    <ul className="navbar-nav mr-auto menu-taxon">
+                        {Object.keys(menus).map((name, i) => {
+                            let id = menus[name]['id'].toString();
+                            let label = menus[name]['label'];
                             let style = id === channelId ? 'nav-link btn btn-secondary btn-sm active' : 'nav-link';
                             return (
                                 <li className="nav-item" key={name}>
@@ -77,6 +71,16 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
         <style jsx global>{`
         .top-menu a {
             font-size: 1.1rem;
+        }
+
+        .navbar-brand {
+            img {
+                width: 150px;
+            }
+        }
+
+        .menu-taxon {
+            margin-left: 1rem;
         }
 
         .jumbotron {

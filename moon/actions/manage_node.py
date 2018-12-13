@@ -28,7 +28,6 @@ class NodeConstantList(APIView):
         actual_tags = list(map(lambda item: item.name, actual_set))
 
         data = {
-            'channels': Node.CHANNELS,
             'node_states': [x[0] for x in Node.STATES],
             'types': [x[0] for x in Node.TYPES],
             'tags': actual_tags,

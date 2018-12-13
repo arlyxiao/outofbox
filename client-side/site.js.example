@@ -1,0 +1,25 @@
+"use strict";
+
+const site = () => {
+    return {
+        'domain': 'test.com',
+        'logo': '',
+        'icon': '',
+        'title': 'test world',
+        'intro': 'test intro',
+        'announce': '© 2019 test.com, all rights reserved',
+        'data_server': 'http://192.168.56.101:8000',
+
+        'menus': {
+            'science': {'id': 1, 'label': '科技'},
+            'software': {'id': 2, 'label': 'IT/软件'},
+            'finance': {'id': 3, 'label': '财经'},
+            'wisdom': {'id': 4, 'label': '哲理'},
+            'education': {'id': 5, 'label': '教育'}
+        }
+    };
+};
+
+module.exports = function () {
+  return site();
+};

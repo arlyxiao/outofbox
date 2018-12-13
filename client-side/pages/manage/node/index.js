@@ -8,7 +8,7 @@ import Layout from '../layout/main';
 import Pagination from "../../../components/pagination";
 import WrapAxios from '../../../service/axios';
 
-const wrapAxios = WrapAxios();
+const site = require('../../../site')();
 
 
 const EditLink = (props) => (
@@ -43,7 +43,6 @@ export default class extends React.Component {
         return {
             user: user.data,
             nodes: nodes.data,
-            channels: constants.data.channels,
             types: constants.data.types,
             nodeStates: constants.data.node_states,
 
@@ -71,7 +70,6 @@ export default class extends React.Component {
             type: props.type,
             state: props.state,
             title: decodeURIComponent(props.title),
-            channels: props.channels,
             types: props.types,
             nodeStates: props.nodeStates
         };
@@ -84,7 +82,7 @@ export default class extends React.Component {
     };
 
     removeNode = (id) => {
-        wrapAxios({
+        WrapAxios({
             method: 'DELETE',
             url: '/moon/manage/nodes/' + id + '/'
         })
@@ -101,7 +99,7 @@ export default class extends React.Component {
 
 
     render() {
-        const channels = this.state.channels;
+        const channels = site['menus'];
         const types = this.state.types;
 
         return (
@@ -168,7 +166,7 @@ export default class extends React.Component {
 
                     <tbody>
                     {this.props.nodes.results.map((item, i) => {
-                        let channel = Object.keys(channels).find(key => channels[key] === item.parent_id);
+                        let channel = Object.keys(channels).find(key => channels[key]['id'] === item.parent_id);
                         return (
                             <tr key={i}>
                                 <td>{item.id}</td>

@@ -4,7 +4,6 @@ import Cookie from 'js-cookie';
 import Layout from './layout/main';
 import Router from "next/router";
 import WrapAxios from '../service/axios';
-const wrapAxios = WrapAxios();
 
 
 export default class extends React.Component {
@@ -32,7 +31,7 @@ export default class extends React.Component {
         event.preventDefault();
 
         const instance = this;
-        wrapAxios({
+        WrapAxios({
             method: 'POST',
             url: '/moon/api/login',
             data: {
