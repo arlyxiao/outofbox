@@ -3,12 +3,21 @@ import Router from "next/router";
 
 import {Typeahead} from 'react-bootstrap-typeahead';
 
+// Begin draft initialization
 import {EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import {Editor} from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+import Editor, {createEditorStateWithText} from 'draft-js-plugins-editor';
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+const {InlineToolbar} = inlineToolbarPlugin;
+const plugins = [inlineToolbarPlugin];
+// End draft
 
 import WrapAxios from '../../../service/axios';
+
 const site = require('../../../site')();
 const channels = site['menus'];
 
@@ -35,27 +44,27 @@ export default class Form extends React.Component {
             types: constants.types,
             tags: constants.tags,
             selectedTags: node ? node.tags : [],
-            editorState: null,
+            editorState: createEditorStateWithText(''),
             action: props.action
         };
     }
 
     componentDidMount() {
-        let body = null;
         if (this.state.body.trim() === '') {
-            body = EditorState.createEmpty();
+            this.setState({
+                editorState: createEditorStateWithText('Your words are valueble...'),
+            });
         } else {
             const blocksFromHTML = convertFromHTML(this.state.body);
-            const state = ContentState.createFromBlockArray(
-                blocksFromHTML.contentBlocks,
-                blocksFromHTML.entityMap
+            const content = ContentState.createFromBlockArray(
+              blocksFromHTML.contentBlocks,
+              blocksFromHTML.entityMap
             );
-            body = EditorState.createWithContent(state);
-        }
 
-        this.setState({
-            editorState: body,
-        });
+            this.setState({
+                editorState: EditorState.createWithContent(content),
+            });
+        }
     }
 
     handleChange = (event) => {
@@ -68,6 +77,10 @@ export default class Form extends React.Component {
         this.setState({
             editorState,
         });
+    };
+
+    focus = () => {
+        this.editor.focus();
     };
 
     refreshSelectedTags = tags => {
@@ -87,6 +100,14 @@ export default class Form extends React.Component {
 
 
     createNode = () => {
+        // const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+        // console.log('===');
+        // console.log(rawContentState);
+        // console.log('===');
+        //
+        // console.log(draftToHtml(rawContentState));
+        // return;
+
         const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
         const body = draftToHtml(rawContentState);
         if (body === '') {
@@ -230,14 +251,18 @@ export default class Form extends React.Component {
 
                 <div className="form-group">
                     <label htmlFor="form-body">Body</label>
-                    {editorState &&
-                    <Editor
-                        editorState={editorState}
-                        wrapperClassName="demo-wrapper"
-                        editorClassName="demo-editor"
-                        onEditorStateChange={this.onEditorStateChange}
-                    />
-                    }
+                    <div className="editor-style" onClick={this.focus}>
+                        <Editor
+                            editorState={editorState}
+                            onChange={this.onEditorStateChange}
+                            plugins={plugins}
+                            ref={(element) => {
+                                this.editor = element;
+                            }}
+                        />
+                        <InlineToolbar/>
+                    </div>
+
                 </div>
 
                 <div className="form-group">
@@ -278,6 +303,20 @@ export default class Form extends React.Component {
                         className="btn btn-primary"
                         onClick={this.createNode}>Submit</button>
                 }
+
+                <style jsx>{`
+                .editor-style {
+                    box-sizing: border-box;
+                    border: 1px solid #ddd;
+                    cursor: text;
+                    padding: 0.8rem;
+                    border-radius: 2px;
+                    margin-bottom: 2rem;
+                    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+                    background: #fefefe;
+                    min-height: 10rem;
+                }
+                `}</style>
 
             </div>
         );
