@@ -36,6 +36,7 @@ class Node(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     title = models.CharField(max_length=255)
     intro = models.TextField()
+    video = models.TextField()
     cover = models.CharField(max_length=255, blank=True, null=True)
     tags = models.ManyToManyField('Tag', through='NodeTag')
     state = models.CharField(max_length=20, choices=STATES, default=DRAFT)

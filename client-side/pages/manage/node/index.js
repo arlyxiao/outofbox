@@ -11,12 +11,6 @@ import WrapAxios from '../../../service/axios';
 const site = require('../../../site')();
 
 
-const EditLink = (props) => (
-    <Link as={`/manage/node/edit/${props.id}`} href={`/manage/node/edit?id=${props.id}`}>
-        <a className="btn btn-success btn-sm">Edit</a>
-    </Link>
-);
-
 export default class extends React.Component {
 
     static async getInitialProps(context) {
@@ -176,7 +170,8 @@ export default class extends React.Component {
                                 <td>{item.state}</td>
                                 <td>{item.updated_at}</td>
                                 <td>
-                                    <EditLink id={item.id}/>
+                                    <a className="btn btn-success btn-sm"
+                                       href={`/manage/node/edit/${item.id}`}>Edit</a>
                                 </td>
                                 <td onClick={() => {
                                     if (window.confirm('Are you sure to remove?')) this.removeNode(item.id)
