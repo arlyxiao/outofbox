@@ -11,9 +11,8 @@ export default class Sidebar extends React.Component {
                     <Link as={`/manage/node`} href={`/manage/node`}>
                         <a className="dropdown-item">&gt; Node List</a>
                     </Link>
-                    <Link as={`/manage/node/new`} href={`/manage/node/new`}>
-                        <a className="dropdown-item">&gt; Create Node</a>
-                    </Link>
+                    <a href="/manage/node/new"
+                       className="dropdown-item">&gt; Create Node</a>
                 </div>
 
                 <style jsx global>{`

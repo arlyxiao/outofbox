@@ -8,8 +8,6 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.18.0",
-    "draft-js": "^0.10.5",
-    "draftjs-to-html": "^0.8.4",
     "express": "^4.16.4",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
@@ -17,8 +15,7 @@
     "nookies": "^1.2.0",
     "react": "^16.6.3",
     "react-bootstrap-typeahead": "^3.2.4",
-    "react-dom": "^16.6.3",
-    "react-draft-wysiwyg": "^1.12.13"
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",

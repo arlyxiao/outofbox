@@ -71,6 +71,9 @@ export default class extends React.Component {
                             <small>{node.created_at}</small>
                         </p>
                         <div className="node-content"
+                             dangerouslySetInnerHTML={{ __html: node.video }} />
+
+                        <div className="node-content"
                              dangerouslySetInnerHTML={{ __html: node.revision ? node.revision.body : '' }} />
 
                     </div>
@@ -78,10 +81,11 @@ export default class extends React.Component {
                 </div>
 
                 <style jsx global>{`
-                pre {
+                code, pre {
                     background-color: #d8d8dc;
                     color: #0f0101;
                     padding: 5px;
+                    margin: 0.5rem 0 0.5rem 0;
                 }
 
                 .shadow-sm {
@@ -90,6 +94,17 @@ export default class extends React.Component {
 
                 .node-title {
                     font-size: 1.2rem;
+                }
+
+                .node-content {
+                    p {
+                        margin-bottom: 0.2rem;
+                    }
+
+                    iframe, embed {
+                        width: 100%;
+                        height: 35rem;
+                    }
                 }
                 `}</style>
 

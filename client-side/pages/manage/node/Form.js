@@ -3,11 +3,6 @@ import Router from "next/router";
 
 import {Typeahead} from 'react-bootstrap-typeahead';
 
-import {EditorState, ContentState, convertToRaw, convertFromHTML} from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import {Editor} from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-
 import WrapAxios from '../../../service/axios';
 const site = require('../../../site')();
 const channels = site['menus'];
@@ -28,6 +23,7 @@ export default class Form extends React.Component {
             title: node ? node.title : '',
             cover: node ? node.cover : '',
             intro: node ? node.intro : '',
+            video: node ? node.video : '',
             body: revision ? revision.body : '',
             currentState: node ? node.state : 'draft',
             currentChannel: node ? node.parent_id : channels['software']['id'],
@@ -35,39 +31,18 @@ export default class Form extends React.Component {
             types: constants.types,
             tags: constants.tags,
             selectedTags: node ? node.tags : [],
-            editorState: null,
             action: props.action
         };
     }
 
     componentDidMount() {
-        let body = null;
-        if (this.state.body.trim() === '') {
-            body = EditorState.createEmpty();
-        } else {
-            const blocksFromHTML = convertFromHTML(this.state.body);
-            const state = ContentState.createFromBlockArray(
-                blocksFromHTML.contentBlocks,
-                blocksFromHTML.entityMap
-            );
-            body = EditorState.createWithContent(state);
-        }
-
-        this.setState({
-            editorState: body,
-        });
+        this.setBodyFromIframe(this.state.body);
     }
 
     handleChange = (event) => {
         let data = {};
         data[event.target.name] = event.target.value;
         this.setState(data);
-    };
-
-    onEditorStateChange = (editorState) => {
-        this.setState({
-            editorState,
-        });
     };
 
     refreshSelectedTags = tags => {
@@ -85,14 +60,20 @@ export default class Form extends React.Component {
         return tags.map((item) => buildSelectedTags(item));
     };
 
+    getBodyFromIframe = () => {
+        const iframe = document.getElementById('iframe-editor');
+        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        return innerDoc.getElementById('editor').getElementsByClassName('ql-editor')[0].innerHTML;
+    };
+
+    setBodyFromIframe = (body) => {
+        const iframe = document.getElementById('iframe-editor');
+        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        innerDoc.getElementById('editor').getElementsByClassName('ql-editor')[0].innerHTML = body;
+    };
 
     createNode = () => {
-        const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
-        const body = draftToHtml(rawContentState);
-        if (body === '') {
-            alert('Body Required');
-            return;
-        }
+        const body = this.getBodyFromIframe();
 
         WrapAxios({
             method: 'POST',
@@ -102,6 +83,7 @@ export default class Form extends React.Component {
                 title: this.state.title,
                 cover: this.state.cover,
                 intro: this.state.intro,
+                video: this.state.video,
                 type: this.state.type,
                 parent_id: this.state.currentChannel,
                 state: this.state.currentState,
@@ -132,12 +114,7 @@ export default class Form extends React.Component {
             return;
         }
 
-        const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
-        const body = draftToHtml(rawContentState);
-        if (body === '') {
-            alert('Body Required');
-            return;
-        }
+        const body = this.getBodyFromIframe();
 
         WrapAxios({
             method: 'PUT',
@@ -146,6 +123,7 @@ export default class Form extends React.Component {
                 title: this.state.title,
                 cover: this.state.cover,
                 intro: this.state.intro,
+                video: this.state.video,
                 type: this.state.type,
                 parent_id: this.state.currentChannel,
                 revisions: [
@@ -171,7 +149,6 @@ export default class Form extends React.Component {
 
     render() {
         const tags = this.state.tags;
-        const {editorState} = this.state;
 
         return (
             <div>
@@ -229,16 +206,21 @@ export default class Form extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="form-body">Body</label>
-                    {editorState &&
-                    <Editor
-                        editorState={editorState}
-                        wrapperClassName="demo-wrapper"
-                        editorClassName="demo-editor"
-                        onEditorStateChange={this.onEditorStateChange}
-                    />
-                    }
+                    <label htmlFor="form-intro">Video</label>
+                    <textarea className="form-control rounded-0" id="form-video"
+                              name="video"
+                              placeholder="Your video..."
+                              onChange={this.handleChange}
+                              value={this.state.video}
+                              rows="4">&nbsp;</textarea>
                 </div>
+
+                <div className="form-group">
+                    <label htmlFor="form-body">Body</label>
+                    <iframe className="form-control"
+                            src="/static/editor.html"
+                            id="iframe-editor">&nbsp;</iframe>
+                 </div>
 
                 <div className="form-group">
                     <label htmlFor="form-tag">Tags</label>
@@ -278,6 +260,12 @@ export default class Form extends React.Component {
                         className="btn btn-primary"
                         onClick={this.createNode}>Submit</button>
                 }
+
+                <style jsx>{`
+                iframe {
+                    min-height: 50rem;
+                }
+                `}</style>
 
             </div>
         );
