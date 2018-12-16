@@ -25,6 +25,9 @@ export default class Meta extends React.Component {
 
                     <link rel="shortcut icon" href={site['icon']} type="image/x-icon"/>
 
+                    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                          rel="stylesheet"/>
+
                     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
                           rel="stylesheet"/>
                     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"/>
@@ -40,6 +43,14 @@ export default class Meta extends React.Component {
 
                 .main-body {
                   margin-bottom: 3rem;
+                }
+
+                .node-tip {
+                    margin-bottom: 0.5rem;
+
+                    .time {
+                        margin-right: 1rem;
+                    }
                 }
 
                 #sidebar {
@@ -60,6 +71,10 @@ export default class Meta extends React.Component {
                     }
 
                     a.dropdown-item:active {
+                        background-color: #fff;
+                    }
+
+                    a.dropdown-item:hover {
                         background-color: #fff;
                     }
                 }
@@ -114,6 +129,7 @@ export default class Meta extends React.Component {
                 .node-intro {
                     font-size: 1rem;
                     color: #753128;
+                    margin-bottom: 0.3rem;
                 }
 
                 .node-content {

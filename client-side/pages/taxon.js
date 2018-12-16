@@ -7,6 +7,9 @@ import nookies from "nookies";
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
 
+const site = require('../site')();
+const menus = site['menus'];
+
 
 export default class extends React.Component {
 
@@ -104,7 +107,7 @@ export default class extends React.Component {
                 {this.state.id &&
                 <div className="row col-lg-9">
 
-                    <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-12">
+                    <div className="my-3 p-3 bg-white rounded col-sm-12">
                         <h6 className="border-bottom border-gray pb-2 mb-0">
                             最近更新
                         </h6>
@@ -112,7 +115,7 @@ export default class extends React.Component {
                         {this.state.nodeList.map((item, i) => {
                             return (
                                 <div key={item.title + i}
-                                   className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                   className="media-body mb-0 small lh-125 border-bottom border-gray">
                                     <Link as={`/${item.channel_name}-${item.id}`}
                                           href={`/show?id=${item.id}`}>
                                         <a className="node-title">
@@ -120,6 +123,10 @@ export default class extends React.Component {
                                         </a>
                                     </Link>
                                     <p className="node-intro">{item.intro}</p>
+
+                                    <p className="node-tip">
+                                        <span className="time">{item.created_at}</span>
+                                    </p>
                                 </div>
                             );
                         })}

@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
+const site = require('../site')();
+const menus = site['menus'];
 
 
 export default class extends React.Component {
@@ -104,13 +106,13 @@ export default class extends React.Component {
 
                 <div className="row col-lg-9 search-list">
 
-                    <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-12">
+                    <div className="my-3 p-3 bg-white rounded col-sm-12">
 
                         {type !== 'shared-video' &&
                             nodes.map((item, i) => {
                                 return (
                                     <div key={item.created_at}
-                                         className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                         className="media-body mb-0 small lh-125 border-bottom border-gray">
                                         <Link as={`/${item.channel_name}-${item.id}`}
                                               href={`/show?id=${item.id}`}>
                                             <a className="node-title">
@@ -118,6 +120,17 @@ export default class extends React.Component {
                                             </a>
                                         </Link>
                                         <p className="node-intro">{item.intro}</p>
+                                        <p className="node-tip">
+                                            <span className="time">{item.created_at}</span>
+                                            <Link as={`/${item.channel_name}`}
+                                              href={`/taxon?id=${item.parent_id}`}>
+                                                <a className="node-title">
+                                                    <span className="badge badge-info">
+                                                        {menus[item.channel_name]['label']}
+                                                    </span>
+                                                </a>
+                                            </Link>
+                                        </p>
                                     </div>
                                 );
                             })

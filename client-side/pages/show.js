@@ -64,7 +64,7 @@ export default class extends React.Component {
 
                 <div className="row col-lg-9">
 
-                    <div className="my-3 p-3 bg-white rounded shadow-sm">
+                    <div className="my-3 p-3 bg-white rounded">
 
                         <p className="node-title"><b>{node.title}</b></p>
                         <p>

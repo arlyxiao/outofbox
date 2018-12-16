@@ -16,15 +16,16 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
             <div className="container">
                 <Link as={`/`} href={`/`}>
                     <a className="navbar-brand">
-                        <img src={site['logo']} />
+                        <img src={site['logo']}/>
                     </a>
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarCollapse"
                         aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse">
+                <div className="collapse navbar-collapse" id="navbarCollapse">
                     <ul className="navbar-nav mr-auto menu-taxon">
                         {Object.keys(menus).map((name, i) => {
                             let id = menus[name]['id'].toString();
@@ -50,12 +51,17 @@ export default ({children, title = '', intro = '', channelId = ''}) => (
             <form className="form-inline container justify-content-end"
                   method="get"
                   action="/search">
-                <input className="form-control mr-sm-2"
-                       name="type"
-                       placeholder="搜索您感兴趣的文章或视频"/>
-                <button className="btn btn-secondary btn-sm my-2 my-sm-0"
-                        type="submit">搜索
-                </button>
+                <div className="input-group">
+                    <input className="form-control py-2 border-right-0 border"
+                           name="type"
+                           placeholder="搜索您感兴趣的文章或视频"
+                    />
+                    <span className="input-group-btn">
+                        <button className="btn btn-default" type="submit">
+                            <i className="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
             </form>
         </div>
 

@@ -63,20 +63,20 @@ export default class extends React.Component {
                     <form autoComplete="on">
                         <div className="my-3 p-3 bg-white rounded shadow-sm col-sm-9 col-md-7 col-lg-5 mx-auto">
                             <div className="form-group">
-                                <label>Username</label>
+                                <label>用户名</label>
                                 <input type="text" className="form-control"
                                        autoComplete="on"
                                        name="username"
-                                       placeholder="Username"
+                                       placeholder=""
                                        value={this.state.username}
                                        onChange={this.handleChange}/>
                             </div>
                             <div className="form-group">
-                                <label>Password</label>
+                                <label>密码</label>
                                 <input type="password" className="form-control"
                                        autoComplete="off"
                                        name="password"
-                                       placeholder="Password"
+                                       placeholder=""
                                        value={this.state.password}
                                        onChange={this.handleChange}/>
                             </div>

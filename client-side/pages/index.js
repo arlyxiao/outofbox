@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
+const site = require('../site')();
+const menus = site['menus'];
 
 
 export default class extends React.Component {
@@ -47,7 +49,7 @@ export default class extends React.Component {
                                     <section className="media text-muted pt-3" key={item.created_at}>
                                         <img className="mr-2 rounded"
                                              src={item.cover}/>
-                                        <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <div className="media-body mb-0 small lh-125 border-bottom border-gray">
 
                                             <Link as={`/${item.channel_name}-${item.id}`}
                                                   href={`/show?id=${item.id}`}>
@@ -56,6 +58,17 @@ export default class extends React.Component {
                                                 </a>
                                             </Link>
                                             <p className="node-intro">{item.intro}</p>
+                                            <p className="node-tip">
+                                                <span className="time">{item.created_at}</span>
+                                                <Link as={`/${item.channel_name}`}
+                                                  href={`/taxon?id=${item.parent_id}`}>
+                                                    <a className="node-title">
+                                                        <span className="badge badge-info">
+                                                            {menus[item.channel_name]['label']}
+                                                        </span>
+                                                    </a>
+                                                </Link>
+                                            </p>
                                         </div>
                                     </section>
                                 );
@@ -118,21 +131,25 @@ export default class extends React.Component {
                 </div>
 
                 <style jsx>{`
-                    h5 {
-                        text-align: left;
-                        width: 100%;
-                        margin-bottom: 1rem;
-                        font-size: 1rem;
-                        font-weight: bold;
-                    }
+                .main {
+                    padding: 1rem;
+                }
 
-                    .article-list {
-                        img {
-                            width: 3rem;
-                        }
-                    }
+                h5 {
+                    text-align: left;
+                    width: 100%;
+                    margin-bottom: 1rem;
+                    font-size: 1rem;
+                    font-weight: bold;
+                }
 
-                    `}</style>
+                .article-list {
+                    img {
+                        width: 3rem;
+                    }
+                }
+
+                `}</style>
 
 
             </Layout>

@@ -4,6 +4,7 @@ import Router from "next/router";
 import {Typeahead} from 'react-bootstrap-typeahead';
 
 import WrapAxios from '../../../service/axios';
+
 const site = require('../../../site')();
 const channels = site['menus'];
 
@@ -75,23 +76,27 @@ export default class Form extends React.Component {
     createNode = () => {
         const body = this.getBodyFromIframe();
 
+        const data = {
+            user_id: 1,
+            title: this.state.title,
+            cover: this.state.cover,
+            intro: this.state.intro,
+            video: this.state.video,
+            type: this.state.type,
+            parent_id: this.state.currentChannel,
+            state: this.state.currentState,
+            tags: this.refreshSelectedTags(this.state.selectedTags),
+            revisions: [
+                {'body': body}
+            ]
+        };
+
+        console.log(data);
+
         WrapAxios({
             method: 'POST',
             url: '/moon/manage/nodes/',
-            data: {
-                user_id: 1,
-                title: this.state.title,
-                cover: this.state.cover,
-                intro: this.state.intro,
-                video: this.state.video,
-                type: this.state.type,
-                parent_id: this.state.currentChannel,
-                state: this.state.currentState,
-                tags: this.refreshSelectedTags(this.state.selectedTags),
-                revisions: [
-                    {'body': body}
-                ]
-            },
+            data: data,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -220,7 +225,7 @@ export default class Form extends React.Component {
                     <iframe className="form-control"
                             src="/static/editor.html"
                             id="iframe-editor">&nbsp;</iframe>
-                 </div>
+                </div>
 
                 <div className="form-group">
                     <label htmlFor="form-tag">Tags</label>

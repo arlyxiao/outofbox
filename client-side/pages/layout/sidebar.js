@@ -49,11 +49,21 @@ export default withRouter(class Sidebar extends React.Component {
                                 <Link key={item[0]}
                                       as={`/${item[2]}/tag/${tag}`}
                                       href={`/taxon?id=${channelId}&tag=${tag}`}>
-                                    <a className="dropdown-item">&gt; <span className={style}>{item[1]}</span></a>
+                                    <a className="dropdown-item">
+                                        <span className={style}>&gt; {item[1]}</span>
+                                    </a>
                                 </Link>
                             );
                         })}
                     </div>
+
+                    <style jsx>{`
+                    @media (max-width: 576px) {
+                        #sidebar {
+                            display: none;
+                        }
+                    }
+                    `}</style>
                 </div>
             );
         }
