@@ -3,6 +3,7 @@ It's far more than CMS
 
 #### Start docker
 1. cd outofbox
+1. cp web/custom_site.py.example web/custom_site.py
 1. cp config/mysql.cnf.example config/mysql.cnf
 1. cp docker-compose.yml.example docker-compose.yml
 1. cp client-side/site.js.example client-side/site.js

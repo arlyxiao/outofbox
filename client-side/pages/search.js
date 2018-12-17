@@ -125,11 +125,22 @@ export default class extends React.Component {
                                             <Link as={`/${item.channel_name}`}
                                               href={`/taxon?id=${item.parent_id}`}>
                                                 <a className="node-title">
-                                                    <span className="badge badge-info">
+                                                    <span className="badge badge-secondary">
                                                         {menus[item.channel_name]['label']}
                                                     </span>
                                                 </a>
                                             </Link>
+
+                                            {item.tags[0] &&
+                                            <Link as={`/${item.channel_name}/tag/${item.tags[0]['id']}`}
+                                                  href={`/taxon?id=${item.parent_id}&tag=${item.tags[0]['id']}`}>
+                                                <a className="node-title">
+                                                    <span className="badge badge-info">
+                                                        {item.tags[0]['name']}
+                                                    </span>
+                                                </a>
+                                            </Link>
+                                            }
                                         </p>
                                     </div>
                                 );

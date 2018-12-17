@@ -44,13 +44,14 @@ export default withRouter(class Sidebar extends React.Component {
 
                         {this.state.tags.map((item, i) => {
                             let tag = item[0].toString();
-                            let style = currentTag === tag ? 'btn btn-secondary' : '';
+                            let style = currentTag === tag ? 'btn btn-info btn-sm' : '';
                             return (
                                 <Link key={item[0]}
                                       as={`/${item[2]}/tag/${tag}`}
                                       href={`/taxon?id=${channelId}&tag=${tag}`}>
                                     <a className="dropdown-item">
-                                        <span className={style}>&gt; {item[1]}</span>
+                                        &gt;&nbsp;
+                                        <span className={style}>{item[1]}</span>
                                     </a>
                                 </Link>
                             );

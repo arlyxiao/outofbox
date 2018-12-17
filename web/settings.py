@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
+
+
+# defined by user
+from web.custom_site import *
+site = site()
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -62,11 +69,12 @@ MIDDLEWARE = [
 #     ]
 # }
 
-CORS_ORIGIN_WHITELIST = (
-    '192.168.56.101:5000',
-    '192.168.56.101:8000',
-    '192.168.56.101',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     '192.168.56.101:5000',
+#     '192.168.56.101:8000',
+#     '192.168.56.101',
+# )
+CORS_ORIGIN_WHITELIST = site['cors_origin_whitelist']
 
 ROOT_URLCONF = 'web.urls'
 

@@ -8,7 +8,10 @@ class Tag(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     nodes = models.ManyToManyField('Node', through='NodeTag')
 
+
     class Meta:
+        unique_together = ('name', 'parent',)
+
         indexes = [
             models.Index(fields=['name']),
             models.Index(fields=['parent']),

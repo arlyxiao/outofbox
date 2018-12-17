@@ -21,9 +21,12 @@ class Home(generics.ListAPIView):
             .exclude(type=Node.CHANNEL)\
             .order_by('-created_at', '-updated_at')
 
-        if type == 'text':
-            return nodes.filter(type=type).exclude(cover__isnull=True)\
-                        .exclude(cover='')[:6]
+        if type == 'non_cover_text':
+            return nodes.filter(type='text', cover='')[:8]
+
+        if type == 'cover_text':
+            return nodes.filter(type='text').exclude(cover__isnull=True)\
+                        .exclude(cover='')[:8]
 
         if type == 'shared-video':
             return nodes.filter(type=type).exclude(cover__isnull=True)\

@@ -7,9 +7,6 @@ import nookies from "nookies";
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
 
-const site = require('../site')();
-const menus = site['menus'];
-
 
 export default class extends React.Component {
 
@@ -38,9 +35,9 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log('---')
-        console.log(props.token)
-        console.log('---')
+        // console.log('---')
+        // console.log(props.token)
+        // console.log('---')
 
         this.state = {
             token: props.token,
@@ -56,9 +53,9 @@ export default class extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.linkClickTime !== prevProps.linkClickTime) {
 
-            console.log('===')
-            console.log(this.props.token)
-            console.log('===')
+            // console.log('===')
+            // console.log(this.props.token)
+            // console.log('===')
 
             this.setState({
                 linkClickTime: +new Date(),

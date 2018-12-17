@@ -51,6 +51,10 @@ export default class Meta extends React.Component {
                     .time {
                         margin-right: 1rem;
                     }
+
+                    a {
+                        margin-right: 1rem;
+                    }
                 }
 
                 #sidebar {
@@ -58,6 +62,7 @@ export default class Meta extends React.Component {
                       font-weight: 600;
                       font-size: 1rem;
                       margin-top: 1rem;
+                      color: #292226;
                     }
 
                     .dropdown-menu {

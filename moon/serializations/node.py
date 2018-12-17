@@ -9,6 +9,7 @@ from .tag import TagSerializer
 
 
 def refresh_node_tags(node, tags_data):
+    root_tag_id = 1
     node_tag_set = NodeTag.objects.filter(node_id=node.id)
     for node_tag in node_tag_set:
         tag = node_tag.tag
@@ -20,15 +21,14 @@ def refresh_node_tags(node, tags_data):
 
     for tag in tags_data:
         name = tag.get('name', None)
-        tag = Tag.objects.filter(name=name).first()
-        if tag is None:
-            parent = Tag.objects.filter(name=node.parent.title).exclude(parent_id__isnull=True).first()
-            if parent is not None:
-                tag = Tag.objects.create(name=name, parent_id=parent.id)
+        if name is None:
+            next
 
-        if isinstance(tag, Tag):
+        parent, parent_created = Tag.objects.get_or_create(name=node.parent.title, parent_id=root_tag_id)
+        tag, tag_created = Tag.objects.get_or_create(name=name, parent=parent)
+
+        if tag_created:
             NodeTag.objects.update_or_create(node=node, tag=tag)
-
 
 
 class NodeRevisionSerializer(serializers.ModelSerializer):

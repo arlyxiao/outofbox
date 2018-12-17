@@ -120,23 +120,24 @@ export default class Form extends React.Component {
         }
 
         const body = this.getBodyFromIframe();
+        const data = {
+            title: this.state.title,
+            cover: this.state.cover,
+            intro: this.state.intro,
+            video: this.state.video,
+            type: this.state.type,
+            parent_id: this.state.currentChannel,
+            revisions: [
+                {'body': body}
+            ],
+            tags: this.refreshSelectedTags(this.state.selectedTags),
+            state: this.state.currentState
+        };
 
         WrapAxios({
             method: 'PUT',
             url: `/moon/manage/nodes/${this.state.id}/`,
-            data: {
-                title: this.state.title,
-                cover: this.state.cover,
-                intro: this.state.intro,
-                video: this.state.video,
-                type: this.state.type,
-                parent_id: this.state.currentChannel,
-                revisions: [
-                    {'body': body}
-                ],
-                tags: this.refreshSelectedTags(this.state.selectedTags),
-                state: this.state.currentState
-            },
+            data: data,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -233,7 +234,7 @@ export default class Form extends React.Component {
                         labelKey="name"
                         multiple={true}
                         options={tags}
-                        defaultSelected={this.state.selectedTags ? this.state.selectedTags : []}
+                        defaultSelected={this.state.selectedTags}
                         allowNew
                         onChange={(selectedTags) => {
                             this.setState({selectedTags});
