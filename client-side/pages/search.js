@@ -4,8 +4,7 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-const site = require('../site')();
-const menus = site['menus'];
+import {tagBadge, channelBadge, titleLink} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -112,35 +111,13 @@ export default class extends React.Component {
                             nodes.map((item, i) => {
                                 return (
                                     <div key={item.created_at}
-                                         className="media-body mb-0 small lh-125 border-bottom border-gray">
-                                        <Link as={`/${item.channel_name}-${item.id}`}
-                                              href={`/show?id=${item.id}`}>
-                                            <a className="node-title">
-                                                <strong className="d-block text-gray-dark">{item.title}</strong>
-                                            </a>
-                                        </Link>
+                                         className="media-body lh-125 border-bottom border-gray">
+                                        {titleLink(item)}
                                         <p className="node-intro">{item.intro}</p>
                                         <p className="node-tip">
                                             <span className="time">{item.created_at}</span>
-                                            <Link as={`/${item.channel_name}`}
-                                              href={`/taxon?id=${item.parent_id}`}>
-                                                <a className="node-title">
-                                                    <span className="badge badge-secondary">
-                                                        {menus[item.channel_name]['label']}
-                                                    </span>
-                                                </a>
-                                            </Link>
-
-                                            {item.tags[0] &&
-                                            <Link as={`/${item.channel_name}/tag/${item.tags[0]['id']}`}
-                                                  href={`/taxon?id=${item.parent_id}&tag=${item.tags[0]['id']}`}>
-                                                <a className="node-title">
-                                                    <span className="badge badge-info">
-                                                        {item.tags[0]['name']}
-                                                    </span>
-                                                </a>
-                                            </Link>
-                                            }
+                                            {channelBadge(item)}
+                                            {tagBadge(item)}
                                         </p>
                                     </div>
                                 );
@@ -195,14 +172,13 @@ export default class extends React.Component {
                 </div>
 
 
-                <style jsx>{`
+                <style jsx global>{`
                     .search-list {
                         margin-top: 1rem;
                     }
 
                     .node-title {
-                        margin-top: 5px;
-                        margin-bottom: 6px;
+                        font-weight: bold;
                     }
 
                     .load-more {

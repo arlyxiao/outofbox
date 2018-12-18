@@ -6,6 +6,7 @@ import nookies from "nookies";
 
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
+import {titleLink} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -105,24 +106,15 @@ export default class extends React.Component {
                 <div className="row col-lg-9">
 
                     <div className="my-3 p-3 bg-white rounded col-sm-12">
-                        <h6 className="border-bottom border-gray pb-2 mb-0">
-                            最近更新
-                        </h6>
-
                         {this.state.nodeList.map((item, i) => {
                             return (
                                 <div key={item.title + i}
-                                   className="media-body mb-0 small lh-125 border-bottom border-gray">
-                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                          href={`/show?id=${item.id}`}>
-                                        <a className="node-title">
-                                            <strong className="d-block text-gray-dark">{item.title}</strong>
-                                        </a>
-                                    </Link>
+                                   className="media-body lh-125 border-bottom border-gray">
+                                    {titleLink(item)}
                                     <p className="node-intro">{item.intro}</p>
 
                                     <p className="node-tip">
-                                        <span className="time">{item.created_at}</span>
+                                        <span className="time small">{item.created_at}</span>
                                     </p>
                                 </div>
                             );
@@ -148,15 +140,13 @@ export default class extends React.Component {
 
 
                 <style jsx global>{`
+                .node-title {
+                    font-weight: bold;
+                }
+
                 .load-more {
                     margin-top: 1.5rem;
                 }
-
-                .node-title {
-                    margin-top: 5px;
-                    margin-bottom: 6px;
-                }
-
                 `}</style>
 
             </Layout>

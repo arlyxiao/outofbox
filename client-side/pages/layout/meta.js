@@ -45,8 +45,13 @@ export default class Meta extends React.Component {
                   margin-bottom: 3rem;
                 }
 
+                .media-body {
+                    margin-bottom: 0.5rem;
+                }
+
                 .node-tip {
                     margin-bottom: 0.5rem;
+                    margin-top: 0.5rem;
 
                     .time {
                         margin-right: 1rem;
@@ -122,6 +127,7 @@ export default class Meta extends React.Component {
 
                 .node-title {
                     font-size: 1.1rem;
+                    line-height: 1.1rem;
                     text-decoration: none;
                     color: rgba(37, 34, 40, 0.89);
                     display: inline-block;
@@ -132,9 +138,10 @@ export default class Meta extends React.Component {
                 }
 
                 .node-intro {
-                    font-size: 1rem;
+                    font-size: 0.9rem;
                     color: #753128;
-                    margin-bottom: 0.3rem;
+                    margin-bottom: 0.5rem;
+                    margin-top: 0.5rem;
                 }
 
                 .node-content {
