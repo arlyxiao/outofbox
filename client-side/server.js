@@ -36,6 +36,12 @@ app.prepare()
                 app.render(req, res, actualPage, queryParams)
             });
 
+            server.get('/' + menu + '-:id' + '/edit', (req, res) => {
+                const actualPage = '/manage/node/edit';
+                const queryParams = {id: req.params.id};
+                app.render(req, res, actualPage, queryParams)
+            });
+
             server.get('/' + menu, (req, res) => {
                 console.log("====");
                 console.log(menus[menu]['id']);

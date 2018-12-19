@@ -105,7 +105,7 @@ export default class extends React.Component {
 
                 <div className="row col-lg-9 search-list">
 
-                    <div className="my-3 p-3 bg-white rounded col-sm-12">
+                    <div className="my-3 bg-white rounded col-sm-12">
 
                         {type !== 'shared-video' &&
                             nodes.map((item, i) => {

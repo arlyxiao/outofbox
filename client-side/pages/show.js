@@ -19,7 +19,6 @@ export default class extends React.Component {
             channelId: channelId,
             node: node.data,
             tags: constants.data.tags,
-            nodeTag: node.data.node_tag,
             id: id
         }
     }
@@ -32,7 +31,7 @@ export default class extends React.Component {
             channelId: props.channelId,
             node: props.node,
             tags: props.tags,
-            nodeTag: props.nodeTag,
+            nodeTags: props.node.tags.map(tag => tag.id),
             id: props.id
         }
     }
@@ -43,7 +42,7 @@ export default class extends React.Component {
                 linkClickTime: +new Date(),
                 channelId: this.props.channelId,
                 tags: this.props.tags,
-                nodeTag: this.props.nodeTag,
+                nodeTags: this.props.nodeTags,
                 id: this.props.id,
                 node: this.props.node
             });
@@ -59,7 +58,7 @@ export default class extends React.Component {
 
                 <Sidebar tags={this.state.tags}
                          linkClickTime={this.state.linkClickTime}
-                         nodeTag={this.state.nodeTag}
+                         nodeTags={this.state.nodeTags}
                          channelId={this.state.channelId}/>
 
                 <div className="row col-lg-9">

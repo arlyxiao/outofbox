@@ -15,10 +15,13 @@ export default class LoginMenu extends React.Component {
         this.state = {
             user: null
         };
+    }
 
+    componentDidMount() {
         const instance = this;
         WrapAxios.get(`/moon/api/user`)
             .then(function (response) {
+                // console.log(response.data.username);
                 instance.setState({
                     user: response.data
                 });
@@ -26,7 +29,6 @@ export default class LoginMenu extends React.Component {
             .catch(function (error) {
             })
             .then(function () {
-                // always executed
             });
     }
 
@@ -65,6 +67,12 @@ export default class LoginMenu extends React.Component {
                     <li className="nav-item">
                         <Link as={`/login`} href={`/login`}>
                             <a className="nav-link">登录</a>
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link as={`/register`} href={`/register`}>
+                            <a className="nav-link">注册</a>
                         </Link>
                     </li>
                 </ul>

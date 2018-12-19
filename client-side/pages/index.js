@@ -116,7 +116,7 @@ export default class extends React.Component {
                             </a>
                         </Link>
 
-                        <div className="items">
+                        <div className="items row">
                             {this.state.sharedVideos.results.map((item, i) => {
                                 return (
                                     <div className="col-sm-2" key={item.created_at}>

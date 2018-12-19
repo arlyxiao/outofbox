@@ -10,7 +10,7 @@ export default withRouter(class Sidebar extends React.Component {
         this.state = {
             linkClickTime: props.linkClickTime,
             tags: props.tags,
-            nodeTag: props.nodeTag,
+            nodeTags: props.nodeTags === undefined ? [] : props.nodeTags,
             channelId: props.channelId
         }
     }
@@ -19,7 +19,7 @@ export default withRouter(class Sidebar extends React.Component {
         if (this.props.linkClickTime !== prevProps.linkClickTime) {
             this.setState({
                 tags: this.props.tags,
-                nodeTag: this.props.nodeTag,
+                nodeTags: this.props.nodeTags === undefined ? [] : this.props.nodeTags,
                 channelId: this.props.channelId
             });
         }
@@ -29,8 +29,8 @@ export default withRouter(class Sidebar extends React.Component {
     render() {
         const channelId = this.state.channelId;
         const {pathname, query} = this.props.router;
-        const nodeTagId = this.state.nodeTag ? this.state.nodeTag['id'].toString() : '';
-        const currentTag = query.tag ? query.tag.toString() : nodeTagId;
+        const nodeTags = this.state.nodeTags;
+        const currentTag = query.tag ? query.tag : '';
 
         if (this.state.tags.length === 0) {
             return null;
@@ -43,8 +43,8 @@ export default withRouter(class Sidebar extends React.Component {
                         }
 
                         {this.state.tags.map((item, i) => {
-                            let tag = item[0].toString();
-                            let style = currentTag === tag ? 'btn btn-info btn-sm' : '';
+                            let tag = item[0];
+                            let style = (currentTag.toString() === tag.toString() || nodeTags.includes(tag)) ? 'btn btn-info btn-sm' : '';
                             return (
                                 <Link key={item[0]}
                                       as={`/${item[2]}/tag/${tag}`}

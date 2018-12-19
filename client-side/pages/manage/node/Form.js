@@ -134,9 +134,11 @@ export default class Form extends React.Component {
             state: this.state.currentState
         };
 
+        const channel = this.props.node.channel_name;
+        const id = this.state.id;
         WrapAxios({
             method: 'PUT',
-            url: `/moon/manage/nodes/${this.state.id}/`,
+            url: `/moon/manage/nodes/${id}/`,
             data: data,
             headers: {
                 'Accept': 'application/json',
@@ -146,7 +148,7 @@ export default class Form extends React.Component {
             .then(function (response) {
                 console.log(response);
                 alert('Update done.');
-                Router.push(`/manage/node`);
+                Router.push(`/${channel}-${id}`);
             })
             .catch(function (error) {
                 console.log(error);

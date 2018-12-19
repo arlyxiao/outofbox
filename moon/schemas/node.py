@@ -35,7 +35,7 @@ class Node(models.Model):
     )
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     title = models.CharField(max_length=255)
-    intro = models.TextField()
+    intro = models.TextField(blank=True, null=True)
     video = models.TextField(blank=True, null=True)
     cover = models.CharField(max_length=255, blank=True, null=True)
     tags = models.ManyToManyField('Tag', through='NodeTag')

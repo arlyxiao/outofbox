@@ -43,6 +43,7 @@ export default class Meta extends React.Component {
 
                 .main-body {
                   margin-bottom: 3rem;
+                  overflow: hidden;
                 }
 
                 .media-body {
@@ -106,10 +107,6 @@ export default class Meta extends React.Component {
                             height: 11rem;
                             cursor: pointer;
                         }
-                    }
-
-                    .col-sm-3 {
-                        margin-bottom: 2rem;
                     }
                 }
 
