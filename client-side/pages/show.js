@@ -3,6 +3,7 @@ import axios from "axios/index";
 
 import Sidebar from './layout/sidebar';
 import Layout from './layout/main';
+import {headerMeta} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -52,8 +53,7 @@ export default class extends React.Component {
     render() {
         const node = this.state.node;
         return (
-            <Layout title={node.title}
-                    intro={node.intro}
+            <Layout headerMeta={headerMeta(node)}
                     channelId={this.state.channelId}>
 
                 <Sidebar tags={this.state.tags}
@@ -61,9 +61,9 @@ export default class extends React.Component {
                          nodeTags={this.state.nodeTags}
                          channelId={this.state.channelId}/>
 
-                <div className="row col-lg-9">
+                <div className="row">
 
-                    <div className="my-3 p-3 bg-white rounded">
+                    <div className="bg-white rounded main-section">
 
                         <p className="node-title"><b>{node.title}</b></p>
                         <p>

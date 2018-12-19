@@ -4,6 +4,17 @@ const site = require('../site')();
 const menus = site['menus'];
 
 
+export function headerMeta(node) {
+    if (node) {
+        return {
+            title: node.title,
+            intro: node.intro ? node.intro : node.title
+        }
+    }
+
+    return null;
+}
+
 export function tagBadge(node) {
     const tag = node.tags[0];
     return (

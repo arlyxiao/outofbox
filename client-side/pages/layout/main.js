@@ -8,9 +8,9 @@ const site = require('../../site')();
 const menus = site['menus'];
 
 
-export default ({children, title = '', intro = '', channelId = ''}) => (
+export default ({children, headerMeta, channelId = ''}) => (
     <div>
-        <Meta title={title} intro={intro}/>
+        <Meta headerMeta={headerMeta}/>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark top-menu">
             <div className="container">

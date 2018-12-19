@@ -2,7 +2,6 @@ import React from 'react'
 import Cookie from 'js-cookie';
 
 import Layout from './layout/main';
-import Router from "next/router";
 import WrapAxios from '../service/axios';
 
 

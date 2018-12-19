@@ -75,7 +75,7 @@ export default class extends React.Component {
         const type = this.state.type;
 
         return (
-            <Layout title="">
+            <Layout>
 
                 <div id="sidebar">
                     <div className="dropdown-menu">
@@ -103,19 +103,19 @@ export default class extends React.Component {
                     </div>
                 </div>
 
-                <div className="row col-lg-9 search-list">
+                <div className="row">
 
-                    <div className="my-3 bg-white rounded col-sm-12">
+                    <div className="bg-white rounded main-section">
 
                         {type !== 'shared-video' &&
                             nodes.map((item, i) => {
                                 return (
                                     <div key={item.created_at}
-                                         className="media-body lh-125 border-bottom border-gray">
+                                         className="node-row border-bottom border-gray">
                                         {titleLink(item)}
                                         <p className="node-intro">{item.intro}</p>
                                         <p className="node-tip">
-                                            <span className="time">{item.created_at}</span>
+                                            <span className="time small">{item.created_at}</span>
                                             {channelBadge(item)}
                                             {tagBadge(item)}
                                         </p>
@@ -124,31 +124,33 @@ export default class extends React.Component {
                             })
                         }
 
-                        <div className="row section video-list">
+                        <div className="video-list">
                             {type === 'shared-video' &&
                                 nodes.map((item, i) => {
                                     return (
-                                        <div className="col-sm-3" key={item.created_at}>
-                                            <div className="card">
-                                                <div className="card-body">
-                                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                                          href={`/show?id=${item.id}`}>
-                                                        <img src={item.cover} alt={item.title ? item.title : item.intro}/>
-                                                    </Link>
+                                        <section className="media text-muted" key={item.created_at}>
+                                            <Link as={`/${item.channel_name}-${item.id}`}
+                                                      href={`/show?id=${item.id}`}>
+                                                <img className="mr-2 rounded"
+                                                     alt={item.title}
+                                                     title={item.title}
+                                                     src={item.cover}/>
+                                            </Link>
+                                            <div className="media-body mb-0 small border-gray">
 
-
-                                                    <p className="card-text">
-                                                        <Link as={`/${item.channel_name}-${item.id}`}
-                                                              href={`/show?id=${item.id}`}>
-                                                            <a className="node-title">
-                                                                <strong
-                                                                    className="text-gray-dark">{item.title}</strong>
-                                                            </a>
-                                                        </Link>
-                                                    </p>
-                                                </div>
+                                                <Link as={`/${item.channel_name}-${item.id}`}
+                                                      href={`/show?id=${item.id}`}>
+                                                    <a className="node-title">
+                                                        <strong className="text-gray-dark">{item.title}</strong>
+                                                    </a>
+                                                </Link>
+                                                <p className="node-tip">
+                                                    <span className="time">{item.created_at}</span>
+                                                    {channelBadge(item)}
+                                                    {tagBadge(item)}
+                                                </p>
                                             </div>
-                                        </div>
+                                        </section>
                                     );
                                 })
                             }
@@ -173,10 +175,6 @@ export default class extends React.Component {
 
 
                 <style jsx global>{`
-                    .search-list {
-                        margin-top: 1rem;
-                    }
-
                     .node-title {
                         font-weight: bold;
                     }

@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import axios from "axios/index";
 
 import nookies from "nookies";
@@ -95,21 +94,20 @@ export default class extends React.Component {
 
     render() {
         return (
-            <Layout title=""
-                    channelId={this.state.id}>
+            <Layout channelId={this.state.id}>
 
                 <Sidebar tags={this.state.tags}
                          linkClickTime={this.state.linkClickTime}
                          channelId={this.state.id}/>
 
                 {this.state.id &&
-                <div className="row col-lg-9">
+                <div className="row">
 
-                    <div className="my-3 p-3 bg-white rounded col-sm-12">
+                    <div className="bg-white rounded main-section">
                         {this.state.nodeList.map((item, i) => {
                             return (
                                 <div key={item.title + i}
-                                   className="media-body lh-125 border-bottom border-gray">
+                                   className="node-row border-bottom border-gray">
                                     {titleLink(item)}
                                     <p className="node-intro">{item.intro}</p>
 

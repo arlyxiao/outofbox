@@ -37,124 +37,83 @@ export default class extends React.Component {
 
     render() {
         return (
-            <Layout title="">
+            <Layout>
+                <div className="p-3 bg-white rounded box-shadow hot-list">
+                    <Link as={`/search?type=text`}
+                          href={`/search?type=text`}>
+                        <a className="indicator">
+                            更多您可能感兴趣的文章 &gt;&gt;
+                        </a>
+                    </Link>
 
-                <div className="main">
+                    {this.state.coverArticles.results.map((item, i) => {
+                        return (
+                            <section className="media text-muted pt-3" key={item.created_at}>
+                                <Link as={`/${item.channel_name}-${item.id}`}
+                                          href={`/show?id=${item.id}`}>
+                                    <img className="mr-2 rounded"
+                                         alt={item.title}
+                                         title={item.title}
+                                         src={item.cover}/>
+                                </Link>
+                                <div className="media-body mb-0 small lh-125 border-gray">
 
-                    <div className="row section article-list">
-
-                        <div className="p-3 bg-white rounded box-shadow section">
-                            <Link as={`/search?type=text`}
-                                  href={`/search?type=text`}>
-                                <a className="indicator">
-                                    更多您可能感兴趣的文章 &gt;&gt;
-                                </a>
-                            </Link>
-
-                            <div className="row">
-
-                                <div className="col-sm-5 non-cover-articles">
-                                    {this.state.nonCoverArticles.results.map((item, i) => {
-                                        return (
-                                            <section className="media text-muted pt-3" key={item.created_at}>
-                                                <div className="media-body mb-0 small lh-125 border-bottom border-gray">
-                                                    {titleLink(item)}
-                                                    <p className="node-tip">
-                                                        <span className="time">{item.created_at}</span>
-                                                        {channelBadge(item)}
-                                                        {tagBadge(item)}
-                                                    </p>
-                                                </div>
-                                            </section>
-                                        );
-                                    })}
+                                    <Link as={`/${item.channel_name}-${item.id}`}
+                                          href={`/show?id=${item.id}`}>
+                                        <a className="node-title">
+                                            <strong className="text-gray-dark">{item.title}</strong>
+                                        </a>
+                                    </Link>
+                                    <p className="node-tip">
+                                        <span className="time">{item.created_at}</span>
+                                        {channelBadge(item)}
+                                        {tagBadge(item)}
+                                    </p>
                                 </div>
+                            </section>
+                        );
+                    })}
 
-                                <div className="col-sm-7 cover-articles">
+                    <div className="border-bottom gap">&nbsp;</div>
 
+                    <Link as={`/search?type=shared-video`}
+                          href={`/search?type=shared-video`}>
+                        <a className="indicator">
+                            更多您可能感兴趣的视频 &gt;&gt;
+                        </a>
+                    </Link>
 
-                                    {this.state.coverArticles.results.map((item, i) => {
-                                        return (
-                                            <section className="media text-muted pt-3" key={item.created_at}>
-                                                <Link as={`/${item.channel_name}-${item.id}`}
-                                                          href={`/show?id=${item.id}`}>
-                                                    <img className="mr-2 rounded"
-                                                         alt={item.title}
-                                                         title={item.title}
-                                                         src={item.cover}/>
-                                                </Link>
-                                                <div className="media-body mb-0 small lh-125 border-gray">
+                    {this.state.sharedVideos.results.map((item, i) => {
+                        return (
+                            <section className="media text-muted pt-3" key={item.created_at}>
+                                <Link as={`/${item.channel_name}-${item.id}`}
+                                          href={`/show?id=${item.id}`}>
+                                    <img className="mr-2 rounded"
+                                         alt={item.title}
+                                         title={item.title}
+                                         src={item.cover}/>
+                                </Link>
+                                <div className="media-body mb-0 small border-gray">
 
-                                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                                          href={`/show?id=${item.id}`}>
-                                                        <a className="node-title">
-                                                            <strong className="text-gray-dark">{item.title}</strong>
-                                                        </a>
-                                                    </Link>
-                                                    <p className="node-tip">
-                                                        <span className="time">{item.created_at}</span>
-                                                        {channelBadge(item)}
-                                                        {tagBadge(item)}
-                                                    </p>
-                                                </div>
-                                            </section>
-                                        );
-                                    })}
-
+                                    <Link as={`/${item.channel_name}-${item.id}`}
+                                          href={`/show?id=${item.id}`}>
+                                        <a className="node-title">
+                                            <strong className="text-gray-dark">{item.title}</strong>
+                                        </a>
+                                    </Link>
+                                    <p className="node-tip">
+                                        <span className="time">{item.created_at}</span>
+                                        {channelBadge(item)}
+                                        {tagBadge(item)}
+                                    </p>
                                 </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div className="row section video-list">
-                        <Link as={`/search?type=shared-video`}
-                              href={`/search?type=shared-video`}>
-                            <a className="indicator">
-                                更多您可能感兴趣的视频 &gt;&gt;
-                            </a>
-                        </Link>
-
-                        <div className="items row">
-                            {this.state.sharedVideos.results.map((item, i) => {
-                                return (
-                                    <div className="col-sm-2" key={item.created_at}>
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <Link as={`/${item.channel_name}-${item.id}`}
-                                                      href={`/show?id=${item.id}`}>
-                                                    <img src={item.cover}
-                                                         title={item.title ? item.title : item.intro}
-                                                         alt={item.title ? item.title : item.intro}/>
-                                                </Link>
-
-
-                                                <p className="card-text">
-                                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                                          href={`/show?id=${item.id}`}>
-                                                        <a className="node-title">
-                                                            <strong
-                                                                className="d-block text-gray-dark">{item.title}</strong>
-                                                        </a>
-                                                    </Link>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
+                            </section>
+                        );
+                    })}
 
                 </div>
 
                 <style jsx>{`
-                .main {
-                    padding: 1rem;
-                }
-
                 .indicator {
                     color: #b16666;
                     font-weight: bold;
@@ -162,24 +121,22 @@ export default class extends React.Component {
                     text-decoration: none;
                 }
 
-                .article-list {
-                    img {
-                        width: 3.5rem;
-                        height: 3.5rem;
-                        cursor: pointer;
-                    }
+                .gap {
+                    margin-bottom: 2rem;
                 }
 
-                .video-list {
-                    .items {
+                .hot-list {
+                    width: 60%;
+                    margin: 0 auto;
+                }
+
+                @media (max-width: 576px) {
+                    .hot-list {
                         width: 100%;
-                        margin-top: 1rem;
+                        margin: 0 auto;
                     }
                 }
-
                 `}</style>
-
-
             </Layout>
         );
     }
