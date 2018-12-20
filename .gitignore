@@ -121,4 +121,5 @@ client-side/.next
 config/mysql.cnf
 docker-compose.yml
 outofbox-docker/db-data
+outofbox-docker/docker/nginx/default.conf
 .idea
