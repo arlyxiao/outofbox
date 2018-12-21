@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-import {tagBadge, channelBadge, titleLink} from '../components/NodeHelper';
+import {tagBadge, channelBadge} from '../components/NodeHelper';
 
 
 export default class extends React.Component {

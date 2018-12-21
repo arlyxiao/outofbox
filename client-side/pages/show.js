@@ -1,5 +1,6 @@
 import React from 'react'
-import axios from "axios/index";
+
+import WrapAxios from '../service/axios';
 
 import Sidebar from './layout/sidebar';
 import Layout from './layout/main';
@@ -11,9 +12,9 @@ export default class extends React.Component {
     static async getInitialProps(context) {
         const id = context.query.id ? context.query.id : '';
 
-        const node = await axios.get(`http://192.168.56.101:8000/moon/node/${id}?format=json`);
+        const node = await WrapAxios.get(`/moon/node/${id}?format=json`);
         const channelId = node.data.parent_id ? node.data.parent_id.toString() : '';
-        const constants = await axios.get(`http://192.168.56.101:8000/moon/node/constants?format=json&id=${channelId}`);
+        const constants = await WrapAxios.get(`/moon/node/constants?format=json&id=${channelId}`);
 
         return {
             linkClickTime: +new Date(),
