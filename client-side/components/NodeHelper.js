@@ -48,6 +48,9 @@ export function titleLink(node) {
         <Link as={`/${node.channel_name}-${node.id}`}
               href={`/show?id=${node.id}`}>
             <a className="node-title">
+                {node.type == 'shared-video' &&
+                <span className="node-type-badge badge badge-primary">视频</span>
+                }
                 {node.title}
             </a>
         </Link>

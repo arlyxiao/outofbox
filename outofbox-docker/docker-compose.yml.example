@@ -23,19 +23,17 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       # MYSQL_ROOT_PASSWORD: 'root'
     command:
-      - "--innodb_large_prefix=1"
-      - "--innodb_file_format=barracuda"
-      - "--innodb_file_format_max=barracuda"
-      - "--innodb_file_per_table=1"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
+      - "--skip-character-set-client-handshake=1"
+      - "--character-set-client=utf8mb4"
       - "--explicit_defaults_for_timestamp"
       - "--bind-address=0.0.0.0"
       - "--innodb_use_native_aio=0"
         # - "--skip-grant-tables"
         # - "--innodb_force_recovery=4"
     volumes:
-      - ./db-data:/var/lib/mysql
+      - ./db-data:/usr/local/mysql-data
 
   redis:
     image: redis:latest

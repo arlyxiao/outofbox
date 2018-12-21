@@ -106,6 +106,17 @@ export default class extends React.Component {
                         height: 28rem;
                     }
                 }
+
+
+                @media (max-width: 576px) {
+                    .node-content {
+                        width: 98%;
+
+                        iframe, embed {
+                            width: 100%;
+                        }
+                    }
+                }
                 `}</style>
 
 

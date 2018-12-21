@@ -27,12 +27,13 @@ export default withRouter(class Sidebar extends React.Component {
 
 
     render() {
+        const tags = this.state.tags;
         const channelId = this.state.channelId;
         const {pathname, query} = this.props.router;
         const nodeTags = this.state.nodeTags;
         const currentTag = query.tag ? query.tag : '';
 
-        if (this.state.tags.length === 0) {
+        if (tags === undefined || tags.length === 0) {
             return null;
         } else {
             return (

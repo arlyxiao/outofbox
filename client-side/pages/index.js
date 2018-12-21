@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-import {tagBadge, channelBadge} from '../components/NodeHelper';
+import {tagBadge, channelBadge, titleLink} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -59,13 +59,7 @@ export default class extends React.Component {
                                          src={item.cover}/>
                                 </Link>
                                 <div className="media-body mb-0 small lh-125 border-gray">
-
-                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                          href={`/show?id=${item.id}`}>
-                                        <a className="node-title">
-                                            <strong className="text-gray-dark">{item.title}</strong>
-                                        </a>
-                                    </Link>
+                                    {titleLink(item)}
                                     <p className="node-tip">
                                         <span className="time">{item.created_at}</span>
                                         {channelBadge(item)}
@@ -98,13 +92,7 @@ export default class extends React.Component {
                                          src={item.cover}/>
                                 </Link>
                                 <div className="media-body mb-0 small border-gray">
-
-                                    <Link as={`/${item.channel_name}-${item.id}`}
-                                          href={`/show?id=${item.id}`}>
-                                        <a className="node-title">
-                                            <strong className="text-gray-dark">{item.title}</strong>
-                                        </a>
-                                    </Link>
+                                    {titleLink(item)}
                                     <p className="node-tip">
                                         <span className="time">{item.created_at}</span>
                                         {channelBadge(item)}
@@ -133,6 +121,10 @@ export default class extends React.Component {
                 .hot-list {
                     width: 60%;
                     margin: 0 auto;
+                }
+
+                .node-tip {
+                    margin-top: 1rem;
                 }
 
                 @media (max-width: 576px) {

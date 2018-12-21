@@ -11,6 +11,12 @@ It's far more than CMS
 1. Change "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0" into "tail -F /bin/sh"
 1. cd outofbox-docker && docker-compose up -d
 
+#### Update mysql char
+1. DROP database your-db-name;
+1. CREATE DATABASE your-db-name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+1. ALTER DATABASE your-db-name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+1. SHOW VARIABLES LIKE 'char%'; SHOW VARIABLES LIKE 'collation%';
+
 ### Install node_modules
 1. docker exec outofbox-docker_nodejs_1 /bin/bash
 2. cd client-side

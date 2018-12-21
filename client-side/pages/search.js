@@ -137,13 +137,7 @@ export default class extends React.Component {
                                                      src={item.cover}/>
                                             </Link>
                                             <div className="media-body mb-0 small border-gray">
-
-                                                <Link as={`/${item.channel_name}-${item.id}`}
-                                                      href={`/show?id=${item.id}`}>
-                                                    <a className="node-title">
-                                                        <strong className="text-gray-dark">{item.title}</strong>
-                                                    </a>
-                                                </Link>
+                                                {titleLink(item)}
                                                 <p className="node-tip">
                                                     <span className="time">{item.created_at}</span>
                                                     {channelBadge(item)}
@@ -181,6 +175,12 @@ export default class extends React.Component {
 
                 .load-more {
                     margin-top: 1.5rem;
+                }
+
+                .video-list {
+                    section {
+                        margin-bottom: 1rem;
+                    }
                 }
 
                 @media (max-width: 576px) {

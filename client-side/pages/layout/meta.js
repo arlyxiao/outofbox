@@ -113,6 +113,10 @@ export default class Meta extends React.Component {
                     margin-bottom: 0.5rem;
                 }
 
+                .node-type-badge {
+                    margin-right: 0.5rem;
+                }
+
                 .node-tip {
                     margin-bottom: 0.5rem;
                     margin-top: 0.5rem;
@@ -139,6 +143,10 @@ export default class Meta extends React.Component {
                 }
 
                 @media (max-width: 576px) {
+                    .main-section {
+                        margin-left: 0;
+                    }
+
                     .main-body {
                       margin-top: 1rem;
                     }
