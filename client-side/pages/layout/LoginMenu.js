@@ -60,9 +60,11 @@ export default class LoginMenu extends React.Component {
     };
 
     render() {
+        const user = this.state.user;
+
         return (
             <div>
-                {!this.state.user &&
+                {(!user || !user.username) &&
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
                         <Link as={`/login`} href={`/login`}>
@@ -78,7 +80,7 @@ export default class LoginMenu extends React.Component {
                 </ul>
                 }
 
-                {this.state.user &&
+                {user && user.username &&
                 <div className="ml-auto dropdown show">
                     <Link as={`/`} href={`/`}>
                         <a className="dropdown-toggle top-menu"

@@ -175,15 +175,20 @@ export default class extends React.Component {
 
 
                 <style jsx global>{`
-                    .node-title {
-                        font-weight: bold;
-                    }
+                .node-title {
+                    font-weight: bold;
+                }
 
-                    .load-more {
-                        margin-top: 1.5rem;
-                    }
+                .load-more {
+                    margin-top: 1.5rem;
+                }
 
-                    `}</style>
+                @media (max-width: 576px) {
+                    #sidebar {
+                        display: none;
+                    }
+                }
+                `}</style>
 
 
             </Layout>

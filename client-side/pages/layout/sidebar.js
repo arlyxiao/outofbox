@@ -58,7 +58,7 @@ export default withRouter(class Sidebar extends React.Component {
                         })}
                     </div>
 
-                    <style jsx>{`
+                    <style jsx global>{`
                     @media (max-width: 576px) {
                         #sidebar {
                             display: none;

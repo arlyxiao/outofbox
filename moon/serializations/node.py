@@ -27,7 +27,7 @@ def refresh_node_tags(node, tags_data):
         parent, parent_created = Tag.objects.get_or_create(name=node.parent.title, parent_id=root_tag_id)
         tag, tag_created = Tag.objects.get_or_create(name=name, parent=parent)
 
-        if tag_created:
+        if tag:
             NodeTag.objects.update_or_create(node=node, tag=tag)
 
 

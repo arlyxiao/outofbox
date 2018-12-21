@@ -18,6 +18,10 @@ export default class Form extends React.Component {
         const node = props.node ? props.node : null;
         const revision = node ? node.revision : null;
 
+        // console.log('===');
+        // console.log(node.tags);
+        // console.log('===');
+
         this.state = {
             id: node ? node.id : '',
             type: node ? node.type : 'text',
@@ -37,7 +41,10 @@ export default class Form extends React.Component {
     }
 
     componentDidMount() {
-        this.setBodyFromIframe(this.state.body);
+        const instance = this;
+        setTimeout(function() {
+            instance.setBodyFromIframe(instance.state.body);
+        }, 2000);
     }
 
     handleChange = (event) => {
@@ -120,6 +127,12 @@ export default class Form extends React.Component {
         }
 
         const body = this.getBodyFromIframe();
+        const tags = this.refreshSelectedTags(this.state.selectedTags);
+
+        // console.log('====');
+        // console.log(tags);
+        // console.log('====');
+
         const data = {
             title: this.state.title,
             cover: this.state.cover,
@@ -130,7 +143,7 @@ export default class Form extends React.Component {
             revisions: [
                 {'body': body}
             ],
-            tags: this.refreshSelectedTags(this.state.selectedTags),
+            tags: tags,
             state: this.state.currentState
         };
 

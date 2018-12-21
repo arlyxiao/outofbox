@@ -95,9 +95,23 @@ export default ({children, headerMeta, channelId = ''}) => (
             overflow: hidden;
 
             form {
+                .input-group {
+                    width: 30%;
+                }
+
                 input.form-control {
-                    width: 18rem;
                     font-size: 0.9rem;
+                }
+            }
+        }
+
+
+        @media (max-width: 576px) {
+            .jumbotron {
+                form {
+                    .input-group {
+                        width: 100%;
+                    }
                 }
             }
         }

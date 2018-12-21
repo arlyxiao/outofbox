@@ -102,8 +102,8 @@ export default class extends React.Component {
                     }
 
                     iframe, embed {
-                        width: 100%;
-                        height: 35rem;
+                        width: 70%;
+                        height: 28rem;
                     }
                 }
                 `}</style>

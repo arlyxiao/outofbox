@@ -34,6 +34,9 @@ export default class Meta extends React.Component {
                     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"/>
                     <script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js"/>
 
+                    {site['analytics'] &&
+                    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=66142729" charSet="UTF-8"></script>
+                    }
                 </Head>
 
                 <style jsx global>{`
@@ -133,6 +136,12 @@ export default class Meta extends React.Component {
                 .node-content {
                     color: #653630;
                     font-size: 1.1rem;
+                }
+
+                @media (max-width: 576px) {
+                    .main-body {
+                      margin-top: 1rem;
+                    }
                 }
                 `}</style>
 
