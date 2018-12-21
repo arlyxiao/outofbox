@@ -10,12 +10,10 @@ import {tagBadge, channelBadge, titleLink} from '../components/NodeHelper';
 export default class extends React.Component {
 
     static async getInitialProps(context) {
-        const nonCoverArticles = await WrapAxios.get(`/moon/home/nodes?type=non_cover_text`);
         const coverArticles = await WrapAxios.get(`/moon/home/nodes?type=cover_text`);
         const sharedVideos = await WrapAxios.get(`/moon/home/nodes?type=shared-video`);
 
         return {
-            nonCoverArticles: nonCoverArticles.data,
             coverArticles: coverArticles.data,
             sharedVideos: sharedVideos.data
         }
@@ -36,6 +34,9 @@ export default class extends React.Component {
 
 
     render() {
+        const coverArticles = this.state.coverArticles ? this.state.coverArticles.results : null;
+        const sharedVideos = this.state.sharedVideos ? this.state.sharedVideos.results : null;
+
         return (
             <Layout>
                 <div className="p-3 bg-white rounded box-shadow hot-list">
@@ -46,11 +47,12 @@ export default class extends React.Component {
                         </a>
                     </Link>
 
-                    {this.state.coverArticles.results.map((item, i) => {
+                    {coverArticles &&
+                    coverArticles.map((item, i) => {
                         return (
                             <section className="media text-muted pt-3" key={item.created_at}>
                                 <Link as={`/${item.channel_name}-${item.id}`}
-                                          href={`/show?id=${item.id}`}>
+                                      href={`/show?id=${item.id}`}>
                                     <img className="mr-2 rounded"
                                          alt={item.title}
                                          title={item.title}
@@ -72,7 +74,8 @@ export default class extends React.Component {
                                 </div>
                             </section>
                         );
-                    })}
+                    })
+                    }
 
                     <div className="border-bottom gap">&nbsp;</div>
 
@@ -83,7 +86,8 @@ export default class extends React.Component {
                         </a>
                     </Link>
 
-                    {this.state.sharedVideos.results.map((item, i) => {
+                    {sharedVideos &&
+                    sharedVideos.map((item, i) => {
                         return (
                             <section className="media text-muted pt-3" key={item.created_at}>
                                 <Link as={`/${item.channel_name}-${item.id}`}
@@ -109,7 +113,8 @@ export default class extends React.Component {
                                 </div>
                             </section>
                         );
-                    })}
+                    })
+                    }
 
                 </div>
 

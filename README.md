@@ -5,11 +5,11 @@ It's far more than CMS
 1. cd outofbox
 1. cp web/custom_site.py.example web/custom_site.py
 1. cp config/mysql.cnf.example config/mysql.cnf
-1. cp docker-compose.yml.example docker-compose.yml
-1. cp docker/nginx/default.conf.example docker/nginx/default.conf
+1. cp outofbox-docker/docker-compose.yml.example outofbox-docker/docker-compose.yml
+1. cp outofbox-docker/docker/nginx/default.conf.example outofbox-docker/docker/nginx/default.conf
 1. cp client-side/site.js.example client-side/site.js
 1. Change "cd client-side && npm run dev -- -p 5000 -H 0.0.0.0" into "tail -F /bin/sh"
-1. docker-compose up -d
+1. cd outofbox-docker && docker-compose up -d
 
 ### Install node_modules
 1. docker exec outofbox-docker_nodejs_1 /bin/bash

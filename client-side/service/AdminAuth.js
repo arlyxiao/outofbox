@@ -1,6 +1,8 @@
 import nookies from 'nookies'
 import axios from "axios/index";
 
+const site = require('../site')();
+
 
 export default function (context) {
 
@@ -8,7 +10,7 @@ export default function (context) {
     const token = cookie['your-id'];
     // const headers = {headers: {Authorization: `Token ${token}`}};
 
-    axios.defaults.baseURL = 'http://192.168.56.101:8000';
+    axios.defaults.baseURL = site['data_server'];
     axios.defaults.headers.common['Authorization'] = `Token ${token}`;
 
     const user = axios.get(`/moon/api/admin-user`);

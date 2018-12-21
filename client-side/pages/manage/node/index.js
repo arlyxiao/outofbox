@@ -1,6 +1,4 @@
-import axios from "axios/index";
 import React from "react";
-import Link from 'next/link'
 import Router from "next/router";
 
 import authenticate from '../../../service/AdminAuth';
@@ -16,7 +14,7 @@ export default class extends React.Component {
     static async getInitialProps(context) {
         const user = await authenticate(context);
 
-        const constants = await axios.get(`/moon/manage/nodes/constants`);
+        const constants = await WrapAxios.get(`/moon/manage/nodes/constants`);
 
         const page = context.query.page ? context.query.page : 1;
         const type = context.query.type ? encodeURIComponent(context.query.type) : '';
@@ -24,7 +22,7 @@ export default class extends React.Component {
         const title = context.query.title ? encodeURIComponent(context.query.title) : '';
 
         const query = `page=${page}&type=${type}&state=${state}&title=${title}`;
-        const nodes = await axios.get(`/moon/manage/nodes?${query}`);
+        const nodes = await WrapAxios.get(`/moon/manage/nodes?${query}`);
 
         // pagination params
         const maxPageNumber = parseInt(constants.data.max_page_size);

@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios/index";
+
+import WrapAxios from '../../../service/axios';
 
 import authenticate from '../../../service/AdminAuth';
 import Layout from '../layout/main';
@@ -11,7 +12,7 @@ export default class extends React.Component {
     static async getInitialProps(context) {
         const user = await authenticate(context);
 
-        const res = await axios.get(`/moon/manage/nodes/constants`);
+        const res = await WrapAxios.get(`/moon/manage/nodes/constants`);
 
         return {
             user: user.data,
