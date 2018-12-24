@@ -12,9 +12,9 @@ export default class extends React.Component {
     static async getInitialProps(context) {
         const id = context.query.id ? context.query.id : '';
 
-        const node = await WrapAxios.get(`/moon/node/${id}?format=json`);
+        const node = await WrapAxios.get(`/moon/node/${id}`);
         const channelId = node.data.parent_id ? node.data.parent_id.toString() : '';
-        const constants = await WrapAxios.get(`/moon/node/constants?format=json&id=${channelId}`);
+        const constants = await WrapAxios.get(`/moon/node/constants?id=${channelId}`);
 
         return {
             linkClickTime: +new Date(),
@@ -70,6 +70,13 @@ export default class extends React.Component {
                         <p>
                             <small>{node.created_at}</small>
                         </p>
+
+                        {node.type === 'shared-video' &&
+                        <div className="node-intro">
+                            {node.intro}
+                        </div>
+                        }
+
                         <div className="node-content"
                              dangerouslySetInnerHTML={{ __html: node.video }} />
 
@@ -82,8 +89,8 @@ export default class extends React.Component {
 
                 <style jsx global>{`
                 code, pre {
-                    background-color: #d8d8dc;
-                    color: #0f0101;
+                    background-color: #343a40;
+                    color: #fff;
                     padding: 5px;
                     margin: 0.5rem 0 0.5rem 0;
                 }
@@ -94,6 +101,10 @@ export default class extends React.Component {
 
                 .node-title {
                     font-size: 1.2rem;
+                }
+
+                .node-intro {
+                    margin-bottom: 1rem;
                 }
 
                 .node-content {

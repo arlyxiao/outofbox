@@ -151,7 +151,7 @@ export default class Form extends React.Component {
         const id = this.state.id;
         WrapAxios({
             method: 'PUT',
-            url: `/moon/manage/nodes/${id}/`,
+            url: `/moon/manage/nodes/${id}`,
             data: data,
             headers: {
                 'Accept': 'application/json',

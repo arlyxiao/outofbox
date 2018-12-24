@@ -93,6 +93,7 @@ export default class extends React.Component {
                                 </Link>
                                 <div className="media-body mb-0 small border-gray">
                                     {titleLink(item)}
+                                    <p className="node-intro">{item.intro}</p>
                                     <p className="node-tip">
                                         <span className="time">{item.created_at}</span>
                                         {channelBadge(item)}
@@ -121,10 +122,6 @@ export default class extends React.Component {
                 .hot-list {
                     width: 60%;
                     margin: 0 auto;
-                }
-
-                .node-tip {
-                    margin-top: 1rem;
                 }
 
                 @media (max-width: 576px) {

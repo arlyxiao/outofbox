@@ -132,7 +132,7 @@ export default class Meta extends React.Component {
 
                 .node-intro {
                     font-size: 0.9rem;
-                    color: #753128;
+                    color: #6c757d;
                     margin-bottom: 0.5rem;
                     margin-top: 0.5rem;
                 }

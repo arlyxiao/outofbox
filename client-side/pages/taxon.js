@@ -1,7 +1,8 @@
 import React from 'react'
-import axios from "axios/index";
 
 import nookies from "nookies";
+
+import WrapAxios from '../service/axios';
 
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
@@ -18,8 +19,8 @@ export default class extends React.Component {
         const token = cookie['your-id'];
         // const token = context.req.cookies;
 
-        const nodes = await axios.get(`/moon/node/list?id=${id}&tag=${tag}`);
-        const constants = await axios.get(`/moon/node/constants?id=${id}`);
+        const nodes = await WrapAxios.get(`/moon/node/list?id=${id}&tag=${tag}`);
+        const constants = await WrapAxios.get(`/moon/node/constants?id=${id}`);
 
         return {
             token: token,
@@ -75,7 +76,7 @@ export default class extends React.Component {
 
         const instance = this;
         let data = this.state.nodeList;
-        axios.get(next)
+        WrapAxios.get(next)
             .then(function (response) {
                 data = data.concat(response.data.results);
                 instance.setState({

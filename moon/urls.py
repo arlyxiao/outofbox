@@ -8,7 +8,7 @@ from .actions import manage_node
 
 urlpatterns = [
     path('manage/nodes/', manage_node.NodeList.as_view()),
-    path('manage/nodes/<int:pk>/', manage_node.NodeDetail.as_view()),
+    path('manage/nodes/<int:pk>', manage_node.NodeDetail.as_view()),
     path('manage/nodes/constants', manage_node.NodeConstantList.as_view(), name='index'),
 
     # Home
@@ -18,8 +18,8 @@ urlpatterns = [
     path('search/nodes', node.Search.as_view()),
 
     # Taxon
-    path('node/list/', taxon.NodeList.as_view()),
-    path('node/<int:pk>/', taxon.NodeDetail.as_view()),
+    path('node/list', taxon.NodeList.as_view()),
+    path('node/<int:pk>', taxon.NodeDetail.as_view()),
     path('node/constants', taxon.NodeConstantList.as_view(), name='index'),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
