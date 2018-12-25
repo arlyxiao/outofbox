@@ -30,6 +30,7 @@ export default class Meta extends React.Component {
                           rel="stylesheet"/>
                     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
                           rel="stylesheet"/>
+                    <link rel='stylesheet' type='text/css' href="/static/nprogress.css" />
 
                     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"/>
                     <script src="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js"/>

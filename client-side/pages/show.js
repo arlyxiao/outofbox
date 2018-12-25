@@ -90,8 +90,8 @@ export default class extends React.Component {
                 <style jsx global>{`
                 code, pre {
                     background-color: #343a40;
-                    color: #fff;
-                    padding: 5px;
+                    color: #d19b9f;
+                    padding: 1rem;
                     margin: 0.5rem 0 0.5rem 0;
                 }
 
