@@ -6,7 +6,7 @@ import WrapAxios from '../service/axios';
 
 import Layout from './layout/main';
 import Sidebar from './layout/sidebar';
-import {titleLink} from '../components/NodeHelper';
+import {titleLink, timeLabel} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -113,7 +113,7 @@ export default class extends React.Component {
                                     <p className="node-intro">{item.intro}</p>
 
                                     <p className="node-tip">
-                                        <span className="time small">{item.created_at}</span>
+                                        {timeLabel(item)}
                                     </p>
                                 </div>
                             );

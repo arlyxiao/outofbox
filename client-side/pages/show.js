@@ -4,7 +4,7 @@ import WrapAxios from '../service/axios';
 
 import Sidebar from './layout/sidebar';
 import Layout from './layout/main';
-import {headerMeta} from '../components/NodeHelper';
+import {headerMeta, timeLabel} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -67,8 +67,8 @@ export default class extends React.Component {
                     <div className="bg-white rounded main-section">
 
                         <p className="node-title"><b>{node.title}</b></p>
-                        <p>
-                            <small>{node.created_at}</small>
+                        <p className="node-tip">
+                            {timeLabel(node)}
                         </p>
 
                         {node.type === 'shared-video' &&

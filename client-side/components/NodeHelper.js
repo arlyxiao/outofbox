@@ -30,6 +30,12 @@ export function tagBadge(node) {
     )
 }
 
+export function timeLabel(node) {
+    return (
+        <span className="time text-muted">{node.created_at.substring(0, 10)}</span>
+    )
+}
+
 export function channelBadge(node) {
     return (
         <Link as={`/${node.channel_name}`}

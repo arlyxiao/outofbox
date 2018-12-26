@@ -50,6 +50,7 @@ export default class Meta extends React.Component {
                   margin-top: 3rem;
                   margin-bottom: 3rem;
                   overflow: hidden;
+                  min-height: 30rem;
                 }
 
                 .main-section {
@@ -123,7 +124,8 @@ export default class Meta extends React.Component {
                     margin-top: 0.5rem;
 
                     .time {
-                        margin-right: 1rem;
+                        margin-right: 0.5rem;
+                        font-size: 0.8rem;
                     }
 
                     a {

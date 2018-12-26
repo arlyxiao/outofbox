@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-import {tagBadge, channelBadge, titleLink} from '../components/NodeHelper';
+import {tagBadge, channelBadge, titleLink, timeLabel} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -61,7 +61,6 @@ export default class extends React.Component {
                                 <div className="media-body mb-0 small lh-125 border-gray">
                                     {titleLink(item)}
                                     <p className="node-tip">
-                                        <span className="time">{item.created_at}</span>
                                         {channelBadge(item)}
                                         {tagBadge(item)}
                                     </p>
@@ -95,7 +94,7 @@ export default class extends React.Component {
                                     {titleLink(item)}
                                     <p className="node-intro">{item.intro}</p>
                                     <p className="node-tip">
-                                        <span className="time">{item.created_at}</span>
+                                        {timeLabel(item)}
                                         {channelBadge(item)}
                                         {tagBadge(item)}
                                     </p>
@@ -122,6 +121,15 @@ export default class extends React.Component {
                 .hot-list {
                     width: 60%;
                     margin: 0 auto;
+                }
+
+                .node-time {
+                    margin-top: 0.2rem;
+                    margin-bottom: 0;
+                }
+
+                .node-intro {
+                    margin-top: 0.2rem;
                 }
 
                 @media (max-width: 576px) {
