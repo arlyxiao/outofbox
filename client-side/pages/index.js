@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Layout from './layout/main';
 
 import WrapAxios from '../service/axios';
-import {tagBadge, channelBadge, titleLink, timeLabel} from '../components/NodeHelper';
+import {channelBadge, titleLink, timeLabel} from '../components/NodeHelper';
 
 
 export default class extends React.Component {
@@ -62,7 +62,6 @@ export default class extends React.Component {
                                     {titleLink(item)}
                                     <p className="node-tip">
                                         {channelBadge(item)}
-                                        {tagBadge(item)}
                                     </p>
                                 </div>
                             </section>
@@ -96,7 +95,6 @@ export default class extends React.Component {
                                     <p className="node-tip">
                                         {timeLabel(item)}
                                         {channelBadge(item)}
-                                        {tagBadge(item)}
                                     </p>
                                 </div>
                             </section>

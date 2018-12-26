@@ -117,7 +117,6 @@ export default class extends React.Component {
                                         <p className="node-tip">
                                             {timeLabel(item)}
                                             {channelBadge(item)}
-                                            {tagBadge(item)}
                                         </p>
                                     </div>
                                 );
@@ -138,10 +137,10 @@ export default class extends React.Component {
                                             </Link>
                                             <div className="media-body mb-0 small border-gray">
                                                 {titleLink(item)}
+                                                <p className="node-intro">{item.intro}</p>
                                                 <p className="node-tip">
                                                     {timeLabel(item)}
                                                     {channelBadge(item)}
-                                                    {tagBadge(item)}
                                                 </p>
                                             </div>
                                         </section>
