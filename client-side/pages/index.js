@@ -43,14 +43,14 @@ export default class extends React.Component {
                     <Link as={`/search?type=text`}
                           href={`/search?type=text`}>
                         <a className="indicator">
-                            更多您可能感兴趣的文章 &gt;&gt;
+                            您可能感兴趣的文章 &gt;&gt;
                         </a>
                     </Link>
 
                     {coverArticles &&
                     coverArticles.map((item, i) => {
                         return (
-                            <section className="media text-muted pt-3" key={item.created_at}>
+                            <section className="hidden-row media text-muted pt-3" key={item.created_at}>
                                 <Link as={`/${item.channel_name}-${item.id}`}
                                       href={`/show?id=${item.id}`}>
                                     <img className="mr-2 rounded"
@@ -74,14 +74,14 @@ export default class extends React.Component {
                     <Link as={`/search?type=shared-video`}
                           href={`/search?type=shared-video`}>
                         <a className="indicator">
-                            更多您可能感兴趣的视频 &gt;&gt;
+                            您可能感兴趣的视频 &gt;&gt;
                         </a>
                     </Link>
 
                     {sharedVideos &&
                     sharedVideos.map((item, i) => {
                         return (
-                            <section className="media text-muted pt-3" key={item.created_at}>
+                            <section className="hidden-row media text-muted pt-3" key={item.created_at}>
                                 <Link as={`/${item.channel_name}-${item.id}`}
                                           href={`/show?id=${item.id}`}>
                                     <img className="mr-2 rounded"
@@ -112,8 +112,12 @@ export default class extends React.Component {
                     text-decoration: none;
                 }
 
+                .hidden-row {
+                    display: none;
+                }
+
                 .gap {
-                    margin-bottom: 2rem;
+                    margin-bottom: 1.5rem;
                 }
 
                 .hot-list {

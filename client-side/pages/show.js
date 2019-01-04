@@ -67,7 +67,7 @@ export default class extends React.Component {
                     <div className="bg-white rounded main-section">
 
                         <p className="node-title"><b>{node.title}</b></p>
-                        <p className="node-tip">
+                        <p className="node-tip border-bottom">
                             {timeLabel(node)}
                         </p>
 
@@ -101,6 +101,11 @@ export default class extends React.Component {
 
                 .node-title {
                     font-size: 1.2rem;
+                }
+
+                .node-tip {
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 1rem;
                 }
 
                 .node-intro {
